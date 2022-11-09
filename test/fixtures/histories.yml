@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hnew_balance: 1
+  hlast_email: MyString
+  checkedin: 1
+  checkedout: 1
+  hpart_number: MyString
+  turninginv_id: 1
+
+two:
+  hnew_balance: 1
+  hlast_email: MyString
+  checkedin: 1
+  checkedout: 1
+  hpart_number: MyString
+  turninginv_id: 1

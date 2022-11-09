@@ -1,0 +1,53 @@
+<h1>All Tools</h1>
+
+
+  <%= search_form_for @q do |f| %>
+    <%= f.label "Search For Tool" %>
+    <%= f.text_field :part_number_or_description_cont, class:"form-control", :autofocus => true, :selectall => true %>
+  </br>
+    <div class="row">
+      <div class="col">
+    <%= f.submit "Search", class:"btn btn-primary" %>
+  </div>
+    <div class="col">
+    <%= link_to "New Item", new_turninginv_path, class:"btn btn-outline-success" %>
+  </div>
+  </div>
+  <% end %>
+
+
+  <table class="table table-dark table-striped table-hover">
+    
+    <thead>
+
+</br>
+
+    </thead>
+  <thead>
+    <tr>
+      <th scope="col">turninginv_id</th>
+      <th scope="col">Part Number</th>
+      <th scope="col">Description</th>
+      <th scope="col">Balance</th>
+      <th scope="col">Location</th>
+      <th scope="col">Last Restock</th>
+      <th scope="col">Checkout</th>
+      <th scope="col">Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+<div id="turninginvs">
+  <% @turninginvs.each do |turninginv| %>
+    <tr>
+    <%= render turninginv %>
+    <td><%= link_to "Show this Tool", turninginv, class:"btn btn-primary btn-sm" %></td>  
+    <td><%= link_to "Checkout", turningcheckout_path(turninginv), class:"btn btn-primary btn-sm" %></td> 
+    <td><%= link_to "Edit this Tool", edit_turninginv_path(turninginv), class:"btn btn-secondary btn-sm" %></td> 
+    </tr>
+  <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+

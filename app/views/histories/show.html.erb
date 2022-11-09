@@ -1,0 +1,29 @@
+<p style="color: green"><%= notice %></p>
+
+<table class="table table-dark table-striped">
+    <thead>
+
+    </br>
+
+    </thead>
+    <thead>
+     <tr>
+      <th scope="col">Part Number</th>
+      <th scope="col">New Balance</th>
+      <th scope="col">Date</th>
+      <th scope="col">Checked out</th>
+      <th scope="col">Checked in</th>
+      <th scope="col">Show This History</th>
+      <th scope="col">Edit</th>
+    </tr>
+   </thead>
+<%= render @history %>
+    </tbody>
+</table>
+
+<div>
+  <%= link_to "Edit this history", edit_history_path(@history) %> |
+  <%= link_to "Back to histories", histories_path %>
+
+  <%= button_to "Destroy this history", @history, method: :delete %>
+</div>

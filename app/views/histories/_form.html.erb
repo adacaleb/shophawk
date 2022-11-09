@@ -1,0 +1,47 @@
+<%= form_with(model: history) do |form| %>
+  <% if history.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(history.errors.count, "error") %> prohibited this history from being saved:</h2>
+
+      <ul>
+        <% history.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :hnew_balance, style: "display: block" %>
+    <%= form.number_field :hnew_balance %>
+  </div>
+
+  <div>
+    <%= form.label :hlast_email, style: "display: block" %>
+    <%= form.text_field :hlast_email %>
+  </div>
+
+  <div>
+    <%= form.label :checkedin, style: "display: block" %>
+    <%= form.number_field :checkedin %>
+  </div>
+
+  <div>
+    <%= form.label :checkedout, style: "display: block" %>
+    <%= form.number_field :checkedout %>
+  </div>
+
+  <div>
+    <%= form.label :hpart_number, style: "display: block" %>
+    <%= form.text_field :hpart_number %>
+  </div>
+
+  <div>
+    <%= form.label :turninginv_id, style: "display: block" %>
+    <%= form.number_field :turninginv_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
