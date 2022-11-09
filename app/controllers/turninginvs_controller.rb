@@ -12,7 +12,7 @@ class TurninginvsController < ApplicationController
   # GET /turninginvs/1 or /turninginvs/1.json
   def show
     @turninginv = Turninginv.find(params[:id])
-    @histories = History.all
+    @histories = History.all 
   end
 
   # GET /turninginvs/new
