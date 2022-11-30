@@ -1,7 +1,19 @@
 Rails.application.routes.draw do
+  
+
+  get "millinginvs/:id/checkout", to: "millinginvs#checkout", as: :millingcheckout
+  get "millinginvs/:id/checkin", to: "millinginvs#checkin", as: :millingcheckin
+  post "millinginvs/:id", to: "millinginvs#status", as: :millingstatus
+  get "millinginvs/belowmin", to: "millinginvs#belowmin", as: :millingbelowmin
+
+  get "turninginvs/:id/checkout", to: "turninginvs#checkout", as: :turningcheckout
+  get "turninginvs/:id/checkin", to: "turninginvs#checkin", as: :turningcheckin
+  post "turninginvs/:id", to: "turninginvs#status", as: :turningstatus
+  get "turninginvs/belowmin", to: "turninginvs#belowmin", as: :turningbelowmin
   resources :histories
   resources :turninginvs
-  get "turninginvs/:id/checkout", to: "turninginvs#checkout", as: :turningcheckout
+  resources :millinginvs
+
   #patch "turninginvs/:id/checkout", to: "turninginvs#update"
   # get 'home/index'  #commented out bc we set the root page on the next line. 
   get 'home/about'

@@ -1,16 +1,17 @@
-<div class="card text-bg-dark">
-<h1 class="card-header">Edit This Item</h1>
+<div>
+  <div class="card text-bg-dark">
+    <h1 class="card-header">Edit This Item</h1>
 
-<div class="card-body">
-<%= render "form", turninginv: @turninginv %>
-
-<br>
-</div>
-</div>
+    <div class="card-body">
+      <%= render "form", turninginv: @turninginv %>
+      <br>
+    </div>
+  </div>
 </div>
 </br>
 <div>
-  <%= link_to "Back to All Tools (Don't save)", turninginvs_path, class:"btn btn-outline-dark" %> 
-</br> </br> </br>
-  <%= button_to "Delete this Tool", @turninginv, method: :delete, class:"btn btn-outline-danger" %>
+  <%= link_to "Back to All Tools (Don't save)", turninginvs_path, class:"btn btn-dark" %> 
+</br> </br> </br></br></br></br></br>
+<%= button_to "Delete this Tool", @turninginv, data: { confirm: "Are you sure?" }, method: :delete, class:"btn btn-outline-danger" %>
+</div>
 </div>

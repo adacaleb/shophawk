@@ -12,86 +12,64 @@
 <% end %>
 
 
-<div class="container text-left" >
+<div class="container text-left">
   <div class="row" >
     <div class="col" >
       <%= form.label :part_number, style: "display: block" %>
-      <%= form.text_field :part_number, class:"form-control"  %>
+      <%= form.text_field :part_number, class:"form-control", :onclick => 'this.select();', :autofocus => true %>
     </div>
     <div class="col">
       <%= form.label :description, style: "display: block" %>
       <%= form.text_field :description, class:"form-control" %>
     </div>
   </div>
-</br>
+  </br>
 
+  <div class="row">
+    <div class="col">
+      <%= form.label :balance, style: "display: block" %>
+      <%= form.text_field :balance, class:"form-control" %>
+    </div>
+    <div class="col">
+      <%= form.label "Minumum To send alert", style: "display: block" %>
+      <%= form.text_field :minumum, class:"form-control" %>
+    </div>
+  </div>
+  </br>
+  <div class="row">
+    <div class="col">
+      <%= form.label :location, style: "display: block" %>
+      <%= form.text_field :location, class:"form-control" %>
+    </div>
+    <div class="col">
+      <%= form.label "Employee that Purchases" , style: "display: block" %>
+      <%= form.text_field :buyer, class:"form-control" %>
+    </div>
+  </div>
+    </br>
 <div class="row">
   <div class="col">
-    <%= form.label :balance, style: "display: block" %>
-    <%= form.text_field :balance, class:"form-control", :autofocus => true %>
-  </div>
-  <div class="col">
-    <%= form.label "Minumum To send alert", style: "display: block" %>
-    <%= form.text_field :minumum, class:"form-control" %>
-  </div>
-</div>
-</br>
-<div class="row">
-  <div class="col">
-    <%= form.label "Purchaser", style: "display: block" %>
-    <%= form.text_field :buyer, class:"form-control" %>
-  </div>
-  <div class="col">
-    <%= form.label :vendor, style: "display: block" %>
+    <%= form.label "Purchasing website", style: "display: block" %>
     <%= form.text_field :vendor, class:"form-control" %>
   </div>
-</div>
-</br>
-
-<div>
-  <%= form.label :location, style: "display: block" %>
-  <%= form.text_field :location, class:"form-control" %>
-</div>
-</br>
-
-<div class="row">
-  <div class="col">
-    <%= form.label "Last alert email sent", style: "display: block" %>
-    <%= form.text_field :last_email, :readonly => true, class:"form-control" %>
-  </div>
-  <div class="col">
-    <%= form.label :last_received, style: "display: block" %>
-    <%= form.text_field :last_received, :readonly => true, class:"form-control" %>
+    <div class="col">
+    <%= form.label "Tool info website", style: "display: block" %>
+    <%= form.text_field :toolinfo, class:"form-control" %>
   </div>
 </div>
 </br>
-<%= form.number_field :turninginv_id, id: :history_id , class:"form-control", placeholder: "turninginv_id" %>
-</br>
 
-<div class="row">
-  <div class="col">
-   <%= form.submit "Save Changes", class:"btn btn-primary" %>
+  <%= form.text_field :hardwareid, class:"form-control", :hidden => true %>
+
+ <div class="row">
+    <div class="col">
+     <%= form.submit "Save Changes", class:"btn btn-primary" %>
+    </div>
+    <div class="col">
+      <%= link_to "Back to Checkout", turninginvs_path, class:"btn btn-secondary btn-outline-dark" %>
+    </div>
  </div>
 
-</div>
-
-
-
-<!--  extra variables not needed to display in the form. 
-  <div>
-    <%= form.label :employee, style: "display: block" %>
-    <%= form.text_field :employee %>
-  </div>
-  <div class="col">
-    <%= form.label :to_take, style: "display: block" %>
-    <%= form.text_field :to_take, class:"form-control" %>
-  </div>
-  <div class="col">
-    <%= form.label :remaining, style: "display: block" %>
-    <%= form.text_field :remaining, class:"form-control" %>
-  </div>
-
--->
 
 <% end %>
 

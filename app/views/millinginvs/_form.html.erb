@@ -1,0 +1,81 @@
+<%= form_with(model: millinginv) do |form| %>
+  <% if millinginv.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(millinginv.errors.count, "error") %> prohibited this millinginv from being saved:</h2>
+
+      <ul>
+        <% millinginv.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="container text-left">
+  <div class="row" >
+    <div class="col" >
+      <%= form.label :part_number, style: "display: block" %>
+      <%= form.text_field :part_number, class:"form-control", :onclick => 'this.select();', :autofocus => true %>
+    </div>
+    <div class="col">
+      <%= form.label :description, style: "display: block" %>
+      <%= form.text_field :description, class:"form-control" %>
+    </div>
+  </div>
+  </br>
+
+  <div class="row">
+    <div class="col">
+      <%= form.label :balance, style: "display: block" %>
+      <%= form.text_field :balance, class:"form-control" %>
+    </div>
+    <div class="col">
+      <%= form.label "Minumum To send alert", style: "display: block" %>
+      <%= form.text_field :minumum, class:"form-control" %>
+    </div>
+  </div>
+  </br>
+  <div class="row">
+    <div class="col">
+      <%= form.label :location, style: "display: block" %>
+      <%= form.text_field :location, class:"form-control" %>
+    </div>
+    <div class="col">
+      <%= form.label "Employee that Purchases" , style: "display: block" %>
+      <%= form.text_field :buyer, class:"form-control" %>
+    </div>
+  </div>
+    </br>
+<div class="row">
+  <div class="col">
+    <%= form.label "Purchasing website", style: "display: block" %>
+    <%= form.text_field :vendor, class:"form-control" %>
+  </div>
+    <div class="col">
+    <%= form.label "Tool info website", style: "display: block" %>
+    <%= form.text_field :toolinfo, class:"form-control" %>
+  </div>
+
+
+      <div class="col">
+    <%= form.label "status", style: "display: block" %>
+    <%= form.text_field :status, class:"form-control" %>
+  </div>
+
+
+</div>
+</br>
+
+  <%= form.text_field :hardwareid, class:"form-control", :hidden => true %>
+
+ <div class="row">
+    <div class="col">
+     <%= form.submit "Save Changes", class:"btn btn-primary" %>
+    </div>
+    <div class="col">
+      <%= link_to "Back to Checkout", millinginvs_path, class:"btn btn-secondary btn-outline-dark" %>
+    </div>
+ </div>
+
+
+<% end %>

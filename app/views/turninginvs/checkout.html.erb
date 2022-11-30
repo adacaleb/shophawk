@@ -3,67 +3,54 @@
   <h1 class="card-header"><ins>Checkout</ins></h1>
 
   <div class="card-body">
-    <%= form_with(model: @turninginv) do |form| %>
+  <%= form_with(model: @turninginv) do |form| %>
     <% if @turninginv.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(turninginv.errors.count, "error") %> prohibited this turninginv from being saved:</h2>
-
-      <ul>
-        <% turninginv.errors.each do |error| %>
-        <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
+      <div style="color: red">
+        <h2><%= pluralize(turninginv.errors.count, "error") %> prohibited this turninginv from being saved:</h2>
+        <ul>
+          <% turninginv.errors.each do |error| %>
+           <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>  
 
     <div class="container text-left" >
       <h2> <%= @turninginv.part_number %> </h2>
       <h5> <%= @turninginv.description %> </h5>
-    </br>
+      </br>
 
-    <div class="row" >
-      <div class="col" >
-        <%= form.label "How many are you taking?", style: "display: block" %>
-        <%= form.text_field :to_take, class:"form-control", :autofocus => true %>
+      <div class="row" >
+        <div class="col" >
+         <%= form.label "How many are you taking?", style: "display: block" %>
+          <%= form.text_field :to_take, class:"form-control", :autofocus => true %>
+        </div>
+        <div class="col">
+          <%= form.label "Current Balance", style: "display: block" %>
+          <%= form.text_field :balance, :readonly => true, class:"form-control" %>
+        </div>
       </div>
-      <div class="col">
-        <%= form.label "Current Balance", style: "display: block" %>
-        <%= form.text_field :balance, :readonly => true, class:"form-control" %>
+      </br>
+
+
+      <div>
+      <%= form.submit "Checkout", class:"btn btn-primary" %>
+      <% end %>
+      </div>
+      </div>
+      </div>
       </div>
 
-    </div>
-  </br>
-
-  <% form.fields_for :histories do |h| %>
-  <div class="row" >
-    <div class="col" >
-      <%= h.label "enter ID to link too", style: "display: block" %>
-      <%= h.text_field :turninginv_id, class:"form-control"%>
-    </div>
-    <div class="col">
-      <%= h.label "balance of history to save", style: "display: block" %>
-      <%= h.text_field :hnew_balance, class:"form-control" %>
-    </div>
-  </div>
-
-<% end %>
-
-  <div>
-    <%= form.submit "Checkout", class:"btn btn-primary" %>
-  </div>
-</div>
-</div>
-</div>
-<% end %>
 
 
 <br>
 <div>
-  <%= link_to "Back to All Tools", turninginvs_path, class:"btn btn-outline-dark" %> |
+    <%= link_to "Back to All Tools", turninginvs_path, class:"btn btn-dark" %> |
   <%= link_to "Edit this Tool", edit_turninginv_path(@turninginv), class:"btn btn-secondary" %>   
 </div>
 </br></br></br></br>
 <div>
+
   <h3><ins>Tool History</ins></h3>
 
 </div>

@@ -1,0 +1,112 @@
+<div class="card text-bg-dark mb-10 border-secondary">
+  <div class="card-body">
+    <table class="table table-dark table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Part Number</th>
+          <th scope="col">Description</th>
+          <th scope="col">Balance</th>
+          <th scope="col">Location</th>
+          <th scope="col">Total Checkouts</th>
+          <th scope="col">Last Received</th>
+          <th scope="col">vendor</th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr>
+         <%= render @millinginv %>
+         <td><%= @millinginv.last_received %></td>
+         <% if @millinginv.toolinfo.include? ".com" %>
+         <td><%= link_to "Tool Data", @millinginv.toolinfo, target: :_blank, class: "btn btn-light btn-sm" %></td>
+         <% else %>
+         <td><%= @millinginv.toolinfo %></td>
+         <% end %>
+
+       </tr>
+     </table>
+     <div class="row">
+      <div class="col">
+        <%= link_to "Edit", edit_millinginv_path(@millinginv), class:"btn btn-secondary" %>
+        <%= link_to "Back to All Tools", millinginvs_path, class:"btn btn-dark btn-outline-light" %> 
+      </div>
+      <div class="col d-md-flex justify-content-md-end">
+        <%= link_to "New Tool Hardware", new_millinginv_path(:hardwareid => @tempid), class:"btn btn-success" %>
+      </div>
+    </div>
+  </div>
+</div>
+</br>
+
+<div class="card text-bg-dark mb-10 border-secondary">
+  <div class="card-body">
+<h2 class="text-white"><ins>Spare hardware for this tool  </ins></h2>
+<table class="table table-dark table-striped table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Part Number</th>
+      <th scope="col">Description</th>
+      <th scope="col">Location</th>
+      <th scope="col">Balance</th>
+      <th scope="col">Min</th>
+      <th scope="col">Last Restock</th>    
+      <th scope="col">Number of Checkouts</th>  
+      <th scope="col">Checkout</th>
+      <th scope="col">History</th>
+      <th scope="col">Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <div>
+      <% @millinginvs.each do |h| %>
+      <% if h.hardwareid == @millinginv.id %>
+      <tr>
+          <td><%= h.part_number %></td>
+          <td><%= h.description %></td>
+          <td><%= h.location %></td>
+          <td><%= h.balance %></td>
+          <td><%= h.minumum %></td>
+          <td><%= h.last_received %></td>
+          <td><%= h.number_of_checkouts %></td>
+        <td><%= link_to "Checkout", millingcheckout_path(h), class:"btn btn-primary btn-sm" %></td> 
+        <td><%= link_to "Show", h, class:"btn btn-primary btn-sm" %></td>
+        <td><%= link_to "Edit", edit_millinginv_path(h), class:"btn btn-secondary btn-sm" %></td> 
+      </tr>
+      <% end %>
+      <% end %>
+
+    </tbody>
+  </table>
+</div>
+</div>
+</br>
+<div>
+  <h3 class="text-white"><ins> Tool History </ins></h3>
+
+  <table class="table table-dark table-striped table-hover table-sm">
+
+    <thead>
+     <tr>
+      <th scope="col">Part Number</th>
+      <th scope="col">New Balance</th>
+      <th scope="col">Out</th>
+      <th scope="col">In</th>      
+      <th scope="col">Date</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <div id="histories">
+      <% i = 0 %>
+      <% @histories.reverse_each do |history| %>
+      <% if i < 201 %> 
+      <% if history.millinginv_id == @millinginv.id %>
+
+      <%= render history %>
+      <% i += 1 %>
+      <% end %>
+      <% end %>
+
+    </tbody>    <% end %>
+  </table>
+</div>
+</div>

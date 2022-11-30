@@ -66,7 +66,7 @@ class HistoriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def history_params
-      params.require(:history).permit(:hnew_balance, :hlast_email, :checkedin, :checkedout, :hpart_number, :turninginv_id)
+      params.require(:history).permit(:hnew_balance, :hlast_email, :checkedin, :checkedout, :hpart_number, :turninginv_id, :millinginv_id, :date)
     end
 
 end

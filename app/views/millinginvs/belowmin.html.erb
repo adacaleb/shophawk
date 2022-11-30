@@ -1,0 +1,235 @@
+<% @@needsrestock = 0 %>
+<% @@incart = 0 %>
+<% @@ordered = 0 %>
+<% @@atvendor = 0 %>
+
+
+<% r = 0 %>
+<% g = 40 %>
+<% b = 60 %>
+
+<% greentrack = [] %>
+<% bluetrack = [] %>
+
+
+<% @millinginvs.each_with_index do |c, index| %> <!-- logic for which block to display -->
+  <% if c.status == "Needs Restock" %>
+    <% @@needsrestock = 1 %>
+  <% end %>
+  <% if c.status == "In Cart" %>
+    <% @@incart = 1 %> 
+  <% end %>
+  <% if c.status == "Ordered" %>
+    <% @@ordered = 1 %>
+  <% end %>
+  <% if c.atvendor > 0 %>
+    <% @@atvendor = 1 %>
+    <% if g < 200 %>
+      <% g = g + 20 %>
+    <% else %>
+      <% b = b + 20 %>
+    <% end %> 
+  <% end %>
+  <% greentrack << g %>
+  <% bluetrack << b %>
+<% end%>
+
+
+<% if @@needsrestock == 1 %>
+    <div class="card text-bg-dark mb-10 border-secondary">
+      <div class="card-body">
+        <h2 class="text-white"><ins>To Order</ins> </h2>
+          <table class="table table-dark table-hover ">
+            <thead>
+              <tr>
+                <th width="150" scope="col">Part</th>
+                <th scope="col">Description</th>
+                <th width="100" scope="col">Location</th>
+                <th width="60" scope="col">Balance</th>
+                <th width="35" scope="col">Min</th>               <th width="70" scope="col">Purchaser</th>
+                <th width="70" scope="col">Ordered</th>
+                <th width="70" scope="col">Website</th>
+                <th width="55" scope="col">Details</th>
+                <th width="60" scope="col">In Cart</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            <% @millinginvs.each_with_index do |millinginv, index| %>
+                <tr>
+                <% if millinginv.balance < millinginv.minumum && millinginv.status == "Needs Restock" %>
+                  <% if millinginv.atvendor > 0 %>
+                    <% g = greentrack[index] %>
+                    <% b = bluetrack[index] %>
+                    <td style="background: rgb(<%= r %>, <%= g %>, <%= b %>);"><%= millinginv.part_number %></td>
+                  <% else %>
+                    <td><%= millinginv.part_number %></td>
+                  <% end %>
+                  <td><%= millinginv.description %></td>
+                  <td><%= millinginv.location %></td>
+                  <td><%= millinginv.balance %></td>
+                  <td><%= millinginv.minumum %></td>                  
+                  <td><%= millinginv.buyer %></td>
+                  <td><%= button_to "Ordered", millingstatus_path(millinginv), params: { millinginv: { status: "Ordered"}},  class:"btn btn-success btn-sm" %> </td>
+                  <% if millinginv.vendor.include? ".com" %>
+                    <td><%= link_to "Order", millinginv.vendor, target: :_blank, class: "btn btn-light btn-sm" %></td>
+                  <% else %>
+                    <td><%= millinginv.vendor %></td>
+                  <% end %>
+                  <td><%= link_to "Show", millinginv, class:"btn btn-primary btn-sm" %></td>
+                  <td><%= button_to "In Cart", millingstatus_path(millinginv), params: { millinginv: { status: "In Cart"}},  class:"btn btn-secondary btn-sm" %> </td>
+                </tr>
+              <% end %>
+            <% end %>
+            </tbody>
+           </table>
+      </div>
+    </div>
+    </br>
+  <% end %>
+
+<% if @@incart == 1 %>
+  <div class="card text-bg-dark mb-10 border-secondary">
+    <div class="card-body">
+      </br>
+      <h2 class="text-white" ><ins>In Cart - Waiting to Order</ins> </h2>
+        <table class="table table-dark table-hover">
+          <thead>
+            <tr>
+              <th width="150" scope="col">Part</th>
+              <th  scope="col">Description</th>
+              <th width="60" scope="col">Balance</th>
+              <th width="35" scope="col">Min</th>
+              <th width="100" scope="col">Location</th>
+              <th width="30" scope="col">Ordered</th>
+              <th width="30" scope="col">Show</th>
+              <th width="30" scope="col">Edit</th>
+              <th width="30" scope="col">Back</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+              <% @millinginvs.each_with_index do |millinginv, index| %>
+                <tr>
+                <% if millinginv.status == "In Cart" %>
+                  <% if millinginv.atvendor > 0 %>
+                    <% g = greentrack[index] %>
+                    <% b = bluetrack[index] %>
+                      <td style="background: rgb(<%= r %>, <%= g %>, <%= b %>);"><%= millinginv.part_number %></td>
+                    <% else %>
+                      <td><%= millinginv.part_number %></td>
+                    <% end %>
+                  <td><%= millinginv.description %></td>
+                  <td><%= millinginv.balance %></td>
+                  <td><%= millinginv.minumum %></td>
+                  <td><%= millinginv.location %></td>
+                  <td><%= button_to "Ordered", millingstatus_path(millinginv), params: { millinginv: { status: "Ordered"}},  class:"btn btn-success btn-sm" %> </td>
+                  <td><%= link_to "Show", millinginv, class:"btn btn-primary btn-sm" %></td>
+                  <td><%= link_to "Edit", edit_millinginv_path(millinginv), class:"btn btn-secondary btn-sm" %></td> 
+                  <td><%= button_to "To Order", millingstatus_path(millinginv), params: { millinginv: { status: "Needs Restock"}},  class:"btn btn-secondary btn-sm" %> </td>
+                  </tr>
+                <% end %>
+              <% end %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+  </br>
+<% end %> 
+<% if @@ordered == 1 %>
+  <div class="card text-bg-dark mb-10 border-secondary">
+    <div class="card-body">    
+      <h2 class="text-white"><ins>Ordered</ins> </h2>
+        <table class="table table-dark table-hover">
+          <thead>
+            <tr>
+              <th width="150" scope="col">Part</th>
+              <th scope="col">Description</th>
+              <th width="100" scope="col">Location</th>
+              <th width="60" scope="col">Balance</th>
+              <th width="35" scope="col">Min</th>
+              <th width="30" scope="col">Checkin</th>
+              <th width="30" scope="col">Show</th>
+              <th width="30" scope="col">Edit</th>
+              <th width="30" scope="col">Back</th>
+             </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <div id="millinginvs">
+              <% @millinginvs.each_with_index do |millinginv, index| %>
+                <tr>
+                <% if millinginv.status == "Ordered" %>
+                    <% if millinginv.atvendor > 0 %>
+                      <% g = greentrack[index] %>
+                      <% b = bluetrack[index] %>
+                      <td style="background: rgb(<%= r %>, <%= g %>, <%= b %>);"><%= millinginv.part_number %></td>
+                    <% else %>
+                      <td><%= millinginv.part_number %></td>
+                    <% end %>
+                    <td><%= millinginv.description %></td>
+                    <td><%= millinginv.location %></td>
+                    <td><%= millinginv.balance %></td>
+                    <td><%= millinginv.minumum %></td>
+                    <td><%= link_to "Checkin", millingcheckin_path(millinginv), class:"btn btn-success btn-sm " %></td> 
+                    <td><%= link_to "Show", millinginv, class:"btn btn-primary btn-sm" %></td>
+                    <td><%= link_to "Edit", edit_millinginv_path(millinginv), class:"btn btn-secondary btn-sm" %></td>
+                    <td><%= button_to "In Cart", millingstatus_path(millinginv), params: { millinginv: { status: "In Cart"}},  class:"btn btn-secondary btn-sm" %> </td>
+
+                <% end %>
+                </tr>
+              <% end %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</br>
+<% end %>
+
+<% color = 20 %>
+
+<% if @@atvendor == 1 %>
+  <div class="card text-bg-dark mb-10 border-secondary">
+    <div class="card-body">    
+      <h2 class="text-white"><ins>At Vendor</ins> </h2>
+        <table class="table text-white table-dark  table-hover ">
+          <thead>
+            <tr>
+              <th width="150" scope="col">Part</th>
+              <th scope="col">Description</th>
+              <th width="100" scope="col">Location</th>
+              <th width="60" scope="col">Balance</th>
+              <th width="35" scope="col">Minimum</th>
+              <th width="30" scope="col">Checkin</th>
+              <th width="30" scope="col">Show</th>
+              <th width="30" scope="col">Edit</th>
+             </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <div id="millinginvs">
+              <% @millinginvs.each_with_index do |millinginv, index| %>
+                <% if millinginv.atvendor.to_i > 0 %>
+                  <% if millinginv.status == "Needs Restock" || millinginv.status == "In Cart" || millinginv.status == "Ordered" %>
+                    <% g = greentrack[index] %>
+                    <% b = bluetrack[index] %>
+                    <td style="background: rgb(<%= r %>, <%= g %>, <%= b %>);"><%= millinginv.part_number %></td>
+                  <% else %>
+                    <td><%= millinginv.part_number %></td>
+                  <% end %>
+
+                  <td><%= millinginv.description %></td>
+                  <td><%= millinginv.location %></td>
+                  <td><%= millinginv.balance %></td>
+                  <td><%= millinginv.minumum %></td>
+                  <td><%= link_to "Checkin", millingcheckin_path(millinginv), class:"btn btn-success btn-sm " %></td> 
+                  <td><%= link_to "Show", millinginv, class:"btn btn-primary btn-sm" %></td>
+                  <td><%= link_to "Edit", edit_millinginv_path(millinginv), class:"btn btn-secondary btn-sm" %></td>
+                <% end %>
+              </div>
+                </tr>
+              <% end %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</br>
+  <% end %>
+
+<%= link_to "Back to All Tools", millinginvs_path, class:"btn btn-dark btn-outline-light" %> 

@@ -1,0 +1,142 @@
+<% @@needsrestock = 0 %>
+<% @@incart = 0 %>
+<% @@ordered = 0 %>
+
+<% @turninginvs.each do |c| %>
+  <% if c.status == "Needs Restock" %>
+    <% @@needsrestock = 1 %>
+  <% end %>
+  <% if c.status == "In Cart" %>
+    <% @@incart = 1 %>
+  <% end %>
+  <% if c.status == "Ordered" %>
+    <% @@ordered = 1 %>
+  <% end %>
+<% end%>
+
+
+<% if @@needsrestock == 1 %>
+    <div class="card text-bg-dark mb-10 border-secondary">
+      <div class="card-body">
+        <h2 class="text-white"><ins>To Order</ins> </h2>
+          <table class="table table-dark table-striped table-hover">
+            <thead>
+              <tr>
+              <%= render 'tableheader' %>
+              <th width="60" scope="col">In Cart</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            <% @turninginvs.each do |turninginv| %>
+              <tr>
+              <% if turninginv.balance < turninginv.minumum && turninginv.status == "Needs Restock" %>
+                <td><%= turninginv.part_number %></td>
+                <td><%= turninginv.description %></td>
+                <td><%= turninginv.location %></td>
+                <td><%= turninginv.balance %></td>
+                <td><%= turninginv.minumum %></td>
+                <td><%= turninginv.buyer %></td>
+                <td><%= button_to "Ordered", turningstatus_path(turninginv), params: { turninginv: { status: "Ordered"}},  class:"btn btn-sm btn-success " %> </td>
+                <% if turninginv.vendor.include? ".com" %>
+                  <td><%= link_to "Order Website", turninginv.vendor, target: :_blank, class: "btn btn-light btn-sm" %></td>
+                <% else %>
+                  <td><%= turninginv.vendor %></td>
+                <% end %>
+                <td><%= link_to "Show", turninginv, class:"btn btn-primary btn-sm" %></td> 
+                <td><%= button_to "In Cart", turningstatus_path(turninginv), params: { turninginv: { status: "In Cart"}},  class:"btn btn-secondary btn-sm" %> </td>
+                </tr>
+              <% end %>
+            <% end %>
+            </tbody>
+           </table>
+      </div>
+    </div>
+    </br>
+  <% end %>
+
+<% if @@incart == 1 %>
+  <div class="card text-bg-dark mb-10 border-secondary">
+    <div class="card-body">
+      </br>
+      <h2 class="text-white" ><ins>In Cart - Waiting to Order</ins> </h2>
+        <table class="table table-dark table-striped table-hover">
+          <thead>
+            <tr>
+              <%= render 'tableheader' %>
+              <th width="60" scope="col">To Order</th>
+            </tr>
+          </thead>
+          <tbody>
+              <% @turninginvs.each do |turninginv| %>
+                <tr>
+                <% if turninginv.status == "In Cart" %>
+                  <td><%= turninginv.part_number %></td>
+                  <td><%= turninginv.description %></td>
+                  <td><%= turninginv.location %></td>
+                  <td><%= turninginv.balance %></td>
+                  <td><%= turninginv.minumum %></td>
+                  <td><%= turninginv.buyer %></td>
+                  <td><%= button_to "Ordered", turningstatus_path(turninginv), params: { turninginv: { status: "Ordered"}},  class:"btn btn-success btn-sm" %> </td>
+                  <td><%= link_to "Show", turninginv, class:"btn btn-primary btn-sm" %></td>
+                  <td><%= link_to "Edit", edit_turninginv_path(turninginv), class:"btn btn-secondary btn-sm" %></td> 
+                  <td><%= button_to "To Order", turningstatus_path(turninginv), params: { turninginv: { status: "Needs Restock"}},  class:"btn btn-secondary btn-sm" %> </td>
+                  </tr>
+                <% end %>
+              <% end %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+  </br>
+<% end %> 
+<% if @@ordered == 1 %>
+  <div class="card text-bg-dark mb-10 border-secondary">
+    <div class="card-body">    
+      <h2 class="text-white"><ins>Ordered</ins> </h2>
+        <table class="table table-dark table-striped table-hover">
+          <thead>
+            <tr>
+              <th width="150" scope="col">Part</th>
+              <th scope="col">Description</th>
+              <th width="100" scope="col">Location</th>
+              <th width="60" scope="col">Balance</th>
+              <th width="35" scope="col">Min</th>
+              <th width="70" scope="col">Purchaser</th>
+              <th width="70" scope="col">Checkin</th>
+              <th width="70" scope="col">Website</th>
+              <th width="55" scope="col">Details</th>
+              <th width="60" scope="col">In Cart</th>
+             </tr>
+          </thead>
+          <tbody>
+            <div id="turninginvs">
+              <% @turninginvs.each do |turninginv| %>
+                <tr>
+                <% if turninginv.status == "Ordered" %>
+                  <td><%= turninginv.part_number %></td>
+                  <td><%= turninginv.description %></td>
+                  <td><%= turninginv.location %></td>
+                  <td><%= turninginv.balance %></td>
+                  <td><%= turninginv.minumum %></td>
+                  <td><%= turninginv.buyer %></td>
+                  <td><%= link_to "Checkin", turningcheckin_path(turninginv), class:"btn btn-success btn-sm " %></td> 
+                  <% if turninginv.vendor.include? ".com" %>
+                  <td><%= link_to "Order Website", turninginv.vendor, target: :_blank, class: "btn btn-light btn-sm" %></td>
+                <% else %>
+                  <td><%= turninginv.vendor %></td>
+                <% end %>
+                  <td><%= link_to "Show", turninginv, class:"btn btn-primary btn-sm" %></td>
+
+                  <td><%= button_to "In Cart", turningstatus_path(turninginv), params: { turninginv: { status: "In Cart"}},  class:"btn btn-secondary btn-sm" %> </td>
+
+                <% end %>
+                </tr>
+              <% end %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+  <% end %>
+
+
+<%= link_to "Back to All Tools", turninginvs_path, class:"btn btn-dark btn-outline-light" %> 

@@ -1,0 +1,56 @@
+
+<div class="card text-bg-dark">
+  <h1 class="card-header"><ins>Checkin</ins></h1>
+
+  <div class="card-body">
+  <%= form_with(model: @turninginv) do |form| %>
+    <% if @turninginv.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(turninginv.errors.count, "error") %> prohibited this turninginv from being saved:</h2>
+        <ul>
+          <% turninginv.errors.each do |error| %>
+           <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>  
+
+    <div class="container text-left" >
+      <h2> <%= @turninginv.part_number %> </h2>
+      <h5> <%= @turninginv.description %> </h5>
+      </br>
+
+      <div class="row" >
+        <div class="col" >
+         <%= form.label "How many are you adding?", style: "display: block" %>
+          <%= form.text_field :to_add, class:"form-control", :autofocus => true %>
+        </div>
+        <div class="col">
+          <%= form.label "Current Balance", style: "display: block" %>
+          <%= form.text_field :balance, :readonly => true, class:"form-control" %>
+        </div>
+      </div>
+      </br>
+
+
+      <div>
+      <%= form.submit "Checkin", class:"btn btn-primary" %>
+      <% end %>
+      </div>
+      </div>
+      </div>
+      </div>
+
+
+
+<br>
+<div>
+    <%= link_to "Back to All Tools", turninginvs_path, class:"btn btn-dark" %> |
+  <%= link_to "Edit this Tool", edit_turninginv_path(@turninginv), class:"btn btn-secondary" %>   
+</div>
+</br></br></br></br>
+<div>
+
+  <h3><ins>Tool History</ins></h3>
+
+</div>

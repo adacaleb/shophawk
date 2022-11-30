@@ -1,0 +1,17 @@
+<div>
+  <div class="card text-bg-dark">
+    <h1 class="card-header">Edit This Item</h1>
+
+    <div class="card-body">
+      <%= render "form", millinginv: @millinginv %>
+      <br>
+    </div>
+  </div>
+</div>
+</br>
+<div>
+  <%= link_to "Back to All Tools (Don't save)", millinginvs_path, class:"btn btn-dark" %> 
+</br> </br> </br></br></br></br></br>
+<%= button_to "Delete this Tool", @millinginv, data: { confirm: "Are you sure?" }, method: :delete, class:"btn btn-outline-danger" %>
+</div>
+</div>

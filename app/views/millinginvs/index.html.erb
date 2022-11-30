@@ -1,0 +1,61 @@
+<div class="row align-items-center">
+  <div class="col">
+    <h1 class="text-white"><ins>Milling Inventory</ins></h1>
+  </div>
+  <div class="col d-md-flex justify-content-md-end">
+    <%= link_to "#{@order}#{@vend}", millingbelowmin_path, class:"btn btn-info btn-outline-white" if @ordered > 0 || @vendor > 0 %>
+  </div>
+</div>
+
+<%= search_form_for @q do |f| %>
+<div class="row align-items-center">
+  <div class="col">
+    <%= f.text_field :part_number_or_description_cont, class:"form-control", :autofocus => true, :onfocus => 'this.select();', :selectall => true, placeholder: "Search for Part Number or Descriptions" %>
+  </div>
+  <div class="col-auto">
+    <%= f.submit "Search", class:"btn btn-primary " %>
+    <%= link_to "Clear Search", millinginvs_path, class:"btn btn-dark" %> 
+    <% end %>
+  </div>
+  <div class="col d-md-flex justify-content-md-end">
+    <%= link_to "#{@restock}", millingbelowmin_path, class:"btn btn-warning" if @mins > 0  %>
+  </div>
+  <div class="col-auto">
+    <%= link_to "New Tool", new_millinginv_path, class:"btn btn-success" %>
+  </div>
+</div>
+
+
+   </br>
+<table class="table table-dark table-striped table-hover table-sm align-middle ">
+  <thead>
+    <tr>
+      <th width="160" scope="col">Part Number</th>
+      <th scope="col">Description</th>
+      <th width="80" scope="col">Balance</th>
+      <th scope="col">Location</th>
+      <th width="50" scope="col">Checkouts</th>  
+      <th width="80" scope="col">Checkout</th>
+      <th width="50" scope="col">Info</th>
+      <th width="50" scope="col">Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @millinginvs.each do |millinginv| %>
+      <tr>
+      <%= render millinginv %>
+      <td><%= link_to "Checkout", millingcheckout_path(millinginv), class:"btn btn-success btn-sm" %></td> 
+      <td><%= link_to "Show", millinginv, class:"btn btn-primary btn-sm" %></td>
+      <td><%= link_to "Edit", edit_millinginv_path(millinginv), class:"btn btn-secondary btn-sm" %></td> 
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+

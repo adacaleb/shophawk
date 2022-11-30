@@ -1,56 +1,112 @@
-<table class="table table-dark table-striped">
+<div class="card text-bg-dark mb-10 border-secondary">
+  <div class="card-body">
+    <table class="table table-dark table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">Part Number</th>
+          <th scope="col">Description</th>
+          <th scope="col">Balance</th>
+          <th scope="col">Location</th>
+          <th scope="col">Total Checkouts</th>
+          <th scope="col">Last Received</th>
+          <th scope="col">vendor</th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr>
+         <%= render @turninginv %>
+         <td><%= @turninginv.last_received %></td>
+         <% if @turninginv.toolinfo.include? ".com" %>
+         <td><%= link_to "Tool Data", @turninginv.toolinfo, target: :_blank, class: "btn btn-light btn-sm" %></td>
+         <% else %>
+         <td><%= @turninginv.toolinfo %></td>
+         <% end %>
+
+       </tr>
+     </table>
+     <div class="row">
+      <div class="col">
+        <%= link_to "Edit", edit_turninginv_path(@turninginv), class:"btn btn-secondary" %>
+        <%= link_to "Back to All Tools", turninginvs_path, class:"btn btn-dark btn-outline-light" %> 
+      </div>
+      <div class="col d-md-flex justify-content-md-end">
+        <%= link_to "New Tool Hardware", new_turninginv_path(:hardwareid => @tempid), class:"btn btn-success" %>
+      </div>
+    </div>
+  </div>
+</div>
+</br>
+
+<div class="card text-bg-dark mb-10 border-secondary">
+  <div class="card-body">
+<h2 class="text-white"><ins>Spare hardware for this tool  </ins></h2>
+<table class="table table-dark table-striped table-sm">
   <thead>
     <tr>
-      <th scope="col">ID</th>
       <th scope="col">Part Number</th>
       <th scope="col">Description</th>
-      <th scope="col">Balance</th>
       <th scope="col">Location</th>
-      <th scope="col">Last Received</th>
-      <th scope="col">turninginv id</th>
+      <th scope="col">Balance</th>
+      <th scope="col">Min</th>
+      <th scope="col">Last Restock</th>    
+      <th scope="col">Number of Checkouts</th>  
+      <th scope="col">Checkout</th>
+      <th scope="col">History</th>
+      <th scope="col">Edit</th>
     </tr>
-    </thead>
+  </thead>
   <tbody>
-   <tr>
-     <%= render @turninginv %>
-   </tr>
-</table>
-</br>
-</br>
-</br>
-<h3> Tool History </h3>
+    <div>
+      <% @turninginvs.each do |h| %>
+      <% if h.hardwareid == @turninginv.id %>
+      <tr>
+          <td><%= h.part_number %></td>
+          <td><%= h.description %></td>
+          <td><%= h.location %></td>
+          <td><%= h.balance %></td>
+          <td><%= h.minumum %></td>
+          <td><%= h.last_received %></td>
+          <td><%= h.number_of_checkouts %></td>
+        <td><%= link_to "Checkout", turningcheckout_path(h), class:"btn btn-primary btn-sm" %></td> 
+        <td><%= link_to "Show", h, class:"btn btn-primary btn-sm" %></td>
+        <td><%= link_to "Edit", edit_turninginv_path(h), class:"btn btn-secondary btn-sm" %></td> 
+      </tr>
+      <% end %>
+      <% end %>
 
-  <table class="table table-dark table-striped table-hover">
-    
-    <thead>
+    </tbody>
+  </table>
+</div>
+</div>
+</br>
+<div>
+  <h3 class="text-white"><ins> Tool History </ins></h3>
 
-    </br>
+  <table class="table table-dark table-striped table-hover table-sm">
 
-    </thead>
     <thead>
      <tr>
       <th scope="col">Part Number</th>
       <th scope="col">New Balance</th>
+      <th scope="col">Out</th>
+      <th scope="col">In</th>      
       <th scope="col">Date</th>
-      <th scope="col">Checked out</th>
-      <th scope="col">Checked in</th>
-      <th scope="col">Show This History</th>
-      <th scope="col">Edit</th>
+
     </tr>
-   </thead>
-   <tbody>
+  </thead>
+  <tbody>
     <div id="histories">
-    <% @histories.each do |history| %>
-      <% if history.turninginv_id == @turninginv.id %>
-        <%= render history %>
-        <td><%= link_to "Show this History", history, class:"btn btn-primary btn-sm" %></td>  
-        <td><%= link_to "Edit this Tool", edit_history_path(history), class:"btn btn-secondary btn-sm" %></td> 
+      <% i = 0 %>
+      <% @histories.reverse_each do |history| %>
+      <% if i < 201 %> 
+        <% if history.turninginv_id == @turninginv.id %>
+          <%= render history %>
+          <% i += 1 %>
+        <% end %>
       <% end %>
-
-    </tbody>
-          <% end %>
+    </tbody>    <% end %>
   </table>
-
+</div>
 </div>
 
 
@@ -58,9 +114,3 @@
 
 
 
-<div>
-  <%= link_to "Edit this Tool", edit_turninginv_path(@turninginv) %> |
-  <%= link_to "Back to All Tools", turninginvs_path %>
-
-  <%= button_to "Delete this Tool", @turninginv, method: :delete %>
-</div>

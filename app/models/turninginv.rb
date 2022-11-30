@@ -1,46 +1,85 @@
 class Turninginv < ApplicationRecord
+has_many :histories #, dependent: :destroy 
 
-	has_many :histories #, dependent: :destroy 
-	accepts_nested_attributes_for :histories #enables saving history attributes from the parent turninginv model.
-
+before_save :fields_check
+before_save :update_balance
+after_save :create_history
+after_destroy :destroy_histories
 
 require 'time'
 
-	def turninginv_id_assign 
-		@turninginv_id = id
-		update(turninginv_id:)
-	end
 
 	def restock_check
 		@old_balance = balance
 	end
 
+
+	def fields_check #sets variables if they are nil or need initiating
+		self.number_of_checkouts = 0 if self.number_of_checkouts == nil
+		self.balance = 0 if self.balance == nil
+		self.minumum = 0 if self.minumum == nil
+		@old_balance = 0 if @old_balance == nil
+	end
+
 	def update_balance
-		@take = to_take
-		@new_balance = balance.to_i - to_take.to_i
-		if @new_balance < 0
-	       @new_balance = 0
-	    end
-	    if balance > @old_balance  #if qty is increased, counts as tool received 
-	    	current_time = Time.now
-	    	last_received = current_time.strftime("%m/%d/%Y at %H:%M %P")
-	    	update(last_received:)
-	    end
-	    update(balance: @new_balance, to_take: 0)
+
+		if self.to_take.to_i > 0 || self.to_take.to_i < 0 || self.to_add.to_i > 0 #if to_take is zero, it skips to make incart/ordred button work right
+			current_time = Time.now
+		    @time = current_time.strftime("%m/%d/%Y at %H:%M %P")
+
+			if to_take.to_i > 0 #if checkout material
+				@check_out = to_take.to_i
+				@check_in = nil
+				self.number_of_checkouts += 1
+			end
+			if to_add.to_i > 0 #if checkin material
+				@check_out = nil
+				@check_in = to_add.to_i
+				current_time = Time.now
+		    	self.last_received = @time
+
+			end
+			self.balance = balance.to_i - to_take.to_i
+			self.balance = balance.to_i + to_add.to_i
+			if self.balance < 0
+	      	 self.balance = 0	      	
+			end
+		    if balance > @old_balance  #if qty is increased, counts as tool received 
+		    	@check_out =  nil
+		    	@check_in = balance - @old_balance
+		    end
+		    @old_balance = 0
+		    @time = nil
+		    self.to_take = 0
+		    self.to_add = 0
+		    if balance >= minumum
+				self.status = "stocked"
+			elsif balance < minumum
+				if status != "In Cart" || status != "Ordered"
+					self.status = "Needs Restock"
+				end
+			end
+		end
 	end
 
-	def make_history
-		params = { turninginv: {
-			posts_attributes: [
-				{ hlast_email: nil },
-				{ checkedout: nil },
-				{ checkedin: 42 },
-				{ hpart_number: part_number },
-				{ turninginv_id: @turninginv_id }
-			]
-		}}
+	def create_history
+		if @check_in == nil && @check_out == nil #prevents a history from being made unless items added or taken. 
+		else
+		History.create(hnew_balance: balance,
+			hlast_email: nil,
+			checkedout: @check_out,
+			checkedin: @check_in,
+			hpart_number: part_number,
+			date: @time,
+			turninginv_id: self.id)
+		end
 	end
 
+private
+
+	def destroy_histories #runs when delete tool is ran. deletes all associated tool history
+		self.histories.destroy_all
+	end
 
 end
 

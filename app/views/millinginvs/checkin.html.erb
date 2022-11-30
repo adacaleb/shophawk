@@ -1,0 +1,64 @@
+
+<div class="card text-bg-dark">
+  <h1 class="card-header"><ins>Checkin</ins></h1>
+
+  <div class="card-body">
+  <%= form_with(model: @millinginv) do |form| %>
+    <% if @millinginv.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(millinginv.errors.count, "error") %> prohibited this millinginv from being saved:</h2>
+        <ul>
+          <% millinginv.errors.each do |error| %>
+           <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>  
+
+    <div class="container text-left" >
+      <h2> <%= @millinginv.part_number %> </h2>
+      <h5> <%= @millinginv.description %> </h5>
+      </br>
+
+      <div class="row" >
+        <div class="col" >
+         <%= form.label "How many are you adding?", style: "display: block" %>
+          <%= form.text_field :to_add, class:"form-control", :autofocus => true %>
+        </div>
+        <div class="col">
+          <%= form.label "How many are at a vendor?", style: "display: block" %>
+          <%= form.text_field :atvendor, class:"form-control" %>
+        </div>
+        <div class="col">
+          <%= form.label "Current Balance", style: "display: block" %>
+          <%= form.text_field :balance, :readonly => true, class:"form-control" %>
+        </div>
+        <div class="col">
+          <%= form.label "Minimum", style: "display: block" %>
+          <%= form.text_field :minumum, :readonly => true, class:"form-control" %>
+        </div>
+      </div>
+      </br>
+
+
+      <div>
+      <%= form.submit "Checkin", class:"btn btn-primary" %>
+      <% end %>
+      </div>
+      </div>
+      </div>
+      </div>
+
+
+
+<br>
+<div>
+    <%= link_to "Back to All Tools", millinginvs_path, class:"btn btn-dark" %> |
+  <%= link_to "Edit this Tool", edit_millinginv_path(@millinginv), class:"btn btn-secondary" %>   
+</div>
+</br></br></br></br>
+<div>
+
+  <h3><ins>Tool History</ins></h3>
+
+</div>
