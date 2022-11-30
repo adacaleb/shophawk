@@ -1,24 +1,14 @@
-# README
+# ShopHawk - Inventory Management system
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Built with Ruby on Rails.  
 
-Things you may want to cover:
+Two seperate inventories.  
+-History tracking history db
+-functionality for sub-tools that relate to a parent for spare hardware (shims, screws, fastening)
+-autosorts tools by what's been checked out the most for easy UX and finding
+-buttons appear on home page of each inventory alerting when items need ordering or are on order for employees to see the status of tools
 
-* Ruby version
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Milling Inventory
+- has adition option to show tools that are at a vendor for sharpening or repair. 
+-updates balance and alerts on homepage to status as well.  
