@@ -126,6 +126,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
+    pg (1.4.5)
+    pg (1.4.5-x64-mingw-ucrt)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -225,6 +227,7 @@ DEPENDENCIES
   debug
   importmap-rails
   jbuilder
+  pg (~> 1.4, >= 1.4.5)
   pry
   puma (~> 5.0)
   rails (~> 7.0.4)
