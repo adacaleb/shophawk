@@ -82,7 +82,8 @@ require 'time'
 			checkedin: @check_in,
 			hpart_number: part_number,
 			date: @time,
-			turninginv_id: self.id)
+			millinginv_id: self.id,
+			)
 		end
 	end
 
