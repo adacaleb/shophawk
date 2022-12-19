@@ -9,7 +9,8 @@
           <th scope="col">Location</th>
           <th scope="col">Total Checkouts</th>
           <th scope="col">Last Received</th>
-          <th scope="col">vendor</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -21,6 +22,11 @@
          <% else %>
          <td><%= @millinginv.toolinfo %></td>
          <% end %>
+         <% if @millinginv.vendor.include? ".com" %>
+           <td><%= link_to "Order", @millinginv.vendor, target: :_blank, class: "btn btn-light btn-sm" %></td>
+         <% else %>
+           <td><%= @millinginv.vendor %></td>
+         <% end %>
 
        </tr>
      </table>
@@ -28,6 +34,7 @@
       <div class="col">
         <%= link_to "Edit", edit_millinginv_path(@millinginv), class:"btn btn-secondary" %>
         <%= link_to "Back to All Tools", millinginvs_path, class:"btn btn-dark btn-outline-light" %> 
+        <%= link_to "Checkout", millingcheckout_path(@millinginv), class:"btn btn-success " %>
       </div>
       <div class="col d-md-flex justify-content-md-end">
         <%= link_to "New Tool Hardware", new_millinginv_path(:hardwareid => @tempid), class:"btn btn-success" %>
@@ -68,7 +75,7 @@
           <td><%= h.last_received %></td>
           <td><%= h.number_of_checkouts %></td>
         <td><%= link_to "Checkout", millingcheckout_path(h), class:"btn btn-primary btn-sm" %></td> 
-        <td><%= link_to "Show", h, class:"btn btn-primary btn-sm" %></td>
+        <td><%= link_to "Show", h, class:"btn btn-primary btn-s" %></td>
         <td><%= link_to "Edit", edit_millinginv_path(h), class:"btn btn-secondary btn-sm" %></td> 
       </tr>
       <% end %>

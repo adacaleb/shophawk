@@ -9,7 +9,8 @@
           <th scope="col">Location</th>
           <th scope="col">Total Checkouts</th>
           <th scope="col">Last Received</th>
-          <th scope="col">vendor</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -17,9 +18,14 @@
          <%= render @turninginv %>
          <td><%= @turninginv.last_received %></td>
          <% if @turninginv.toolinfo.include? ".com" %>
-         <td><%= link_to "Tool Data", @turninginv.toolinfo, target: :_blank, class: "btn btn-light btn-sm" %></td>
+         <td><%= link_to "Tool Data", @turninginv.toolinfo, target: :_blank, class: "btn btn-outline-light btn-sm" %></td>
          <% else %>
          <td><%= @turninginv.toolinfo %></td>
+         <% end %>
+         <% if @turninginv.vendor.include? ".com" %>
+          <td><%= link_to "Order Website", @turninginv.vendor, target: :_blank, class: "btn btn-outline-light btn-sm" %></td>
+         <% else %>
+          <td><%= @turninginv.vendor %></td>
          <% end %>
 
        </tr>
@@ -27,10 +33,11 @@
      <div class="row">
       <div class="col">
         <%= link_to "Edit", edit_turninginv_path(@turninginv), class:"btn btn-secondary" %>
+        <%= link_to "Checkout", turningcheckout_path(@turninginv), class:"btn btn-success" %>
         <%= link_to "Back to All Tools", turninginvs_path, class:"btn btn-dark btn-outline-light" %> 
       </div>
       <div class="col d-md-flex justify-content-md-end">
-        <%= link_to "New Tool Hardware", new_turninginv_path(:hardwareid => @tempid), class:"btn btn-success" %>
+        <%= link_to "New Tool Hardware", new_turninginv_path(:hardwareid => @tempid), class:"btn btn-outline-info " %>
       </div>
     </div>
   </div>

@@ -59,7 +59,6 @@ require 'time'
 		    	self.balance = balance.to_i + @m
 		    end
 		    @old_balance = 0
-		    @time = nil
 		    self.to_take = 0
 		    self.to_add = 0
 		    if balance < minumum
@@ -84,6 +83,7 @@ require 'time'
 			date: @time,
 			millinginv_id: self.id,
 			)
+		@time = nil
 		end
 	end
 

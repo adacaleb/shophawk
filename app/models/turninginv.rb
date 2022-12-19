@@ -49,7 +49,6 @@ require 'time'
 		    	@check_in = balance - @old_balance
 		    end
 		    @old_balance = 0
-		    @time = nil
 		    self.to_take = 0
 		    self.to_add = 0
 		    if balance >= minumum
@@ -73,6 +72,7 @@ require 'time'
 			date: @time,
 			turninginv_id: self.id,
 			)
+		@time = nil
 		end
 	end
 
