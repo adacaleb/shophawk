@@ -61,14 +61,13 @@ require 'time'
 		    @old_balance = 0
 		    self.to_take = 0
 		    self.to_add = 0
-		    if balance < minumum
+		    if balance >= minumum
+				self.status = "stocked"
+			elsif balance < minumum
 				if status != "In Cart" || status != "Ordered"
 					self.status = "Needs Restock"
 				end
 			end
-		end
-		if balance >= minumum
-				self.status = "stocked"
 		end
 	end
 

@@ -17,10 +17,6 @@ class TurninginvsController < ApplicationController
         turninginv.number_of_checkouts.to_i
       end 
 
-
-
-
-
        #sets up buttons for need to be ordered/vendor/restock
        @mins > 1 ? s1 = "s" : s1 = nil 
        @mins > 0 ? @restock = "#{@mins} Tool#{s1} to Re-stock" : @restock = nil

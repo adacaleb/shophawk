@@ -29,7 +29,7 @@
             <tbody class="table-group-divider">
             <% @turninginvs.each do |turninginv| %>
               <tr>
-              <% if turninginv.balance < turninginv.minumum && turninginv.status == "Needs Restock" %>
+              <% if turninginv.status == "Needs Restock" %>
                 <td><%= turninginv.part_number %></td>
                 <td><%= turninginv.description %></td>
                 <td><%= turninginv.location %></td>

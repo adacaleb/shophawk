@@ -56,7 +56,7 @@
             <tbody class="table-group-divider">
             <% @millinginvs.each_with_index do |millinginv, index| %>
                 <tr>
-                <% if millinginv.balance < millinginv.minumum && millinginv.status == "Needs Restock" %>
+                <% if millinginv.status == "Needs Restock" %>
                   <% if millinginv.atvendor > 0 %>
                     <% g = greentrack[index] %>
                     <% b = bluetrack[index] %>

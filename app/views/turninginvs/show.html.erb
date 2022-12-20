@@ -44,62 +44,109 @@
 </div>
 </br>
 
-<div class="card text-bg-dark mb-10 border-secondary">
-  <div class="card-body">
-<h2 class="text-white"><ins>Spare hardware for this tool  </ins></h2>
-<table class="table table-dark table-striped table-sm">
-  <thead>
-    <tr>
-      <th scope="col">Part Number</th>
-      <th scope="col">Description</th>
-      <th scope="col">Location</th>
-      <th scope="col">Balance</th>
-      <th scope="col">Min</th>
-      <th scope="col">Last Restock</th>    
-      <th scope="col">Number of Checkouts</th>  
-      <th scope="col">Checkout</th>
-      <th scope="col">History</th>
-      <th scope="col">Edit</th>
-    </tr>
-  </thead>
-  <tbody>
-    <div>
-      <% @turninginvs.each do |h| %>
-      <% if h.hardwareid == @turninginv.id %>
-      <tr>
-          <td><%= h.part_number %></td>
-          <td><%= h.description %></td>
-          <td><%= h.location %></td>
-          <td><%= h.balance %></td>
-          <td><%= h.minumum %></td>
-          <td><%= h.last_received %></td>
-          <td><%= h.number_of_checkouts %></td>
-        <td><%= link_to "Checkout", turningcheckout_path(h), class:"btn btn-primary btn-sm" %></td> 
-        <td><%= link_to "Show", h, class:"btn btn-primary btn-sm" %></td>
-        <td><%= link_to "Edit", edit_turninginv_path(h), class:"btn btn-secondary btn-sm" %></td> 
-      </tr>
-      <% end %>
-      <% end %>
+<% @turninginvs.each do |h| %>
+  <% if h.hardwareid == @turninginv.id %>
+    <div class="card text-bg-dark mb-10 border-secondary">
+      <div class="card-body">
+        <h4 class="text-white"><ins>Spare hardware for this tool  </ins></h4>
+        <table class="table table-dark table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Part Number</th>
+              <th scope="col">Description</th>
+              <th scope="col">Location</th>
+              <th scope="col">Balance</th>
+              <th scope="col">Min</th>
+              <th scope="col">Last Restock</th>    
+              <th scope="col">Number of Checkouts</th>  
+              <th scope="col">Checkout</th>
+              <th scope="col">History</th>
+              <th scope="col">Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <div>
+              <% @turninginvs.each do |h| %>
+                <% if h.hardwareid == @turninginv.id %>
+                  <tr>
+                    <td><%= h.part_number %></td>
+                    <td><%= h.description %></td>
+                    <td><%= h.location %></td>
+                    <td><%= h.balance %></td>
+                    <td><%= h.minumum %></td>
+                    <td><%= h.last_received %></td>
+                    <td><%= h.number_of_checkouts %></td>
+                    <td><%= link_to "Checkout", turningcheckout_path(h), class:"btn btn-success btn-sm" %></td> 
+                    <td><%= link_to "Show", h, class:"btn btn-primary btn-sm" %></td>
+                    <td><%= link_to "Edit", edit_turninginv_path(h), class:"btn btn-secondary btn-sm" %></td> 
+                  </tr>
+                <% end %>
+              <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+<% end %>
 
-    </tbody>
-  </table>
-</div>
-</div>
+<% @turninginvs.each do |h| %>
+  <% if h.id == @turninginv.hardwareid %>
+    <div class="card text-bg-dark mb-10 border-secondary">
+      <div class="card-body">
+        <h4 class="text-white"><ins>Parent Tool</ins></h4>
+        <table class="table table-dark table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Part Number</th>
+              <th scope="col">Description</th>
+              <th scope="col">Location</th>
+              <th scope="col">Balance</th>
+              <th scope="col">Min</th>
+              <th scope="col">Last Restock</th>    
+              <th scope="col">Number of Checkouts</th>  
+              <th scope="col">Checkout</th>
+              <th scope="col">History</th>
+              <th scope="col">Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <div>
+              <% @turninginvs.each do |h| %>
+                <% if h.id == @turninginv.hardwareid %>
+                  <tr>
+                    <td><%= h.part_number %></td>
+                    <td><%= h.description %></td>
+                    <td><%= h.location %></td>
+                    <td><%= h.balance %></td>
+                    <td><%= h.minumum %></td>
+                    <td><%= h.last_received %></td>
+                    <td><%= h.number_of_checkouts %></td>
+                    <td><%= link_to "Checkout", turningcheckout_path(h), class:"btn btn-success btn-sm" %></td> 
+                    <td><%= link_to "Show", h, class:"btn btn-primary btn-sm" %></td>
+                    <td><%= link_to "Edit", edit_turninginv_path(h), class:"btn btn-secondary btn-sm" %></td> 
+                  </tr>
+                <% end %>
+              <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+
 </br>
 <div>
   <h3 class="text-white"><ins> Tool History </ins></h3>
-
   <table class="table table-dark table-striped table-hover table-sm">
-
     <thead>
      <tr>
-      <th scope="col">Part Number</th>
-      <th scope="col">New Balance</th>
-      <th scope="col">Out</th>
-      <th scope="col">In</th>      
-      <th scope="col">Date</th>
-
-    </tr>
+        <th scope="col">Part Number</th>
+        <th scope="col">New Balance</th>
+        <th scope="col">Out</th>
+        <th scope="col">In</th>      
+        <th scope="col">Date</th>
+      </tr>
   </thead>
   <tbody>
     <div id="histories">
