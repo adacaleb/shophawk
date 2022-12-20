@@ -3,14 +3,14 @@
     <table class="table table-dark table-striped table-sm">
       <thead>
         <tr>
-          <th scope="col">Part Number</th>
+          <th width=120 scope="col">Part Number</th>
           <th scope="col">Description</th>
-          <th scope="col">Balance</th>
-          <th scope="col">Location</th>
-          <th scope="col">Total Checkouts</th>
-          <th scope="col">Last Received</th>
-          <th scope="col"></th>
-          <th scope="col"></th>
+          <th width=100 scope="col">Balance</th>
+          <th width=120 scope="col">Location</th>
+          <th width=120 scope="col">Checkouts</th>
+          <th width=150 scope="col">Last Received</th>
+          <th width=50 scope="col"></th>
+          <th width=50 scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -18,12 +18,12 @@
          <%= render @millinginv %>
          <td><%= @millinginv.last_received %></td>
          <% if @millinginv.toolinfo.include? ".com" %>
-         <td><%= link_to "Tool Data", @millinginv.toolinfo, target: :_blank, class: "btn btn-light btn-sm" %></td>
+         <td><%= link_to "Tool Data", @millinginv.toolinfo, target: :_blank, class: "btn btn-outline-light btn-sm" %></td>
          <% else %>
          <td><%= @millinginv.toolinfo %></td>
          <% end %>
          <% if @millinginv.vendor.include? ".com" %>
-           <td><%= link_to "Order", @millinginv.vendor, target: :_blank, class: "btn btn-light btn-sm" %></td>
+           <td><%= link_to "Order", @millinginv.vendor, target: :_blank, class: "btn btn-outline-light btn-sm" %></td>
          <% else %>
            <td><%= @millinginv.vendor %></td>
          <% end %>
@@ -53,16 +53,16 @@
         <table class="table table-dark table-striped table-sm">
           <thead>
             <tr>
-              <th scope="col">Part Number</th>
+              <th width=150 scope="col">Part Number</th>
               <th scope="col">Description</th>
               <th scope="col">Location</th>
-              <th scope="col">Balance</th>
-              <th scope="col">Min</th>
-              <th scope="col">Last Restock</th>    
-              <th scope="col">Number of Checkouts</th>  
-              <th scope="col">Checkout</th>
-              <th scope="col">History</th>
-              <th scope="col">Edit</th>
+              <th width=50 scope="col">Balance</th>
+              <th width=50 scope="col">Min</th>
+              <th width=150 scope="col">Last Restock</th>    
+              <th width=50 scope="col">Checkouts</th>  
+              <th width=50 scope="col"></th>
+              <th width=50 scope="col"></th>
+              <th width=50 scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -99,16 +99,16 @@
         <table class="table table-dark table-striped table-sm">
           <thead>
             <tr>
-              <th scope="col">Part Number</th>
+              <th width=150 scope="col">Part Number</th>
               <th scope="col">Description</th>
               <th scope="col">Location</th>
-              <th scope="col">Balance</th>
-              <th scope="col">Min</th>
-              <th scope="col">Last Restock</th>    
-              <th scope="col">Number of Checkouts</th>  
-              <th scope="col">Checkout</th>
-              <th scope="col">History</th>
-              <th scope="col">Edit</th>
+              <th width=50 scope="col">Balance</th>
+              <th width=50 scope="col">Min</th>
+              <th width=150 scope="col">Last Restock</th>    
+              <th width=50 scope="col">Checkouts</th>  
+              <th width=50 scope="col"></th>
+              <th width=50 scope="col"></th>
+              <th width=50 scope="col"></th>
             </tr>
           </thead>
           <tbody>
