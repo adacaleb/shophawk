@@ -27,13 +27,11 @@
          <% else %>
           <td><%= @turninginv.vendor %></td>
          <% end %>
-
        </tr>
      </table>
      <div class="row">
       <div class="col">
         <%= link_to "New Tool Hardware", new_turninginv_path(:hardwareid => @tempid), class:"btn btn-outline-info " %>
-        
       </div>
       <div class="col d-md-flex justify-content-md-end">
         <%= link_to "Checkout", turningcheckout_path(@turninginv), class:"btn btn-success space" %>
@@ -45,8 +43,10 @@
 </div>
 </br>
 
+<% c = 0 %>
 <% @turninginvs.each do |h| %>
-  <% if h.hardwareid == @turninginv.id %>
+  <% if h.hardwareid == @turninginv.id && c == 0 %>
+  <% c = 1 %>
     <div class="card text-bg-dark mb-10 border-secondary">
       <div class="card-body">
         <h4 class="text-white"><ins>Spare hardware for this tool  </ins></h4>
@@ -90,8 +90,10 @@
   <% end %>
 <% end %>
 
+<% c = 0 %>
 <% @turninginvs.each do |h| %>
-  <% if h.id == @turninginv.hardwareid %>
+  <% if h.id == @turninginv.hardwareid && c == 0 %>
+  <% c = 1 %>
     <div class="card text-bg-dark mb-10 border-secondary">
       <div class="card-body">
         <h4 class="text-white"><ins>Parent Tool</ins></h4>

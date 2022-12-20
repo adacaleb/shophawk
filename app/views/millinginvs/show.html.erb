@@ -44,9 +44,10 @@
 </div>
 </br>
 
-
+<% c = 0 %>
 <% @millinginvs.each do |h| %>
-  <% if h.hardwareid == @millinginv.id %>
+  <% if h.hardwareid == @millinginv.id && c == 0 %>
+  <% c = 1 %>
     <div class="card text-bg-dark mb-10 border-secondary">
       <div class="card-body">
         <h2 class="text-white"><ins>Spare hardware for this tool  </ins></h2>
@@ -90,9 +91,10 @@
   <% end %>
 <% end %>
 
-
+<% c = 0 %>
 <% @millinginvs.each do |h| %>
-  <% if h.id == @millinginv.hardwareid %>
+  <% if h.id == @millinginv.hardwareid && c == 0 %>
+  <% c = 1 %>
     <div class="card text-bg-dark mb-10 border-secondary">
       <div class="card-body">
         <h2 class="text-white"><ins>Parent Tool</ins></h2>
