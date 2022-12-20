@@ -32,12 +32,12 @@
      </table>
      <div class="row">
       <div class="col">
-        <%= link_to "Edit", edit_millinginv_path(@millinginv), class:"btn btn-secondary" %>
-        <%= link_to "Back to All Tools", millinginvs_path, class:"btn btn-dark btn-outline-light" %> 
-        <%= link_to "Checkout", millingcheckout_path(@millinginv), class:"btn btn-success " %>
+        <%= link_to "New Tool Hardware", new_millinginv_path(:hardwareid => @tempid), class:"btn btn-outline-info" %>
       </div>
       <div class="col d-md-flex justify-content-md-end">
-        <%= link_to "New Tool Hardware", new_millinginv_path(:hardwareid => @tempid), class:"btn btn-outline-info" %>
+        <%= link_to "Checkout", millingcheckout_path(@millinginv), class:"btn btn-success space" %>
+        <%= link_to "Back to All Tools", millinginvs_path, class:"btn btn-dark btn-outline-light space" %> 
+        <%= link_to "Edit", edit_millinginv_path(@millinginv), class:"btn btn-secondary space" %>
       </div>
     </div>
   </div>
