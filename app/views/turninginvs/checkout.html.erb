@@ -32,25 +32,20 @@
       </div>
       </br>
 
-
-      <div>
-      <%= form.submit "Checkout", class:"btn btn-primary" %>
+      <div class="row" >
+      <div class="col">
+      <td><%= form.submit "Checkout", class:"btn btn-success" %></td>
+    </div>
+      <div class="col d-md-flex justify-content-md-end">
+      <td><%= link_to "Show", @turninginv, class:"btn btn-primary space" %></td>
+      <td><%= link_to "Edit", edit_turninginv_path(@turninginv), class:"btn btn-secondary space" %></td> 
+      </div>
       <% end %>
       </div>
       </div>
       </div>
       </div>
-
-
-
 <br>
 <div>
     <%= link_to "Back to All Tools", turninginvs_path, class:"btn btn-dark" %> |
-  <%= link_to "Edit this Tool", edit_turninginv_path(@turninginv), class:"btn btn-secondary" %>   
-</div>
-</br></br></br></br>
-<div>
-
-  <h3><ins>Tool History</ins></h3>
-
 </div>

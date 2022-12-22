@@ -32,6 +32,10 @@ class MillinginvsController < ApplicationController
 
       @q = Millinginv.ransack(params[:q]) 
       @millinginvs = @q.result.sort_by(&:number_of_checkouts).reverse #auto-sort by checkout amount
+
+      if @millinginvs.count == 1 
+        redirect_to millingcheckout_path(@millinginvs)
+      end
   end
 
   def belowmin #run on belowmin page open

@@ -28,6 +28,10 @@ class TurninginvsController < ApplicationController
 
       @q = Turninginv.ransack(params[:q]) 
       @turninginvs = @q.result.sort_by(&:number_of_checkouts).reverse #auto-sort by checkout amount
+
+      if @turninginvs.count == 1 #if only one tool is found, go directly to checkout page for it. 
+        redirect_to turningcheckout_path(@turninginvs)
+      end
   end
 
   def belowmin #run on belowmin page open

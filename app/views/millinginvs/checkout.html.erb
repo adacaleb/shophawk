@@ -40,9 +40,14 @@
       </div>
       </br>
 
-
-      <div>
-      <%= form.submit "Checkout", class:"btn btn-primary" %>
+      <div class="row">
+      <div class="col">
+      <%= form.submit "Checkout", class:"btn btn-success" %>
+    </div>
+      <div class="col d-md-flex justify-content-md-end">
+      <%= link_to "Show", @millinginv, class:"btn btn-primary space" %>
+      <%= link_to "Edit", edit_millinginv_path(@millinginv), class:"btn btn-secondary space" %>
+      </div>
       <% end %>
       </div>
       </div>
@@ -53,12 +58,5 @@
 
 <br>
 <div>
-    <%= link_to "Back to All Tools", millinginvs_path, class:"btn btn-dark" %> |
-  <%= link_to "Edit this Tool", edit_millinginv_path(@millinginv), class:"btn btn-secondary" %>   
-</div>
-</br></br></br></br>
-<div>
-
-  <h3><ins>Tool History</ins></h3>
-
+    <%= link_to "Back to All Tools", millinginvs_path, class:"btn btn-dark" %> 
 </div>
