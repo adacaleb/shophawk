@@ -12,7 +12,7 @@
   <div class="col">
     <%= f.text_field :part_number_or_description_cont, class:"form-control", :autofocus => true, :onfocus => 'this.select();', :selectall => true, placeholder: "Search for Part Number or Descriptions" %>
   </div>
-  <div class="col-auto">
+  <div class="col-auto" id="form">
     <%= f.submit "Search", class:"btn btn-primary " %>
     <%= link_to "Clear Search", millinginvs_path, class:"btn btn-dark" %> 
     <% end %>
@@ -52,10 +52,10 @@
   </tbody>
 </table>
 
+<script>
+const form = document.getElementById('form');
 
+form.addEventListener('focusin', (event) => {event.target.click()});
 
-
-
-
-
-
+form.addEventListener('focusout', (event) => {;});
+</script>
