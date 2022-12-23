@@ -62,7 +62,17 @@
 </div>
 </br>
 
-  <%= form.text_field :hardwareid, class:"form-control", :hidden => true %>
+ <div class="row">
+  <div class="col">
+    <%= form.label "Parent ID (Edit this if wanting to change the tool this is associated with)", style: "display: block" %>
+    <%= form.text_field :hardwareid, class:"form-control" %>
+  </div>
+    <div class="col">
+    <%= form.label "This Tool ID (read only)", style: "display: block" %>
+    <%= form.text_field :id, :readonly => true, class:"form-control" %>
+  </div>
+</div>
+
 
  <div class="row">
     <div class="col">

@@ -63,16 +63,28 @@
 </div>
 </br>
 
-  <%= form.text_field :hardwareid, class:"form-control", :hidden => true %>
 
  <div class="row">
+  <div class="col">
+    <%= form.label "Parent ID (Edit this if wanting to change the tool this is associated with)", style: "display: block" %>
+    <%= form.text_field :hardwareid, class:"form-control" %>
+  </div>
     <div class="col">
-      <%= link_to "Back to Checkout", turninginvs_path, class:"btn btn-secondary btn-outline-dark" %>
+    <%= form.label "This Tool ID (read only)", style: "display: block" %>
+    <%= form.text_field :id, :readonly => true, class:"form-control" %>
+  </div>
+</div>
+
+
+</br>
+ <div class="row">
+    <div class="col">
     </div>
     <div class="col d-md-flex justify-content-md-end">
      <%= form.submit "Save Changes", class:"btn btn-primary " %>
     </div>
  </div>
+
 
 
 <% end %>
