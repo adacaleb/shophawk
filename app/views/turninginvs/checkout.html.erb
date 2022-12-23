@@ -3,49 +3,50 @@
   <h1 class="card-header"><ins>Checkout</ins></h1>
 
   <div class="card-body">
-  <%= form_with(model: @turninginv) do |form| %>
+    <%= form_with(model: @turninginv) do |form| %>
     <% if @turninginv.errors.any? %>
-      <div style="color: red">
-        <h2><%= pluralize(turninginv.errors.count, "error") %> prohibited this turninginv from being saved:</h2>
-        <ul>
-          <% turninginv.errors.each do |error| %>
-           <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
+    <div style="color: red">
+      <h2><%= pluralize(turninginv.errors.count, "error") %> prohibited this turninginv from being saved:</h2>
+      <ul>
+        <% turninginv.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
     <% end %>  
 
     <div class="container text-left" >
       <h2> <%= @turninginv.part_number %> </h2>
-      <h5> <%= @turninginv.description %> </h5>
-      </br>
+      <h4> <%= @turninginv.description %> </h4>
+      <h4> <%= @turninginv.location %> </h4>
+    </br>
 
-      <div class="row" >
-        <div class="col" >
-         <%= form.label "How many are you taking?", style: "display: block" %>
-          <%= form.text_field :to_take, class:"form-control", :autofocus => true %>
-        </div>
-        <div class="col">
-          <%= form.label "Current Balance", style: "display: block" %>
-          <%= form.text_field :balance, :readonly => true, class:"form-control" %>
-        </div>
-      </div>
-      </br>
-
-      <div class="row" >
-      <div class="col">
-      <td><%= form.submit "Checkout", class:"btn btn-success" %></td>
+    <div class="row" >
+      <div class="col" >
+       <%= form.label "How many are you taking?", style: "display: block" %>
+       <%= form.text_field :to_take, class:"form-control", :autofocus => true %>
+     </div>
+     <div class="col">
+      <%= form.label "Current Balance", style: "display: block" %>
+      <%= form.text_field :balance, :readonly => true, class:"form-control" %>
     </div>
-      <div class="col d-md-flex justify-content-md-end">
-      <td><%= link_to "Show", @turninginv, class:"btn btn-primary space" %></td>
-      <td><%= link_to "Edit", edit_turninginv_path(@turninginv), class:"btn btn-secondary space" %></td> 
-      </div>
-      <% end %>
-      </div>
-      </div>
-      </div>
-      </div>
+  </div>
+</br>
+
+<div class="row" >
+  <div class="col">
+    <td><%= form.submit "Checkout", class:"btn btn-success" %></td>
+  </div>
+  <div class="col d-md-flex justify-content-md-end">
+    <td><%= link_to "Show", @turninginv, class:"btn btn-primary space" %></td>
+    <td><%= link_to "Edit", edit_turninginv_path(@turninginv), class:"btn btn-secondary space" %></td> 
+  </div>
+  <% end %>
+</div>
+</div>
+</div>
+</div>
 <br>
 <div>
-    <%= link_to "Back to All Tools", turninginvs_path, class:"btn btn-dark" %> |
+  <%= link_to "Back to All Tools", turninginvs_path, class:"btn btn-dark" %> |
 </div>
