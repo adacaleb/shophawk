@@ -7,6 +7,11 @@ class TurninginvsController < ApplicationController
       @ordered = 0
       
       @turninginv = Turninginv.all #for restock button calculations
+      if @turninginv.count == 1 #set variable to prevent redirect to checkout if only 1 tool in inventory
+        tcheck = 1
+      else
+        tcheck = 0
+      end
       @turninginv.each do |turninginv| 
         if turninginv.status == "Needs Restock" || turninginv.status == "In Cart"
           @mins = @mins + 1  #sets the parameter for the "to be ordered" button
@@ -29,7 +34,7 @@ class TurninginvsController < ApplicationController
       @q = Turninginv.ransack(params[:q]) 
       @turninginvs = @q.result.sort_by(&:number_of_checkouts).reverse #auto-sort by checkout amount
 
-      if @turninginvs.count == 1 #if only one tool is found, go directly to checkout page for it. 
+      if @turninginvs.count == 1 and tcheck == 0 #if one tool found on search and there are more than 1 tools in database, goto checkout page for found tool
         redirect_to turningcheckout_path(@turninginvs)
       end
   end

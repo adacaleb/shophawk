@@ -8,6 +8,11 @@ class MillinginvsController < ApplicationController
       @vendor = 0
       
       @millinginv = Millinginv.all #for restock button calculations
+      if @millinginv.count == 1 #set variable to prevent redirect to checkout if only 1 tool in inventory
+        tcheck = 1
+      else
+        tcheck = 0
+      end
       @millinginv.each do |millinginv| 
         if millinginv.status == "Needs Restock" || millinginv.status == "In Cart"
           @mins = @mins + 1  #sets the parameter for the "to be ordered" button
@@ -33,7 +38,7 @@ class MillinginvsController < ApplicationController
       @q = Millinginv.ransack(params[:q]) 
       @millinginvs = @q.result.sort_by(&:number_of_checkouts).reverse #auto-sort by checkout amount
 
-      if @millinginvs.count == 1 
+      if @millinginvs.count == 1 and tcheck == 0 #if one tool found on search and there are more than 1 tools in database, goto checkout page for found tool
         redirect_to millingcheckout_path(@millinginvs)
       end
   end
