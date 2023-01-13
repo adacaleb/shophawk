@@ -5,7 +5,10 @@ class RunlistsController < ApplicationController
    @runlist = Runlist.all
    @runlist.importjobops
    @runlist = Runlist.all
-    puts "hello you sexy beast"
+
+   @runlist.each do |run| 
+      @job = run.Job 
+   end 
  end
 
 end

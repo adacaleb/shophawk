@@ -26,8 +26,9 @@ require 'database_cleaner/active_record'
 
 		DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets ID's
 	 	items = []
+
 	    CSV.foreach('app/assets/csv/runListOps.csv', headers: true) do |row|
-	      items << {
+	        items << {
 	      	Job: row[0], 
 	      	Job_Operation: row[1], 
 	      	WC_Vendor: row[2],
@@ -36,9 +37,32 @@ require 'database_cleaner/active_record'
 	      	Sched_Start: row[5],
 	      	Sched_End: row[6],
 		    Sequence: row[7]
-	      }
-	   end
+	      	}
+		   	end
+			
+
+			#need to get other csv data into the items hash, and import 
+			items.each do 
+				CSV.foreach('app/assets/csv/tempjobs.csv', 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true) do |job|
+				if items[job[0]] == row[0] do 
+					items << {
+						Customer: job[1],
+						Order_Date: job[2],
+						Part_Number: job[3]
+					}
+				end
+			end
+			
+
+	   
 	   Runlist.import items
 	   
+	   
+	 
+
+	   #CSV.foreach('app/assets/csv/tempjobs.csv', 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true) do |job|
+	   #end
 	end
+end
+end
 end

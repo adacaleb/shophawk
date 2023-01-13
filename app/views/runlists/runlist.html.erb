@@ -1,6 +1,10 @@
 <div class="text-white">
 <h1>Hello</h1>
 
-<%= @runlists %>
+<p>
+	<% @runlist.each do |run| %> 
+    	<%= run.Job %> 
+   	<% end %>
+</p>
 
 </div>
