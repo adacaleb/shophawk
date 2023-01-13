@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   
-
+  get "runlist", to: "runlists#runlist", as: :runlist
   get "millinginvs/:id/checkout", to: "millinginvs#checkout", as: :millingcheckout
   get "millinginvs/:id/checkin", to: "millinginvs#checkin", as: :millingcheckin
   post "millinginvs/:id", to: "millinginvs#status", as: :millingstatus

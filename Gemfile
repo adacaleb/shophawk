@@ -16,6 +16,8 @@ gem "tzinfo-data"
 gem "bootsnap", require: false
 gem "pry"
 gem 'pg', '~> 1.4', '>= 1.4.5'
+gem 'activerecord-import'
+gem 'database_cleaner-active_record'
 
 # Use Sass to process CSS
 # gem "sassc-rails"

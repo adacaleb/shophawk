@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_28_164134) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_12_164801) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,27 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_28_164134) do
     t.integer "number_of_checkouts"
     t.integer "atvendor"
     t.index ["hardwareid"], name: "index_millinginvs_on_hardwareid"
+  end
+
+  create_table "runlists", force: :cascade do |t|
+    t.string "Job"
+    t.integer "Job_Operation"
+    t.string "WC_Vendor"
+    t.string "Operation_Service"
+    t.string "Vendor"
+    t.string "Sched_Start"
+    t.string "Sched_End"
+    t.integer "Sequence"
+    t.string "operator"
+    t.boolean "materialWaiting"
+    t.integer "dots"
+    t.string "customer"
+    t.integer "quantity"
+    t.string "material"
+    t.string "description"
+    t.string "currentLocation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "turninginvs", force: :cascade do |t|
