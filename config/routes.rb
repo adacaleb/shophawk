@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
+  resources :runlists
   
-  get "runlist", to: "runlists#runlist", as: :runlist
+  get "runlisttest", to: "runliststest#runlist", as: :runlisttest
   get "millinginvs/:id/checkout", to: "millinginvs#checkout", as: :millingcheckout
   get "millinginvs/:id/checkin", to: "millinginvs#checkin", as: :millingcheckin
   post "millinginvs/:id", to: "millinginvs#status", as: :millingstatus
@@ -13,6 +14,8 @@ Rails.application.routes.draw do
   resources :histories
   resources :turninginvs
   resources :millinginvs
+  resources :runlists
+  resources :employees
 
   #patch "turninginvs/:id/checkout", to: "turninginvs#update"
   # get 'home/index'  #commented out bc we set the root page on the next line. 

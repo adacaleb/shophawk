@@ -1,0 +1,202 @@
+<%= form_with(model: runlist) do |form| %>
+  <% if runlist.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(runlist.errors.count, "error") %> prohibited this runlist from being saved:</h2>
+
+      <ul>
+        <% runlist.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :Job, style: "display: block" %>
+    <%= form.text_field :Job %>
+  </div>
+
+  <div>
+    <%= form.label :Job_Operation, style: "display: block" %>
+    <%= form.number_field :Job_Operation %>
+  </div>
+
+  <div>
+    <%= form.label :WC_Vendor, style: "display: block" %>
+    <%= form.text_field :WC_Vendor %>
+  </div>
+
+  <div>
+    <%= form.label :Operation_Service, style: "display: block" %>
+    <%= form.text_field :Operation_Service %>
+  </div>
+
+  <div>
+    <%= form.label :Vendor, style: "display: block" %>
+    <%= form.text_field :Vendor %>
+  </div>
+
+  <div>
+    <%= form.label :Sched_Start, style: "display: block" %>
+    <%= form.text_field :Sched_Start %>
+  </div>
+
+  <div>
+    <%= form.label :Sched_End, style: "display: block" %>
+    <%= form.text_field :Sched_End %>
+  </div>
+
+  <div>
+    <%= form.label :Sequence, style: "display: block" %>
+    <%= form.number_field :Sequence %>
+  </div>
+
+  <div>
+    <%= form.label :Customer, style: "display: block" %>
+    <%= form.text_field :Customer %>
+  </div>
+
+  <div>
+    <%= form.label :Order_Date, style: "display: block" %>
+    <%= form.text_field :Order_Date %>
+  </div>
+
+  <div>
+    <%= form.label :Part_Number, style: "display: block" %>
+    <%= form.text_field :Part_Number %>
+  </div>
+
+  <div>
+    <%= form.label :Rev, style: "display: block" %>
+    <%= form.text_field :Rev %>
+  </div>
+
+  <div>
+    <%= form.label :Description, style: "display: block" %>
+    <%= form.text_field :Description %>
+  </div>
+
+  <div>
+    <%= form.label :Order_Quantity, style: "display: block" %>
+    <%= form.number_field :Order_Quantity %>
+  </div>
+
+  <div>
+    <%= form.label :Extra_Quantity, style: "display: block" %>
+    <%= form.number_field :Extra_Quantity %>
+  </div>
+
+  <div>
+    <%= form.label :Pick_Quantity, style: "display: block" %>
+    <%= form.number_field :Pick_Quantity %>
+  </div>
+
+  <div>
+    <%= form.label :Make_Quantity, style: "display: block" %>
+    <%= form.number_field :Make_Quantity %>
+  </div>
+
+  <div>
+    <%= form.label :Open_Operations, style: "display: block" %>
+    <%= form.number_field :Open_Operations %>
+  </div>
+
+  <div>
+    <%= form.label :Completed_Quantity, style: "display: block" %>
+    <%= form.number_field :Completed_Quantity %>
+  </div>
+
+  <div>
+    <%= form.label :Shipped_Quantity, style: "display: block" %>
+    <%= form.number_field :Shipped_Quantity %>
+  </div>
+
+  <div>
+    <%= form.label :FG_Transfer_Qty, style: "display: block" %>
+    <%= form.number_field :FG_Transfer_Qty %>
+  </div>
+
+  <div>
+    <%= form.label :In_Production_Quantity, style: "display: block" %>
+    <%= form.number_field :In_Production_Quantity %>
+  </div>
+
+  <div>
+    <%= form.label :Certs_Required, style: "display: block" %>
+    <%= form.check_box :Certs_Required %>
+  </div>
+
+  <div>
+    <%= form.label :Act_Scrap_Quantity, style: "display: block" %>
+    <%= form.number_field :Act_Scrap_Quantity %>
+  </div>
+
+  <div>
+    <%= form.label :Customer_PO, style: "display: block" %>
+    <%= form.text_field :Customer_PO %>
+  </div>
+
+  <div>
+    <%= form.label :Customer_PO_LN, style: "display: block" %>
+    <%= form.text_field :Customer_PO_LN %>
+  </div>
+
+  <div>
+    <%= form.label :Job_Sched_End, style: "display: block" %>
+    <%= form.text_field :Job_Sched_End %>
+  </div>
+
+  <div>
+    <%= form.label :Job_Sched_Start, style: "display: block" %>
+    <%= form.text_field :Job_Sched_Start %>
+  </div>
+
+  <div>
+    <%= form.label :Note_Text, style: "display: block" %>
+    <%= form.text_field :Note_Text %>
+  </div>
+
+  <div>
+    <%= form.label :Released_Date, style: "display: block" %>
+    <%= form.text_field :Released_Date %>
+  </div>
+
+  <div>
+    <%= form.label :Material, style: "display: block" %>
+    <%= form.text_field :Material %>
+  </div>
+
+  <div>
+    <%= form.label :Mat_Vendor, style: "display: block" %>
+    <%= form.text_field :Mat_Vendor %>
+  </div>
+
+  <div>
+    <%= form.label :Mat_Description, style: "display: block" %>
+    <%= form.text_field :Mat_Description %>
+  </div>
+
+  <div>
+    <%= form.label :employee, style: "display: block" %>
+    <%= form.text_field :employee %>
+  </div>
+
+  <div>
+    <%= form.label :dots, style: "display: block" %>
+    <%= form.number_field :dots %>
+  </div>
+
+  <div>
+    <%= form.label :currentOp, style: "display: block" %>
+    <%= form.text_field :currentOp %>
+  </div>
+
+  <div>
+    <%= form.label :matWaiting, style: "display: block" %>
+    <%= form.check_box :matWaiting %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

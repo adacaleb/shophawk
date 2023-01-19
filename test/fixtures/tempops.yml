@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  Job: MyString
+  Job_Operation: 1
+  WC_Vendor: MyString
+  Operation_Service: MyString
+  Vendor: MyString
+  Sched_Start: MyString
+  Sched_End: MyString
+  Sequence: 1
+
+two:
+  Job: MyString
+  Job_Operation: 1
+  WC_Vendor: MyString
+  Operation_Service: MyString
+  Vendor: MyString
+  Sched_Start: MyString
+  Sched_End: MyString
+  Sequence: 1

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @runlist %>
+
+<div>
+  <%= link_to "Edit this runlist", edit_runlist_path(@runlist) %> |
+  <%= link_to "Back to runlists", runlists_path %>
+
+  <%= button_to "Destroy this runlist", @runlist, method: :delete %>
+</div>

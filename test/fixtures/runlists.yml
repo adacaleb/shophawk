@@ -1,7 +1,7 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  Job: 1
+  Job: MyString
   Job_Operation: 1
   WC_Vendor: MyString
   Operation_Service: MyString
@@ -9,17 +9,38 @@ one:
   Sched_Start: MyString
   Sched_End: MyString
   Sequence: 1
-  operator: MyString
-  materialWaiting: false
+  Customer: MyString
+  Order_Date: MyString
+  Part_Number: MyString
+  Rev: MyString
+  Description: MyString
+  Order_Quantity: 1
+  Extra_Quantity: 1
+  Pick_Quantity: 1
+  Make_Quantity: 1
+  Open_Operations: 1
+  Completed_Quantity: 1
+  Shipped_Quantity: 1
+  FG_Transfer_Qty: 1
+  In_Production_Quantity: 1
+  Certs_Required: false
+  Act_Scrap_Quantity: 1
+  Customer_PO: MyString
+  Customer_PO_LN: MyString
+  Job_Sched_End: MyString
+  Job_Sched_Start: MyString
+  Note_Text: MyString
+  Released_Date: MyString
+  Material: MyString
+  Mat_Vendor: MyString
+  Mat_Description: MyString
+  employee: MyString
   dots: 1
-  customer: MyString
-  quantity: 1
-  material: MyString
-  description: MyString
-  currentLocation: MyString
+  currentOp: MyString
+  matWaiting: false
 
 two:
-  Job: 1
+  Job: MyString
   Job_Operation: 1
   WC_Vendor: MyString
   Operation_Service: MyString
@@ -27,11 +48,32 @@ two:
   Sched_Start: MyString
   Sched_End: MyString
   Sequence: 1
-  operator: MyString
-  materialWaiting: false
+  Customer: MyString
+  Order_Date: MyString
+  Part_Number: MyString
+  Rev: MyString
+  Description: MyString
+  Order_Quantity: 1
+  Extra_Quantity: 1
+  Pick_Quantity: 1
+  Make_Quantity: 1
+  Open_Operations: 1
+  Completed_Quantity: 1
+  Shipped_Quantity: 1
+  FG_Transfer_Qty: 1
+  In_Production_Quantity: 1
+  Certs_Required: false
+  Act_Scrap_Quantity: 1
+  Customer_PO: MyString
+  Customer_PO_LN: MyString
+  Job_Sched_End: MyString
+  Job_Sched_Start: MyString
+  Note_Text: MyString
+  Released_Date: MyString
+  Material: MyString
+  Mat_Vendor: MyString
+  Mat_Description: MyString
+  employee: MyString
   dots: 1
-  customer: MyString
-  quantity: 1
-  material: MyString
-  description: MyString
-  currentLocation: MyString
+  currentOp: MyString
+  matWaiting: false
