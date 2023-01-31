@@ -54,8 +54,10 @@ require 'time'
 		    if balance >= minumum
 				self.status = "stocked"
 			elsif balance < minumum
-				if status != "In Cart" || status != "Ordered"
-					self.status = "Needs Restock"
+				if status != "In Cart"
+					if status != "Ordered"
+						self.status = "Needs Restock"
+					end
 				end
 			end
 		end
