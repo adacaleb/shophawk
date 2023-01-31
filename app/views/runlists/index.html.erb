@@ -1,19 +1,83 @@
 <p style="color: green"><%= notice %></p>
+
+
 <section class="text-white">
 <h1>Runlists</h1>
+<% i = 0 %>
 
-<%= @cus %>
+<table class="table table-dark table-striped table-hover table-sm align-middle ">
+  <thead>
+    <tr>
+      <th scope="col">Job</th>
+      <th scope="col">Customer</th> 
+      <th scope="col">Ship Date</th> 
+      <th scope="col">Quantity</th>
+      <th scope="col">Material</th>
+      <th scope="col">Part number</th>
+      <th scope="col">Description</th>
+      <th scope="col">Wc vendor</th>
+      <th scope="col">Current Location</th>
+      <th scope="col">Assignment</th>
+      <th scope="col">Material Pending</th>
 
-<!--
-<div id="runlists">
-  <% @runlists.each do |runlist| %>
-    <%= render runlist %>
-    <p>
-      <%= link_to "Show this runlist", runlist %>
-    </p>
-  <% end %>
-</div>
+      <!--
+      <th scope="col">Job operation</th>
+      <th scope="col">Operation service</th>  
+      <th scope="col">Vendor</th>  
+      <th scope="col">Sched start</th>
+      <th scope="col">Sched end</th>
+      <th scope="col">Sequence</th>
+      <th scope="col">Order date</th>
+      <th scope="col">Rev</th>
+      <th scope="col">Order quantity</th>
+      <th scope="col">Extra quantity</th>
+      <th scope="col">Pick quantity</th>
+      <th scope="col">Make quantity</th>
+      <th scope="col">Open operations</th>
+      <th scope="col">Completed quantity</th>
+      <th scope="col">Shipped quantity</th>
+      <th scope="col">Fg transfer qty</th>
+      <th scope="col">In production quantity</th>
+      <th scope="col">Certs required</th>
+      <th scope="col">Act scrap quantity</th>
+      <th scope="col">Customer po</th>
+      <th scope="col">Customer po ln</th>
+      <th scope="col">Job sched end</th>
+      <th scope="col">Job sched start</th>
+      <th scope="col">Note text</th>
+      <th scope="col">Released date</th>
+      <th scope="col">Mat vendor</th>
+      <th scope="col">Mat description</th>
+      <th scope="col">Employee</th>
+      <th scope="col">Dots</th>
+      <th scope="col">Currentop</th>
+      <th scope="col">Currentop</th>
+      <th scope="col">Show</th>
+      <th scope="col">Edit</th>
+      -->
+    </tr>
+  </thead>
+  <tbody>
+    <% @runlists.each do |runlist| %>
+      <tr>
+      <%= render runlist %>
+      <td><%= link_to "Show", runlist, class:"btn btn-primary btn-sm" %></td>
+      <td><%= link_to "Edit", edit_runlist_path(runlist), class:"btn btn-secondary btn-sm" %></td> 
+      </tr>
+      <% i = i + 1 %>
+      <% if i == 50 %>
+        <% break %>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+
+
+
 
 <%= link_to "New runlist", new_runlist_path %>
--->
+
 </section>

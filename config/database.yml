@@ -46,5 +46,6 @@ production:
 
 
   #use these settings for Heroku
+  adapter: postgresql
   prepared_statements: false
   advisory_locks: false
