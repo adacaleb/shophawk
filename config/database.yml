@@ -31,7 +31,7 @@ test:
   database: shophawkdev
   host: 127.0.0.1
   username: postgres
-  password: 4Xs
+  password: Gear1234
 
 production:
   adapter: postgresql
