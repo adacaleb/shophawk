@@ -35,10 +35,16 @@ test:
 
 production:
   <<: *default
-  database: shophawk
-  host: 127.0.0.1
-  username: postgres
-  password: Gear1234
+  #use for local server database
+  #database: shophawk
+  #host: 127.0.0.1
+  #username: postgres
+  #password: Gear1234
+  #prepared_statements: false
+  #advisory_locks: false
+  #port: 5432
+
+
+  #use these settings for Heroku
   prepared_statements: false
   advisory_locks: false
-  port: 5432
