@@ -5,6 +5,7 @@ class RunlistsController < ApplicationController
   def index
     Runlist.importcsv
     @runlists = Runlist.all
+    #@runlists.each.Job_Sched_End = @runlists.Job_Sched_End[0..3]
 
   end
 

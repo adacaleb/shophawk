@@ -68,7 +68,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_19_191036) do
     t.string "Sched_Start"
     t.string "Sched_End"
     t.integer "Sequence"
-
     t.string "Customer"
     t.string "Order_Date"
     t.string "Part_Number"
@@ -91,65 +90,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_19_191036) do
     t.string "Job_Sched_Start"
     t.string "Note_Text"
     t.string "Released_Date"
-
     t.string "Material"
     t.string "Mat_Vendor"
     t.string "Mat_Description"
-    
     t.string "employee"
     t.integer "dots"
     t.string "currentOp"
     t.boolean "matWaiting"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tempjobs", force: :cascade do |t|
-    t.string "Job"
-    t.string "Customer"
-    t.string "Order_Date"
-    t.string "Part_Number"
-    t.string "Rev"
-    t.string "Description"
-    t.integer "Order_Quantity"
-    t.integer "Extra_Quantity"
-    t.integer "Pick_Quantity"
-    t.integer "Make_Quantity"
-    t.integer "Open_Operations"
-    t.integer "Completed_Quantity"
-    t.integer "Shipped_Quantity"
-    t.integer "FG_Transfer_Qty"
-    t.integer "In_Production_Quantity"
-    t.boolean "Certs_Required"
-    t.integer "Act_Scrap_Quantity"
-    t.string "Customer_PO"
-    t.string "Customer_PO_LN"
-    t.string "Sched_End"
-    t.string "Sched_Start"
-    t.string "Note_Text"
-    t.string "Released_Date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tempmats", force: :cascade do |t|
-    t.string "Job"
-    t.string "Material"
-    t.string "Vendor"
-    t.string "Description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tempops", force: :cascade do |t|
-    t.string "Job"
-    t.integer "Job_Operation"
-    t.string "WC_Vendor"
-    t.string "Operation_Service"
-    t.string "Vendor"
-    t.string "Sched_Start"
-    t.string "Sched_End"
-    t.integer "Sequence"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

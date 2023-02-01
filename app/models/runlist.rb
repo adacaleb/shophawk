@@ -3,7 +3,15 @@ require 'csv'
 require 'database_cleaner/active_record'
 
 	def self.importcsv
-		DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets ID's
+
+		#load db into object, clear DB, cross check for opID and re-load if match
+		
+		oldData = Runlist.where.not(employee: [nil, ""], dots: [nil, ""], currentOp: [nil, ""], matWaiting: [nil, "", false])
+		oldData.each do |data|
+		#	puts data.employee
+			#puts data.Job_Operation
+		end
+		#DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets ID's
 		runListItems = []
 		CSV.foreach('app/assets/csv/runListOps.csv', headers: true, :col_sep => "`") do |row|
 			runListItems << {
@@ -41,7 +49,11 @@ require 'database_cleaner/active_record'
 
 				Material: "", 
 		      	Mat_Vendor: "",
-		      	Mat_Description: ""
+		      	Mat_Description: "",
+		      	employee: "",
+    			dots: "",
+    			currentOp: "",
+    			matWaiting: ""
 		      	}
 		end
 		jobs = []
@@ -72,8 +84,26 @@ require 'database_cleaner/active_record'
 				Released_Date: row[22]
 			}
 		end
+		mat = []
+		CSV.foreach('app/assets/csv/tempmat.csv', 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
+			mat << {
+				Job: row[0],
+				Material: row[1], 
+		      	Mat_Vendor: row[2],
+		      	Mat_Description: row[3]
+				}
+		end		
 		runListItems.each do |items|
 			jobs.each do |row|
+				schEnd = row[:Job_Sched_End].to_s #reorganize date field
+				if schEnd == "NULL"
+					schEnd = ""
+				else
+					year = schEnd[0..3]
+					day = schEnd[8..9]
+					month = schEnd[5..7]
+					schEnd = "#{month}#{day}-#{year}"
+				end
 				if items[:Job] == row[:Job] 
 					items[:Customer] = row[:Customer]
 					items[:Order_Date] = row[:Order_Date]
@@ -93,24 +123,13 @@ require 'database_cleaner/active_record'
 					items[:Act_Scrap_Quantity] = row[:Act_Scrap_Quantity]
 					items[:Customer_PO] = row[:Customer_PO]
 					items[:Customer_PO_LN] = row[:Customer_PO_LN]
-					items[:Job_Sched_End] = row[:Job_Sched_End]
+					items[:Job_Sched_End] = schEnd
 					items[:Job_Sched_Start] = row[:Job_Sched_Start]
 					items[:Note_Text] = row[:Note_Text] 
 					items[:Released_Date] = row[:Released_Date]
 					break
 				end
 			end
-		end
-		mat = []
-		CSV.foreach('app/assets/csv/tempmat.csv', 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
-			mat << {
-				Job: row[0],
-				Material: row[1], 
-		      	Mat_Vendor: row[2],
-		      	Mat_Description: row[3]
-				}
-		end		
-		runListItems.each do |items|
 			mat.each do |row|
 				if items[:Job] == row[:Job] 
 					items[:Material] = row[:Material]
@@ -119,8 +138,20 @@ require 'database_cleaner/active_record'
 					break
 				end
 			end
+			oldData.each do |data| #imports
+				if data.Job_Operation.to_s == items[:Job_Operation].to_s
+					items[:employee] = data.employee
+					items[:currentOp] = data.currentOp
+					items[:matWaiting] = data.matWaiting
+					items[:dots] = data.dots
+					break
+				end
+			end
 		end
-		Runlist.import runListItems
+
+		#Runlist.import runListItems
+
+
 	end
 
 end
