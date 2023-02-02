@@ -3,9 +3,17 @@ class RunlistsController < ApplicationController
 
   # GET /runlists or /runlists.json
   def index
-    Runlist.importcsv
+  #  Runlist.importcsv
     @runlists = Runlist.all
-    #@runlists.each.Job_Sched_End = @runlists.Job_Sched_End[0..3]
+    @wc = []
+    @runlists.each do |a| 
+      if a != "---------"
+        @wc << a.WC_Vendor #creates array of just workcenters
+      end
+    end
+    @wc.uniq! #narrows down array to only be unique workcenters
+    #puts @wc
+    @runlist = Runlist
 
   end
 

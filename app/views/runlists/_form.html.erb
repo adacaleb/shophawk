@@ -21,9 +21,9 @@
     <%= form.number_field :Job_Operation %>
   </div>
 
-  <div>
+  <div data-controller="runlist">
     <%= form.label :WC_Vendor, style: "display: block" %>
-    <%= form.text_field :WC_Vendor %>
+    <%=  form.select :WC_Vendor, ["frank", "sally"], {prompt: "select WC"}, class: "form-control", data: {action: "change->runlist#change"} %>
   </div>
 
   <div>

@@ -1,22 +1,58 @@
 <p style="color: green"><%= notice %></p>
-
-
 <section class="text-white">
-<h1>Runlist</h1>
 
-<h2>Workcenter</h2>
-<div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-    Dropdown button
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-    <li><a class="dropdown-item" href="#">Action</a></li>
-    <li><a class="dropdown-item" href="#">Another action</a></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
-  </ul>
+
+
+  <div >
+      <div class="row">
+        <div class="col">
+          <h1>Runlist</h1>
+        </div>
+        <div class="col">
+          <h2>Workcenter</h2>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" >
+              Select Workcenter
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" >
+              <% @wc.each do |w| %>
+              <li><a class="dropdown-item" href="#"><%= w %></a></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+  </div>
+
+<div data-controller="hello">
+  <input data-hello-target="name" type="text"> <!-- data-hello-target define the name the js controller links too -->
+  <button class="btn btn-secondary" data-action="click->hello#greet">Greet</button>
 </div>
 
 
+  <div data-controller="runlist" >
+    <div class="row">
+      <div class="col">
+        <h1>Runlist</h1>
+      </div>
+      <div class="col">
+        <h2>Workcenter</h2>
+          <select class="form-control" data-action="change->runlist#change">
+            <option selected>Select WorkCenter</option>
+            <% @wc.each do |w| %>
+              <option ><%= w %></option>
+            <% end %>
+          </select>          
+          <button class="btn btn-primary" data-action="click->runlist#change">Try</button>
+      </div>
+    </div>
+
+
+
+
+
+
+</br>
 
 <% i = 0 %>
 
@@ -34,42 +70,6 @@
       <th scope="col">Current Location</th>
       <th scope="col">Employee</th>
       <th scope="col">Material Pending</th>
-
-      <!--
-      <th scope="col">Job operation</th>
-      <th scope="col">Operation service</th>  
-      <th scope="col">Vendor</th>  
-      <th scope="col">Sched start</th>
-      <th scope="col">Sched end</th>
-      <th scope="col">Sequence</th>
-      <th scope="col">Order date</th>
-      <th scope="col">Rev</th>
-      <th scope="col">Order quantity</th>
-      <th scope="col">Extra quantity</th>
-      <th scope="col">Pick quantity</th>
-      <th scope="col">Make quantity</th>
-      <th scope="col">Open operations</th>
-      <th scope="col">Completed quantity</th>
-      <th scope="col">Shipped quantity</th>
-      <th scope="col">Fg transfer qty</th>
-      <th scope="col">In production quantity</th>
-      <th scope="col">Certs required</th>
-      <th scope="col">Act scrap quantity</th>
-      <th scope="col">Customer po</th>
-      <th scope="col">Customer po ln</th>
-      <th scope="col">Job sched end</th>
-      <th scope="col">Job sched start</th>
-      <th scope="col">Note text</th>
-      <th scope="col">Released date</th>
-      <th scope="col">Mat vendor</th>
-      <th scope="col">Mat description</th>
-      <th scope="col">Employee</th>
-      <th scope="col">Dots</th>
-      <th scope="col">Currentop</th>
-      <th scope="col">Currentop</th>
-      <th scope="col">Show</th>
-      <th scope="col">Edit</th>
-      -->
     </tr>
   </thead>
   <tbody>
@@ -80,7 +80,7 @@
       <td><%= link_to "Edit", edit_runlist_path(runlist), class:"btn btn-secondary btn-sm" %></td> 
       </tr>
       <% i = i + 1 %>
-      <% if i == 50 %>
+      <% if i == 2 %>
         <% break %>
       <% end %>
     <% end %>
