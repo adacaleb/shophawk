@@ -13,6 +13,8 @@
 <td><%= runlist.currentOp %></td> <!-- calc location from sequence -->
 <td><%= runlist.employee %></td>
 <td><%= runlist.matWaiting %></td>
+<td><%= link_to "Show", runlist, class:"btn btn-primary btn-sm" %></td>
+<td><%= link_to "Edit", edit_runlist_path(runlist), class:"btn btn-secondary btn-sm" %></td> 
 
 <!--
 <td><%= runlist.Job_Operation %></td>

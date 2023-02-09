@@ -15,7 +15,7 @@
       <div class="col-auto" id="form">
         <%= f.submit "Search", class:"btn btn-primary " %>
         <%= link_to "Clear Search", turninginvs_path, class:"btn btn-dark" %> 
-        <% end %>
+  <% end %>
       </div>
       <div class="col d-md-flex justify-content-md-end">
         <%= link_to "#{@restock}", turningbelowmin_path, class:"btn btn-warning" if @mins > 0  %>

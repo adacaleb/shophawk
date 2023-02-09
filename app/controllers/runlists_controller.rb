@@ -1,19 +1,51 @@
 class RunlistsController < ApplicationController
   before_action :set_runlist, only: %i[ show edit update destroy ]
 
+  def stream
+    Turbo::StreamsChannel.broadcast_update_to("testbroadcast", target: "content", partial: "runlists/realtimestream")
+    @wc = :wc
+  end
+
+
+
+
+  def wc
+    @wc = :wc
+
+    @runlists = Runlist.ransack(params[:wc]) 
+    #redirect_to runlists_path
+    #redirect_to turninginvs_path
+    #@runlists = @q.result #auto-sort by checkout amount
+
+  #  @runlists = Runlist.where(WC_Vendor[@wc])
+  #  respond_to | format |
+   #   format.turbo_stream 
+  end
+
   # GET /runlists or /runlists.json
   def index
   #  Runlist.importcsv
     @runlists = Runlist.all
+
+    @wcs = Runlist.distinct.pluck(:WC_Vendor)
+
+
     @wc = []
+    i = 0
     @runlists.each do |a| 
-      if a != "---------"
+      if i > 0
         @wc << a.WC_Vendor #creates array of just workcenters
       end
+      i= i + 1
     end
     @wc.uniq! #narrows down array to only be unique workcenters
+    @wc.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 }
     #puts @wc
     @runlist = Runlist
+
+    @wcs = Runlist.where(params[:wc])
+    #@wcs.uniq!
+    @wccs = "A-SHIP"
 
   end
 

@@ -19,6 +19,8 @@ gem 'pg', '~> 1.4', '>= 1.4.5'
 gem 'activerecord-import'
 gem 'database_cleaner-active_record'
 gem 'hotwire-rails', '~> 0.1.3'
+gem 'importmap-rails'
+gem 'requestjs-rails'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
