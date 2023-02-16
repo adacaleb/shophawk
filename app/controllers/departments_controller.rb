@@ -4,6 +4,11 @@ class DepartmentsController < ApplicationController
   # GET /departments or /departments.json
   def index
     @departments = Department.all
+    department = Department.first
+    #@workcenters = Workcenter.where(department_id: @departments.pluck(:id))
+    puts department.workcenters.ids
+    #puts @department.ids
+    #puts @workcenters
   end
 
   # GET /departments/1 or /departments/1.json

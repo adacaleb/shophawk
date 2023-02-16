@@ -1,8 +1,15 @@
 <div class="text-white">
-  <h1>New department</h1>
+
+<%= turbo_frame_tag "newDepartment" do %>
+
   <%= render "form", department: @department %>
   <br>
-  <div>
+  
+  <%= link_to "Back to runlists", runlists_path %>
+<% end %>
+
+<div>
     <%= link_to "Back to departments", departments_path %>
   </div>
+
 </div>

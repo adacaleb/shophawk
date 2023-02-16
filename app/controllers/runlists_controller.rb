@@ -6,25 +6,19 @@ class RunlistsController < ApplicationController
   end
   # GET /runlists or /runlists.json
   def index
-    Runlist.importcsv #updates DB with current CSV file
+    #Runlist.importcsv #updates DB with current CSV file. OLD: now done with rake task
     @runlists = Runlist.all
     @wc = [] #define empty array
     i = 0
-    @runlists.each do |a| 
+    @wcs = Workcenter.all
+    @wcs.each do |a| 
       if i > 0
-        @wc << a.WC_Vendor #creates array of just workcenters 
+        @wc << a.workCenter #creates array of just workcenters 
       end
       i= i + 1
     end
     @wc.uniq! #narrows down array to only be unique workcenters
     @wc.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
-    @wc.each do |a| #check if the WC exists in Workcenter model, if not, save it into the DB
-      if Workcenter.exists?(workCenter: a) 
-      else
-        @workcenter = Workcenter.new(workCenter: a)
-        @workcenter.save
-      end
-    end
     @departments = []
     @d = Department.all
     @d.each do |a|
@@ -37,25 +31,23 @@ class RunlistsController < ApplicationController
   def activerunlist #loads up selected Workcenter for Runlist
     @wc = Runlist.where(WC_Vendor: params[:wc]) #loads all workcenters that match the select field chosen sent over using runlist_controller.js
     @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
+    #puts @wc
     @today = Date.today#.strftime('%m-%d-%Y')
   end
 
   def changedepartment
-    #workcenters = Workcenter.all
-    #@department= Department.all
-    #puts workcenters
-    #puts department
-    departmentid = []
-    currentwcs = []
-    department = Department.where(department: params[:department])
-    puts department.workCenters
-    #currentwcs = Workcenter.where(departments: )
-    #currentwcs = Workcenter.where(department_id: departmentid.ids)
-    #puts @department.workcenter
-    #binding.pry
-#    @wc = Runlist.where(WC_Vendor: params[:department]) #loads all workcenters that match the select field chosen sent over using runlist_controller.js
-#    @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
-#    @today = Date.today#.strftime('%m-%d-%Y')
+    department = Department.where(department: params[:department]) #gets department object that matches data sent form frontend
+    departmentID = department.ids #saves the ID number of department
+    @dep = Department.find_by(id: departmentID) #gets the exact object needed for model association
+    #puts @dep.workcenters #model containing all objects for that department
+    @wclist = [] #initiate array
+    @dep.workcenters.each do |a| #for the department, add the associated workCenters to the array
+      @wclist << a.workCenter
+    end
+    @wc = Runlist.where(WC_Vendor: @wclist) #call all workcenters from the array
+    @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
+    @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.WC_Vendor <=> b.WC_Vendor : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
+    @today = Date.today#.strftime('%m-%d-%Y')
   end
 
   def checkboxsubmit #updates checkbox value when toggled

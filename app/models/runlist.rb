@@ -1,9 +1,36 @@
 class Runlist < ApplicationRecord
+#	has_many :departments, through: :department_workcenters
+#	has_many :department_workcenters, through: :workcenter
 require 'csv'
 require 'database_cleaner/active_record'
 
 
-	def self.importcsv 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	def self.importcsv
+		#All of this code is running as a rake task save in /lib/tasks/csvimport.  It's then ran via a .bat file on the desktop "csvimport.bat", and ran via the windows task scheduler every 5 minutes
 		runListItems = [] #empties array for new csv import
 		old = Runlist.where.not(employee: [nil, ""], dots: [nil, ""], currentOp: [nil, ""], matWaiting: [nil, "", false]) #saves what's altered to pass on later
 		CSV.foreach('app/assets/csv/runListOps.csv', headers: true, :col_sep => "`") do |row| #imports initial csv and creates all arrays needed
@@ -170,6 +197,20 @@ require 'database_cleaner/active_record'
 		DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets Database
 		Runlist.import runListItems #imports new array of hashes to Database
 	end
+
+	@wcs = []
+	@wc = Workcenter.all
+	@wc.each do |a| 
+       @wcs << a.workCenter #creates array of just workcenters 
+    end
+	@wcs.each do |a| #check if the WC exists in Workcenter model, if not, save it into the DB
+      if Workcenter.exists?(workCenter: a) 
+      else
+        @workcenter = Workcenter.new(workCenter: a)
+        @workcenter.save
+      end
+    end
+
 
 
 end

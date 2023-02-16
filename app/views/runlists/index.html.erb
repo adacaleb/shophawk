@@ -23,11 +23,14 @@
           <% end %>
         </select>
       </br>
-        <%= link_to "New department", new_department_path, class: "btn btn btn-primary" %>
+      
+        <%= link_to "New department", new_department_path, data: { turbo_frame: "newDepartment"}, class: "btn btn btn-primary" %>
+
       </div>
     </div>
 
-
+    <%= turbo_frame_tag "newDepartment" do %>
+    <% end %>
 
     <!--
     <%= button_to "test stream", teststream_runlists_path, class: "btn btn-primary" %>

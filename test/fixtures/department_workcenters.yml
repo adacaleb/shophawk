@@ -1,7 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  departmentassignment: MyString
+  department: one
+  workcenter: one
 
 two:
-  departmentassignment: MyString
+  department: two
+  workcenter: two

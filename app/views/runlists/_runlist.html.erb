@@ -10,6 +10,7 @@
 <td><%= runlist.Customer %></td> 
 <td><%= runlist.employee %></td>
 <td><%= form.check_box :matWaiting, { data: { action: "runlist#checkBoxUpdate" }, :id => "#{runlist.id}"}  %></td>
+<td><%= runlist.WC_Vendor %></td>
 <td><%= runlist.currentOp %></td> <!-- calc location from sequence -->
 <% end %>
 

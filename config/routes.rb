@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
-  resources :departmentassignments
   resources :departments
 
   resources :runlists do
     collection do
       get :activerunlist
       get :checkboxsubmit
-      get :changedepartment
+      get :changedepartment #need to have a view.turbo_stream.erb to render to work
       post :teststream
     end
   end
