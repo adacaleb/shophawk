@@ -10,15 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_19_191036) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_15_190608) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "employees", force: :cascade do |t|
-    t.string "name"
+  create_table "departmentassignments", force: :cascade do |t|
+    t.string "departmentassignment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "departments", force: :cascade do |t|
     t.string "department"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "departments_workcenters", id: false, force: :cascade do |t|
+    t.bigint "department_id", null: false
+    t.bigint "workcenter_id", null: false
   end
 
   create_table "histories", force: :cascade do |t|
@@ -123,6 +133,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_19_191036) do
     t.integer "to_add"
     t.string "toolinfo"
     t.index ["hardwareid"], name: "index_turninginvs_on_hardwareid"
+  end
+
+  create_table "workcenters", force: :cascade do |t|
+    t.string "workCenter"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

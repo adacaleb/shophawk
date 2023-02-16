@@ -1,13 +1,16 @@
 Rails.application.routes.draw do
+  resources :departmentassignments
+  resources :departments
 
   resources :runlists do
     collection do
-      get :stream
+      get :activerunlist
+      get :checkboxsubmit
+      get :changedepartment
+      post :teststream
     end
   end
 
-  post "/stream", to: "runlists#stream", as: :stream_page #Turbo_streams test. must be a post request last I saw. look into using get instead with impulse
-  #get "/stream", to: "runlists#stream", as: :stream_page #Turbo_streams test. must be a post request last I saw. look into using get instead with impulse
 
 
   get "millinginvs/:id/checkout", to: "millinginvs#checkout", as: :millingcheckout

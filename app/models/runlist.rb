@@ -2,18 +2,11 @@ class Runlist < ApplicationRecord
 require 'csv'
 require 'database_cleaner/active_record'
 
-	def self.importcsv
 
-		#load db into object, clear DB, cross check for opID and re-load if match
-		
-		oldData = Runlist.where.not(employee: [nil, ""], dots: [nil, ""], currentOp: [nil, ""], matWaiting: [nil, "", false])
-		oldData.each do |data|
-		#	puts data.employee
-			#puts data.Job_Operation
-		end
-		#DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets ID's
-		runListItems = []
-		CSV.foreach('app/assets/csv/runListOps.csv', headers: true, :col_sep => "`") do |row|
+	def self.importcsv 
+		runListItems = [] #empties array for new csv import
+		old = Runlist.where.not(employee: [nil, ""], dots: [nil, ""], currentOp: [nil, ""], matWaiting: [nil, "", false]) #saves what's altered to pass on later
+		CSV.foreach('app/assets/csv/runListOps.csv', headers: true, :col_sep => "`") do |row| #imports initial csv and creates all arrays needed
 				runListItems << {
 			      	Job: row[0], 
 			      	Job_Operation: row[1], 
@@ -56,7 +49,8 @@ require 'database_cleaner/active_record'
 	    			matWaiting: ""
 			    	}
 		end
-		jobs = []
+		runListItems.reverse! #reserves array so sequence numbers are in order for current location calculation
+		jobs = [] #new array for jobs csv
 		CSV.foreach('app/assets/csv/tempjobs.csv', 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
 			jobs << {
 				Job: row[0],
@@ -84,7 +78,7 @@ require 'database_cleaner/active_record'
 				Released_Date: row[22]
 			}
 		end
-		mat = []
+		mat = [] #new array for material import
 		CSV.foreach('app/assets/csv/tempmat.csv', 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
 			mat << {
 				Job: row[0],
@@ -93,7 +87,29 @@ require 'database_cleaner/active_record'
 		      	Mat_Description: row[3]
 				}
 		end		
-		runListItems.each do |items|
+
+		runListItems.each do |items| #parses through each item and merges with mat and jobs array
+			schedSrt = items[:Sched_Start].to_s #reorganizes and prepares date field for sorting at end
+			if schedSrt == "NULL"
+					schedSrt = ""
+			else
+				year = schedSrt[0..3]
+				day = schedSrt[8..9]
+				month = schedSrt[5..7]
+				items[:Sched_Start] = "#{month}#{day}-#{year}"
+			end
+			#calculate current location
+			if @firstWc == nil #initialize variable
+				@firstWc = items[:WC_Vendor]
+			end
+			if items[:Job] == @lastJob #set currentOp for items
+				items[:currentOp] = @firstWc
+			else
+				@firstWc = items[:WC_Vendor]
+				items[:currentOp] = @firstWc
+			end
+			@lastJob = items[:Job]
+			#merge Jobs data
 			jobs.each do |row|
 				schEnd = row[:Job_Sched_End].to_s #reorganize date field
 				if schEnd == "NULL"
@@ -130,6 +146,7 @@ require 'database_cleaner/active_record'
 					break
 				end
 			end
+			#merge material data
 			mat.each do |row|
 				if items[:Job] == row[:Job] 
 					items[:Material] = row[:Material]
@@ -138,20 +155,21 @@ require 'database_cleaner/active_record'
 					break
 				end
 			end
-			oldData.each do |data| #imports
-				if data.Job_Operation.to_s == items[:Job_Operation].to_s
-					items[:employee] = data.employee
-					items[:currentOp] = data.currentOp
-					items[:matWaiting] = data.matWaiting
-					items[:dots] = data.dots
-					break
+			#imports data previously saved from users into these jobs
+			old.each do |data| 
+					if data[:Job_Operation].to_s == items[:Job_Operation].to_s
+						#binding.pry
+						items[:employee] = data.employee
+						items[:currentOp] = data.currentOp
+						items[:matWaiting] = data.matWaiting
+						items[:dots] = data.dots
+						break
+					end
 				end
 			end
-		end
-
-		#Runlist.import runListItems
-
-
+		DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets Database
+		Runlist.import runListItems #imports new array of hashes to Database
 	end
+
 
 end

@@ -1,0 +1,62 @@
+<%= turbo_stream.update "activerunlistrender" do %>
+<% require 'date' %>
+    <h4>Today is <%= @today = Date.today %> </h4>
+    <% i = 0 %>
+    <table class="table table-dark table-striped table-hover align-middle table table-bordered" >
+      <thead>
+        <tr>
+          <th scope="col">Job</th>
+          <th scope="col">Qty</th>
+          <th scope="col">Material</th>
+          <th scope="col">Part number</th>
+          <th scope="col">Description</th>
+          <th scope="col">Ship Date</th> 
+          <th scope="col">Customer</th> 
+          <th scope="col">Employee</th>
+          <th scope="col">Material Pending</th>
+          <th scope="col">Current Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @previousStartDate = "01/01/1990" %> <!-- initialize startdate variable -->
+        <% @wc.each do |runlist| %>
+          <% date = runlist.Sched_Start.to_s %>
+          <% if date != "NULL" %> <!-- don't render if there is no scheduled start date -->
+            <% date = date.gsub("-", "/").to_s %> <!-- converts "-" to "/" for date strptime class -->
+            <% startDate = Date.strptime(date, "%m/%d/%Y") %> <!-- converts string to date type variable -->
+            <% if @previousStartDate != startDate %> <!-- don't render another header if the date is same as previous -->
+              <% if startDate.before? @today %>
+                <% @rowColor = "table-warning" %>
+                <tr >
+                  <th colspan="2" class="table-light"><%= runlist.Sched_Start %></th>
+                </tr>
+              <% end %>
+              <% if startDate == @today %>
+                <% @rowColor = "table-success" %>
+                <tr >
+                  <th colspan="2" class="table-light"><%= runlist.Sched_Start %></th>
+                </tr>
+              <% end %>
+              <% if startDate.after? @today %>
+                <% @rowColor = "table-default" %>
+                <tr>
+                  <th colspan="2" class="table-light"><%= runlist.Sched_Start %></th>
+                </tr>
+              <% end %>
+            <% end %>
+            <% @previousStartDate = startDate %>
+            <tr class="<%= @rowColor %>" >
+             <%= render runlist %>
+            </tr>
+          <% end %>
+          <% i = i + 1 %>
+          <% if i == 1000 %>
+            <% break %>
+          <% end %>
+
+        <% end %>
+      </tbody>
+    </table>
+
+
+<% end %>

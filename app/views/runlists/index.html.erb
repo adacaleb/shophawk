@@ -2,88 +2,39 @@
 <section class="text-white">
 
 
-
-<!-- working data input with JS
-<div data-controller="hello">
-  <input data-hello-target="name" type="text"> 
-  <button class="btn btn-secondary" data-action="click->hello#greet">Greet</button>
-</div>
--->
-
-  <div data-controller="runlist" >
+  <div data-controller="runlist" > <!-- data controller defines the stimulus controller for this div -->
     <div class="row">
       <div class="col">
         <h1>Runlist</h1>
       </div>
       <div class="col">
-          <select class="form-select" data-action="change->runlist#WcChange" >
-            <option selected>Select WorkCenter</option>
-            <% @wc.each do |w| %>
-              <option ><%= w %></option>
-            <% end %>
-          </select>
-          <!-- <button class="btn btn-primary" data-action="click->runlist#change">Try</button>  working button with JS link -->
+        <select class="form-select" data-action="change->runlist#changeWc" > <!-- data action is the js controller to run -->
+          <option selected>Select WorkCenter</option>
+          <% @wc.each do |w| %>
+            <option ><%= w %></option>
+          <% end %>
+        </select>
+      </div>
+      <div class="col">
+        <select class="form-select" data-action="change->runlist#changedepartment" > <!-- data action is the js controller to run -->
+          <option selected>Select Department</option>
+          <% @departments.each do |w| %>
+            <option ><%= w %></option>
+          <% end %>
+        </select>
+      </br>
+        <%= link_to "New department", new_department_path, class: "btn btn btn-primary" %>
       </div>
     </div>
-  
 
 
 
-    
-  <div> 
-    <h1>Testing turbo Frames</h1>
-    <%= link_to "New runlist", new_runlist_path, data: {turbo_frame: "first_turbo_frame"}, class:"btn btn-primary" %>
+    <!--
+    <%= button_to "test stream", teststream_runlists_path, class: "btn btn-primary" %>
+    <div id="teststream"></div>
+  -->
+    <div id="activerunlistrender"></div>  <!-- id sets the turbo stream page to get rendered -->
+    </br>
+
   </div>
-</br>
-  <%= turbo_frame_tag "first_turbo_frame" do %>  
-<% end %>
-</br>
-</br>
-
-<%= turbo_stream_from "testbroadcast" %>
-<div id="content">
-  <h1>Testing turbo Streams</h1>
-      <%= button_to "Stream test!", stream_page_path, class:"btn btn-primary" %>
-      <h2>This should get replaced</h2>
-</div>
-</br>
-
-
-
-<% i = 0 %>
-  <table class="table table-dark table-striped table-hover table-sm align-middle ">
-    <thead>
-      <tr>
-        <th scope="col">Job</th>
-        <th scope="col">Customer</th> 
-        <th scope="col">Ship Date</th> 
-        <th scope="col">Quantity</th>
-        <th scope="col">Material</th>
-        <th scope="col">Part number</th>
-        <th scope="col">Description</th>
-        <th scope="col">Wc vendor</th>
-        <th scope="col">Current Location</th>
-        <th scope="col">Employee</th>
-        <th scope="col">Material Pending</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @runlists.each do |runlist| %>
-        <tr>
-        <%= turbo_frame_tag "runlist_1" do %>
-         <% if runlist.WC_Vendor == @wccs %>
-          <%= render runlist %>
-         <% end %>
-        <% end %>
-        </tr>
-        <% i = i + 1 %>
-        <% if i == 50 %>
-          <% break %>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-
-<%= link_to "New runlist", new_runlist_path %>
-</div>
 </section>

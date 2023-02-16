@@ -1,52 +1,75 @@
 class RunlistsController < ApplicationController
-  before_action :set_runlist, only: %i[ show edit update destroy ]
+  before_action :set_runlist, only: %i[ show edit update destroy  ]
+  require 'date'
 
-  def stream
-    Turbo::StreamsChannel.broadcast_update_to("testbroadcast", target: "content", partial: "runlists/realtimestream")
-    @wc = :wc
+  def teststream
   end
-
-
-
-
-  def wc
-    @wc = :wc
-
-    @runlists = Runlist.ransack(params[:wc]) 
-    #redirect_to runlists_path
-    #redirect_to turninginvs_path
-    #@runlists = @q.result #auto-sort by checkout amount
-
-  #  @runlists = Runlist.where(WC_Vendor[@wc])
-  #  respond_to | format |
-   #   format.turbo_stream 
-  end
-
   # GET /runlists or /runlists.json
   def index
-  #  Runlist.importcsv
+    Runlist.importcsv #updates DB with current CSV file
     @runlists = Runlist.all
-
-    @wcs = Runlist.distinct.pluck(:WC_Vendor)
-
-
-    @wc = []
+    @wc = [] #define empty array
     i = 0
     @runlists.each do |a| 
       if i > 0
-        @wc << a.WC_Vendor #creates array of just workcenters
+        @wc << a.WC_Vendor #creates array of just workcenters 
       end
       i= i + 1
     end
     @wc.uniq! #narrows down array to only be unique workcenters
-    @wc.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 }
-    #puts @wc
-    @runlist = Runlist
+    @wc.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
+    @wc.each do |a| #check if the WC exists in Workcenter model, if not, save it into the DB
+      if Workcenter.exists?(workCenter: a) 
+      else
+        @workcenter = Workcenter.new(workCenter: a)
+        @workcenter.save
+      end
+    end
+    @departments = []
+    @d = Department.all
+    @d.each do |a|
+      @departments << a.department
+    end
+    @departments.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 }
 
-    @wcs = Runlist.where(params[:wc])
-    #@wcs.uniq!
-    @wccs = "A-SHIP"
+  end
 
+  def activerunlist #loads up selected Workcenter for Runlist
+    @wc = Runlist.where(WC_Vendor: params[:wc]) #loads all workcenters that match the select field chosen sent over using runlist_controller.js
+    @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
+    @today = Date.today#.strftime('%m-%d-%Y')
+  end
+
+  def changedepartment
+    #workcenters = Workcenter.all
+    #@department= Department.all
+    #puts workcenters
+    #puts department
+    departmentid = []
+    currentwcs = []
+    department = Department.where(department: params[:department])
+    puts department.workCenters
+    #currentwcs = Workcenter.where(departments: )
+    #currentwcs = Workcenter.where(department_id: departmentid.ids)
+    #puts @department.workcenter
+    #binding.pry
+#    @wc = Runlist.where(WC_Vendor: params[:department]) #loads all workcenters that match the select field chosen sent over using runlist_controller.js
+#    @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
+#    @today = Date.today#.strftime('%m-%d-%Y')
+  end
+
+  def checkboxsubmit #updates checkbox value when toggled
+    @runlist = Runlist.find_by_id params[:id]
+    if @runlist.matWaiting == nil 
+      @runlist.matWaiting = false
+    end
+    @runlist.matWaiting = !@runlist.matWaiting #toggles between true and false
+    @matchingJobs = Runlist.where(Job: @runlist.Job) #get every other job with same job number
+    @matchingJobs.each do |job| 
+      job.matWaiting = true #set the material waiting boolean to be the same of initial checkbox
+      job.save 
+    end
+    @runlist.save #updates DB with new value
   end
 
   # GET /runlists/1 or /runlists/1.json
@@ -65,7 +88,6 @@ class RunlistsController < ApplicationController
   # POST /runlists or /runlists.json
   def create
     @runlist = Runlist.new(runlist_params)
-
     respond_to do |format|
       if @runlist.save
         format.html { redirect_to runlist_url(@runlist), notice: "Runlist was successfully created." }
@@ -79,6 +101,9 @@ class RunlistsController < ApplicationController
 
   # PATCH/PUT /runlists/1 or /runlists/1.json
   def update
+    @runlist = Runlist.find_by_id params[:id]
+    @runlist.update runlist_params
+    @runlist.save
     respond_to do |format|
       if @runlist.update(runlist_params)
         format.html { redirect_to runlist_url(@runlist), notice: "Runlist was successfully updated." }
@@ -108,6 +133,6 @@ class RunlistsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def runlist_params
-      params.require(:runlist).permit(:Job, :Job_Operation, :WC_Vendor, :Operation_Service, :Vendor, :Sched_Start, :Sched_End, :Sequence, :Customer, :Order_Date, :Part_Number, :Rev, :Description, :Order_Quantity, :Extra_Quantity, :Pick_Quantity, :Make_Quantity, :Open_Operations, :Completed_Quantity, :Shipped_Quantity, :FG_Transfer_Qty, :In_Production_Quantity, :Certs_Required, :Act_Scrap_Quantity, :Customer_PO, :Customer_PO_LN, :Job_Sched_End, :Job_Sched_Start, :Note_Text, :Released_Date, :Material, :Mat_Vendor, :Mat_Description, :employee, :dots, :currentOp, :matWaiting)
+      params.require(:runlist).permit(:Job, :Job_Operation, :WC_Vendor, :Operation_Service, :Vendor, :Sched_Start, :Sched_End, :Sequence, :Customer, :Order_Date, :Part_Number, :Rev, :Description, :Order_Quantity, :Extra_Quantity, :Pick_Quantity, :Job, :Open_Operations, :Completed_Quantity, :Shipped_Quantity, :FG_Transfer_Qty, :In_Production_Quantity, :Certs_Required, :Act_Scrap_Quantity, :Customer_PO, :Customer_PO_LN, :Job_Sched_End, :Job_Sched_Start, :Note_Text, :Released_Date, :Material, :Mat_Vendor, :Mat_Description, :employee, :dots, :currentOp, :matWaiting)
     end
 end
