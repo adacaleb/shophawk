@@ -4,40 +4,33 @@
 
   <div data-controller="runlist" > <!-- data controller defines the stimulus controller for this div -->
     <div class="row">
-      <div class="col">
-        <h1>Runlist</h1>
+      <div class="col-3">
+        <h1>Shop Runlist</h1>
       </div>
-      <div class="col">
+      <div class="col-2">
+        <select class="form-select" data-action="change->runlist#changedepartment" > <!-- data action is the js controller to run -->
+          <option selected>Department</option>
+          <% @departments.each do |w| %>
+            <option ><%= w %></option>
+          <% end %>
+        </select>
+      </div>
+      <div class="col-auto">
+        <%= link_to "New department", new_department_path, class: "btn btn btn-secondary btn-small" %>
+      </div>
+      <div class="col" id="editDepartmentButton"></div>
+
+      <div class="col-2 justify-content-end">
         <select class="form-select" data-action="change->runlist#changeWc" > <!-- data action is the js controller to run -->
-          <option selected>Select WorkCenter</option>
+          <option selected>WorkCenter</option>
           <% @wc.each do |w| %>
             <option ><%= w %></option>
           <% end %>
         </select>
       </div>
-      <div class="col">
-        <select class="form-select" data-action="change->runlist#changedepartment" > <!-- data action is the js controller to run -->
-          <option selected>Select Department</option>
-          <% @departments.each do |w| %>
-            <option ><%= w %></option>
-          <% end %>
-        </select>
-      </br>
-      
-        <%= link_to "New department", new_department_path, data: { turbo_frame: "newDepartment"}, class: "btn btn btn-primary" %>
-
-      </div>
     </div>
-
-    <%= turbo_frame_tag "newDepartment" do %>
-    <% end %>
-
-    <!--
-    <%= button_to "test stream", teststream_runlists_path, class: "btn btn-primary" %>
-    <div id="teststream"></div>
-  -->
+  </br>
     <div id="activerunlistrender"></div>  <!-- id sets the turbo stream page to get rendered -->
     </br>
-
   </div>
 </section>

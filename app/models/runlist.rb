@@ -34,17 +34,20 @@ require 'database_cleaner/active_record'
 		runListItems = [] #empties array for new csv import
 		old = Runlist.where.not(employee: [nil, ""], dots: [nil, ""], currentOp: [nil, ""], matWaiting: [nil, "", false]) #saves what's altered to pass on later
 		CSV.foreach('app/assets/csv/runListOps.csv', headers: true, :col_sep => "`") do |row| #imports initial csv and creates all arrays needed
+			#Below line filters out old/unwanted operations
+			if row[2].to_s == "Y-WELD" || row[2].to_s == "---------" || row[2].to_s == "Y-TOOTHRND" || row[2].to_s == "Y-MILL" || row[2].to_s == "Y-KEYSEAT" || row[2].to_s == "Y-HT" || row[2].to_s == "Y-HOB" || row[2].to_s == "Y-GRIND" || row[2].to_s == "Y-BROACH" || row[2].to_s == "REMODEL" || row[2].to_s == "SHIP -HELP" || row[2].to_s == "" || row[2].to_s == "VOLUNTEER"
+			else
 				runListItems << {
-			      	Job: row[0], 
-			      	Job_Operation: row[1], 
-			      	WC_Vendor: row[2],
-			      	Operation_Service: row[3],
-			      	Vendor: row[4],
-			      	Sched_Start: row[5],
-			      	Sched_End: row[6],
-				    Sequence: row[7],
+		    	Job: row[0], 
+		    	Job_Operation: row[1], 
+		    	WC_Vendor: row[2],
+		    	Operation_Service: row[3],
+		    	Vendor: row[4],
+		    	Sched_Start: row[5],
+		    	Sched_End: row[6],
+			    Sequence: row[7],
 
-				    Customer: "", 
+			    Customer: "", 
 					Order_Date: "", 
 					Part_Number: "", 
 					Rev: "", 
@@ -68,13 +71,14 @@ require 'database_cleaner/active_record'
 					Released_Date: "",
 
 					Material: "", 
-			      	Mat_Vendor: "",
-			      	Mat_Description: "",
-			      	employee: "",
-	    			dots: "",
-	    			currentOp: "",
-	    			matWaiting: ""
-			    	}
+		    	Mat_Vendor: "",
+		    	Mat_Description: "",
+		    	employee: "",
+					dots: "",
+					currentOp: "",
+					matWaiting: ""
+		    	}
+		    end
 		end
 		runListItems.reverse! #reserves array so sequence numbers are in order for current location calculation
 		jobs = [] #new array for jobs csv
@@ -184,33 +188,35 @@ require 'database_cleaner/active_record'
 			end
 			#imports data previously saved from users into these jobs
 			old.each do |data| 
-					if data[:Job_Operation].to_s == items[:Job_Operation].to_s
-						#binding.pry
-						items[:employee] = data.employee
-						items[:currentOp] = data.currentOp
-						items[:matWaiting] = data.matWaiting
-						items[:dots] = data.dots
-						break
-					end
+				if data[:Job_Operation].to_s == items[:Job_Operation].to_s
+					#binding.pry
+					items[:employee] = data.employee
+					items[:currentOp] = data.currentOp
+					items[:matWaiting] = data.matWaiting
+					items[:dots] = data.dots
+					break
 				end
 			end
+		end
 		DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets Database
 		Runlist.import runListItems #imports new array of hashes to Database
+	
+
+		#check for new Workcenters from Jobboss and import if needed
+		@wcs = [] #initialize array
+		@runlists = Runlist.all #call all runlists
+		@runlists.each do |r| #make lists of workcenters
+			@wcs << r.WC_Vendor
+		end
+    @wcs.uniq! #narrows down array to only be unique workcenters
+    @wcs.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
+		@wcs.each do |a| #check if the WC exists in Workcenter model, if not, save it into the DB
+	    if Workcenter.exists?(workCenter: a) #if the workcenter does not exist in our list, add it to the list
+	    else
+	      @workcenter = Workcenter.new(workCenter: a)
+	      @workcenter.save
+	    end
+	  end
 	end
-
-	@wcs = []
-	@wc = Workcenter.all
-	@wc.each do |a| 
-       @wcs << a.workCenter #creates array of just workcenters 
-    end
-	@wcs.each do |a| #check if the WC exists in Workcenter model, if not, save it into the DB
-      if Workcenter.exists?(workCenter: a) 
-      else
-        @workcenter = Workcenter.new(workCenter: a)
-        @workcenter.save
-      end
-    end
-
-
 
 end

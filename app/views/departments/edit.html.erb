@@ -1,12 +1,7 @@
 <div class="text-white">
   <h1>Editing department</h1>
-
+<%= turbo_frame_tag "editdepartment" do %>
   <%= render "form", department: @department %>
-
-  <br>
-
-  <div>
-    <%= link_to "Show this department", @department %> |
-    <%= link_to "Back to departments", departments_path %>
-  </div>
-</div>
+</br>
+  <%= button_to "Destroy this department", @department, class: "btn btn-danger", method: :delete %>
+<% end %>

@@ -9,13 +9,9 @@ class RunlistsController < ApplicationController
     #Runlist.importcsv #updates DB with current CSV file. OLD: now done with rake task
     @runlists = Runlist.all
     @wc = [] #define empty array
-    i = 0
     @wcs = Workcenter.all
     @wcs.each do |a| 
-      if i > 0
-        @wc << a.workCenter #creates array of just workcenters 
-      end
-      i= i + 1
+      @wc << a.workCenter #creates array of just workcenters 
     end
     @wc.uniq! #narrows down array to only be unique workcenters
     @wc.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
@@ -36,12 +32,12 @@ class RunlistsController < ApplicationController
   end
 
   def changedepartment
-    department = Department.where(department: params[:department]) #gets department object that matches data sent form frontend
-    departmentID = department.ids #saves the ID number of department
-    @dep = Department.find_by(id: departmentID) #gets the exact object needed for model association
+    dep = Department.where(department: params[:department]) #gets department object that matches data sent form frontend
+    depID = dep.ids #saves the ID number of department
+    @department = Department.find_by(id: depID) #gets the exact object needed for model association
     #puts @dep.workcenters #model containing all objects for that department
     @wclist = [] #initiate array
-    @dep.workcenters.each do |a| #for the department, add the associated workCenters to the array
+    @department.workcenters.each do |a| #for the department, add the associated workCenters to the array
       @wclist << a.workCenter
     end
     @wc = Runlist.where(WC_Vendor: @wclist) #call all workcenters from the array

@@ -25,7 +25,6 @@ Rails.application.routes.draw do
   resources :turninginvs
   resources :millinginvs
   resources :runlists
-  resources :employees
 
 
   #patch "turninginvs/:id/checkout", to: "turninginvs#update"
