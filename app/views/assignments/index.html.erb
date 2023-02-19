@@ -1,0 +1,22 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Assignments</h1>
+
+<%= turbo_frame_tag "assignments" do %>
+    </br>
+    <div class="card text-bg-dark mb-3 ">
+      <div class="card-header">
+          <div class="col d-md-flex justify-content-end">
+          <%= link_to "Hide", runlists_path, class: "btn btn-secondary justify-content-end" %>
+        </div>
+      
+        <div class="card-body form-<%= "#{@columns}" %>-col text-white text-center">
+          <% @assignments.each do |assignment| %>
+            <%= render assignment %>
+            <%= button_to "Delete", assignment, method: :delete, class: "btn btn-danger" %>
+            
+          <% end %>
+        </div>
+    </div>
+
+<% end %>

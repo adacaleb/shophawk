@@ -10,9 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_16_143812) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_17_194553) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "assignments", force: :cascade do |t|
+    t.string "assignment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "department_assignments", force: :cascade do |t|
+    t.bigint "department_id", null: false
+    t.bigint "assignment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignment_id"], name: "index_department_assignments_on_assignment_id"
+    t.index ["department_id"], name: "index_department_assignments_on_department_id"
+  end
 
   create_table "department_workcenters", force: :cascade do |t|
     t.bigint "department_id", null: false
@@ -139,6 +154,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_143812) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "department_assignments", "assignments"
+  add_foreign_key "department_assignments", "departments"
   add_foreign_key "department_workcenters", "departments"
   add_foreign_key "department_workcenters", "workcenters"
 end

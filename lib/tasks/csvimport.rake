@@ -3,7 +3,7 @@ require 'database_cleaner/active_record'
 namespace :import do 
 	task :csv => :environment do 
 
-		
+
 			runListItems = [] #empties array for new csv import
 			old = Runlist.where.not(employee: [nil, ""], dots: [nil, ""], currentOp: [nil, ""], matWaiting: [nil, "", false]) #saves what's altered to pass on later
 			CSV.foreach('app/assets/csv/runListOps.csv', headers: true, :col_sep => "`") do |row| #imports initial csv and creates all arrays needed
@@ -181,17 +181,16 @@ namespace :import do
 			@runlists.each do |r| #make lists of workcenters
 				@wcs << r.WC_Vendor
 			end
-	    @wcs.uniq! #narrows down array to only be unique workcenters
-	    @wcs.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
+		    @wcs.uniq! #narrows down array to only be unique workcenters
+		    @wcs.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
 			@wcs.each do |a| #check if the WC exists in Workcenter model, if not, save it into the DB
 		    if Workcenter.exists?(workCenter: a) #if the workcenter does not exist in our list, add it to the list
 		    else
 		      @workcenter = Workcenter.new(workCenter: a)
 		      @workcenter.save
 		    end
-		  end
 		end
-
+ 
 
     end
 end

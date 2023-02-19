@@ -8,8 +8,12 @@
 <td><%= runlist.Description %></td>
 <td><%= runlist.Job_Sched_End %></td> <!-- ship date as last op on routing? -->
 <td><%= runlist.Customer %></td> 
-<td><%= runlist.employee %></td>
-<td><%= form.check_box :matWaiting, { data: { action: "runlist#checkBoxUpdate" }, :id => "#{runlist.id}"}  %></td>
+<td>
+	<%= select(:runlist, :employee, @as, { include_blank: true, selected: runlist.employee || nil }, { class: "form-select", :id => "#{runlist.id}", data: { action: "runlist#assignmentUpdate"}} ) %>
+</td>
+<td>
+	<%= form.check_box :matWaiting, { data: { action: "runlist#checkBoxUpdate" }, :id => "#{runlist.id}"}  %>
+</td>
 <td><%= runlist.WC_Vendor %></td>
 <td><%= runlist.currentOp %></td> <!-- calc location from sequence -->
 <% end %>

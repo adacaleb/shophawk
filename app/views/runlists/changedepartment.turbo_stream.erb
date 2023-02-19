@@ -1,6 +1,18 @@
 <%= turbo_stream.update "editDepartmentButton" do %>
-    <%= link_to "Edit Deparment", edit_department_path(@department), data: {turbo_frame: "editdepartment"}, class: "btn btn-dark btn-small" %>
+<div class="btn-group" >
+    <%= link_to "New department", new_department_path, class: "btn btn btn-success" %>
+    <%= link_to "Edit Department", edit_department_path(@department), data: {turbo_frame: "editdepartment"}, class: "btn btn-dark btn-small" %>
+  </div>
 <% end %>
+
+<%= turbo_stream.update "newassignmentbutton" do %>
+
+<div class="btn-group" >
+  <%= link_to "New assignment", new_assignment_path(:departmentid => @departmentid), data: { turbo_frame: "newassignment" }, class: "btn btn-info" %>
+  <%= link_to "Show Assignments", assignments_path(:departmentid => @departmentid), data: { turbo_frame: "assignments" } , class: "btn btn-dark" %>  
+</div>
+<% end %> 
+
 
 <%= turbo_stream.update "activerunlistrender" do %>
   <!--  <h4>Today is <%= @today = Date.today %> </h4> -->
@@ -15,7 +27,7 @@
         <th scope="col">Description</th>
         <th scope="col">Ship Date</th> 
         <th scope="col">Customer</th> 
-        <th scope="col">Employee</th>
+        <th width="200" scope="col" >Employee</th>
         <th scope="col">Material Pending</th>
         <th scope="col">Operation</th>
         <th scope="col">Current Location</th>

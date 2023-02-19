@@ -2,10 +2,11 @@ class RunlistsController < ApplicationController
   before_action :set_runlist, only: %i[ show edit update destroy  ]
   require 'date'
 
-  def teststream
-  end
+
   # GET /runlists or /runlists.json
   def index
+    #clear all data entry state variables here upon refresh
+
     #Runlist.importcsv #updates DB with current CSV file. OLD: now done with rake task
     @runlists = Runlist.all
     @wc = [] #define empty array
@@ -29,13 +30,12 @@ class RunlistsController < ApplicationController
     @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
     #puts @wc
     @today = Date.today#.strftime('%m-%d-%Y')
+    @as = [] #empty array for assignment selection because there is no department selected to sort by
   end
 
   def changedepartment
-    dep = Department.where(department: params[:department]) #gets department object that matches data sent form frontend
-    depID = dep.ids #saves the ID number of department
-    @department = Department.find_by(id: depID) #gets the exact object needed for model association
-    #puts @dep.workcenters #model containing all objects for that department
+    @department = Department.find_by(department: params[:department]) #gets department object that matches data sent form frontend
+    @departmentid = @department.id #saves the ID number of department
     @wclist = [] #initiate array
     @department.workcenters.each do |a| #for the department, add the associated workCenters to the array
       @wclist << a.workCenter
@@ -44,6 +44,11 @@ class RunlistsController < ApplicationController
     @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
     @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.WC_Vendor <=> b.WC_Vendor : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
     @today = Date.today#.strftime('%m-%d-%Y')
+    @assignments = @department.assignments
+    @as = []
+    @assignments.each do |a|
+      @as << a.assignment
+    end
   end
 
   def checkboxsubmit #updates checkbox value when toggled
@@ -58,6 +63,12 @@ class RunlistsController < ApplicationController
       job.save 
     end
     @runlist.save #updates DB with new value
+  end
+
+  def assignmentsubmit
+    @runlist = Runlist.find_by_id params[:id]
+    @runlist.employee = params[:assignment]
+    @runlist.save
   end
 
   # GET /runlists/1 or /runlists/1.json
