@@ -1,12 +1,11 @@
 class AssignmentsController < ApplicationController
-  before_action :set_assignment, only: %i[ show edit update destroy ]
+  before_action :set_assignment, only: %i[ update destroy ]
 
   # GET /assignments or /assignments.json
   def index
-    department = Department.find_by(id: params[:departmentid])
-    @assignments = department.assignments
-    @assignmentscount = department.assignments.size
-    puts @assignmentscount
+    @department = Department.find_by(id: params[:departmentid])
+    @assignments = @department.assignments
+    @assignmentscount = @department.assignments.size
     case @assignmentscount 
     when 1 #sets number of columns for css "form-#-col"
       @columns = 1
@@ -19,9 +18,6 @@ class AssignmentsController < ApplicationController
     end
   end
 
-  # GET /assignments/1 or /assignments/1.json
-  def show
-  end
 
   # GET /assignments/new
   def new
@@ -30,9 +26,6 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.new
   end
 
-  # GET /assignments/1/edit
-  def edit
-  end
 
   # POST /assignments or /assignments.json
   def create

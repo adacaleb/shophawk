@@ -34,6 +34,7 @@ class RunlistsController < ApplicationController
   end
 
   def changedepartment
+
     @department = Department.find_by(department: params[:department]) #gets department object that matches data sent form frontend
     @departmentid = @department.id #saves the ID number of department
     @wclist = [] #initiate array
@@ -57,12 +58,11 @@ class RunlistsController < ApplicationController
       @runlist.matWaiting = false
     end
     @runlist.matWaiting = !@runlist.matWaiting #toggles between true and false
-    @matchingJobs = Runlist.where(Job: @runlist.Job) #get every other job with same job number
-    @matchingJobs.each do |job| 
-      job.matWaiting = true #set the material waiting boolean to be the same of initial checkbox
+    @runlists = Runlist.where(Job: @runlist.Job) #get every other job with same job number
+    @runlists.each do |job| 
+      job.matWaiting = !job.matWaiting #set the material waiting boolean to be the same of initial checkbox to be opposite whatever it is. 
       job.save 
     end
-    @runlist.save #updates DB with new value
   end
 
   def assignmentsubmit

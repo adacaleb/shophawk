@@ -14,23 +14,24 @@
 <% end %> 
 
 
+
 <%= turbo_stream.update "activerunlistrender" do %>
   <!--  <h4>Today is <%= @today = Date.today %> </h4> -->
   <% i = 0 %>
-  <table class="table table-dark table-striped table-hover align-middle table table-bordered text-center" >
+  <table style="table-layout:fixed" class="table table-dark table-striped table-hover align-middle table table-bordered text-center" >
     <thead>
       <tr>
-        <th scope="col">Job</th>
-        <th scope="col">Qty</th>
-        <th scope="col">Material</th>
-        <th scope="col">Part number</th>
-        <th scope="col">Description</th>
-        <th scope="col">Ship Date</th> 
-        <th scope="col">Customer</th> 
-        <th width="200" scope="col" >Employee</th>
-        <th scope="col">Material Pending</th>
-        <th scope="col">Operation</th>
-        <th scope="col">Current Location</th>
+        <th width="70px" scope="col">Job</th>
+        <th width="40px" style="font-size: 12px" scope="col">Qty</th>
+        <th width="100px" scope="col">Material</th>
+        <th width="100px" scope="col">Part number</th>
+        <th width="140px" scope="col">Description</th>
+        <th width="100px" scope="col">Ship Date</th> 
+        <th width="100px" scope="col">Customer</th> 
+        <th width="125px" scope="col" >Employee</th>
+        <th width="50px" style="font-size: 10px" scope="col">Material Pending</th>
+        <th width="90px" style="font-size: 14px" scope="col">Operation</th>
+        <th width="90px" style="font-size: 12px" scope="col">Current Location</th>
       </tr>
     </thead>
     <tbody>
@@ -44,19 +45,19 @@
             <% if startDate.before? @today %>
               <% @rowColor = "table-warning" %>
               <tr >
-                <th colspan="2" class="table-light"><%= runlist.Sched_Start %></th>
+                <th colspan="2" class="table-light" style="font-size: 14px"><%= runlist.Sched_Start %></th>
               </tr>
             <% end %>
             <% if startDate == @today %>
               <% @rowColor = "table-success" %>
               <tr >
-                <th colspan="2" class="table-light"><%= runlist.Sched_Start %></th>
+                <th colspan="2" class="table-light" style="font-size: 14px"><%= runlist.Sched_Start %></th>
               </tr>
             <% end %>
             <% if startDate.after? @today %>
               <% @rowColor = "table-default" %>
               <tr>
-                <th colspan="2" class="table-light"><%= runlist.Sched_Start %></th>
+                <th colspan="2" class="table-light" style="font-size: 14px"><%= runlist.Sched_Start %></th>
               </tr>
             <% end %>
           <% end %>

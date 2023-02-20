@@ -5,7 +5,7 @@ namespace :import do
 
 
 			runListItems = [] #empties array for new csv import
-			old = Runlist.where.not(employee: [nil, ""], dots: [nil, ""], currentOp: [nil, ""], matWaiting: [nil, "", false]) #saves what's altered to pass on later
+			old = Runlist.where.not(employee: [nil, ""], dots: [nil, ""], currentOp: [nil, ""], matWaiting: [nil, "", false], Material: [nil, ""]) #saves what's altered to pass on later
 			CSV.foreach('app/assets/csv/runListOps.csv', headers: true, :col_sep => "`") do |row| #imports initial csv and creates all arrays needed
 				#Below line filters out old/unwanted operations
 				if row[2].to_s == "Y-WELD" || row[2].to_s == "---------" || row[2].to_s == "Y-TOOTHRND" || row[2].to_s == "Y-MILL" || row[2].to_s == "Y-KEYSEAT" || row[2].to_s == "Y-HT" || row[2].to_s == "Y-HOB" || row[2].to_s == "Y-GRIND" || row[2].to_s == "Y-BROACH" || row[2].to_s == "REMODEL" || row[2].to_s == "SHIP -HELP" || row[2].to_s == "" || row[2].to_s == "VOLUNTEER"
@@ -44,9 +44,10 @@ namespace :import do
 						Released_Date: "",
 
 						Material: "", 
-			    	Mat_Vendor: "",
-			    	Mat_Description: "",
-			    	employee: "",
+			    		Mat_Vendor: "",
+			    		Mat_Description: "",
+
+			    		employee: "",
 						dots: "",
 						currentOp: "",
 						matWaiting: ""
@@ -167,6 +168,13 @@ namespace :import do
 						items[:currentOp] = data.currentOp
 						items[:matWaiting] = data.matWaiting
 						items[:dots] = data.dots
+						#material is tricky. I don't want to export EVERY materail history with the export script. But it's only exporting material
+						#who's operation is still open for, thus removing the material from every following job in the runlist after the saw
+						#department completes their operation.  To get around this, we save every runlist op that has material populated, and copy it over
+						#to the new data here if the operation still exists. 
+						items[:Material] = data.Material
+						items[:Mat_Vendor] = data.Mat_Vendor
+						items[:Mat_Description] = data.Mat_Description
 						break
 					end
 				end

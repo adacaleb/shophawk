@@ -3,18 +3,18 @@
 <%= form_with model: runlist do |form| %>
 <td><%= runlist.Job %></td>
 <td><%= runlist.Make_Quantity %></td>
-<td><%= runlist.Material %></td>
-<td><%= runlist.Part_Number %></td>
-<td><%= runlist.Description %></td>
+<td style="font-size: 1vw" class="text-wrap"><%= runlist.Material %></td>
+<td style="font-size: 1vw" class="text-wrap"><%= runlist.Part_Number %></td>
+<td style="font-size: 1vw" class="text-wrap"><%= runlist.Description %></td>
 <td><%= runlist.Job_Sched_End %></td> <!-- ship date as last op on routing? -->
-<td><%= runlist.Customer %></td> 
+<td style="font-size: 1vw" class="text-wrap"><%= runlist.Customer %></td> 
 <td>
 	<%= select(:runlist, :employee, @as, { include_blank: true, selected: runlist.employee || nil }, { class: "form-select", :id => "#{runlist.id}", data: { action: "runlist#assignmentUpdate"}} ) %>
 </td>
 <td>
-	<%= form.check_box :matWaiting, { data: { action: "runlist#checkBoxUpdate" }, :id => "#{runlist.id}"}  %>
+	<%= form.check_box :matWaiting, { data: { action: "runlist#checkBoxUpdate" }, :id => "#{runlist.id}"} %>
 </td>
-<td><%= runlist.WC_Vendor %></td>
-<td><%= runlist.currentOp %></td> <!-- calc location from sequence -->
+<td style="font-size: .9vw"><%= runlist.WC_Vendor %></td>
+<td style="font-size: .9vw"><%= runlist.currentOp %></td> <!-- calc location from sequence -->
 <% end %>
 

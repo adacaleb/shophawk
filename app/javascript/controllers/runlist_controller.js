@@ -10,7 +10,7 @@ export default class extends Controller {
     get(`/runlists/activerunlist?wc=${wc}`, { responseKind: "turbo-stream"}) //runs this route passing on the "wc" variable as a param, asks for turbo-stream in response
   }
 
-    changedepartment(event) {
+  changedepartment(event) {
     console.log(event.target.selectedOptions[0].value) //displays selection in browser console
     let department = event.target.selectedOptions[0].value //assigns selection to a variable
     get(`/runlists/changedepartment?department=${department}`, { responseKind: "turbo-stream"}) //runs this route passing on the "department" variable as a param, asks for turbo-stream in response
@@ -27,8 +27,8 @@ export default class extends Controller {
     //console.log(event.currentTarget.id)
     let id = event.currentTarget.id
     let assignment = event.target.selectedOptions[0].value
-
     get(`/runlists/assignmentsubmit?id=${id}&assignment=${assignment}`)
   }
+
 
 }

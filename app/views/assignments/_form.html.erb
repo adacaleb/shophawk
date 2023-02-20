@@ -1,10 +1,10 @@
-<%= form_with(model: assignment) do |form| %>
-  <% if assignment.errors.any? %>
+<%= form_with(model: @assignment) do |form| %>
+  <% if @assignment.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(assignment.errors.count, "error") %> prohibited this assignment from being saved:</h2>
 
       <ul>
-        <% assignment.errors.each do |error| %>
+        <% @assignment.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -12,7 +12,7 @@
   <% end %>
   <div class="row">
     <div class="col">
-      <%= form.text_field :assignment, class: "form-control", :autofocus => true, placeholder: "Enter New Assignment" %>
+      <%= form.text_field :assignment, class: "form-control", :autofocus => true, placeholder: "Enter a new assignment for #{@department.department}" %>
     </div>
     <div class="col">
       <%= hidden_field_tag(:departmentid, @departmentid) %>
