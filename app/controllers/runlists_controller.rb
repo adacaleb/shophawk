@@ -30,7 +30,16 @@ class RunlistsController < ApplicationController
     @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
     #puts @wc
     @today = Date.today#.strftime('%m-%d-%Y')
-    @as = [] #empty array for assignment selection because there is no department selected to sort by
+        
+
+#    @departments = Department.all
+    @as = []
+#    @departments.each do |department|
+#      department.assignments.each do |a|
+#        @as << a.assignment
+#      end
+#    end
+      
   end
 
   def changedepartment
@@ -44,7 +53,7 @@ class RunlistsController < ApplicationController
     @wc = Runlist.where(WC_Vendor: @wclist) #call all workcenters from the array
     @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
     @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.WC_Vendor <=> b.WC_Vendor : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
-    @today = Date.today#.strftime('%m-%d-%Y')
+    @today = Date.today #.strftime('%m-%d-%Y')
     @assignments = @department.assignments
     @as = []
     @assignments.each do |a|

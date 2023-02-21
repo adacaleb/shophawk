@@ -1,0 +1,1 @@
+call rails s -e production %*

@@ -9,7 +9,7 @@
 <td><%= runlist.Job_Sched_End %></td> <!-- ship date as last op on routing? -->
 <td style="font-size: 1vw" class="text-wrap"><%= runlist.Customer %></td> 
 <td>
-	<%= select(:runlist, :employee, @as, { include_blank: true, selected: runlist.employee || nil }, { class: "form-select", :id => "#{runlist.id}", data: { action: "runlist#assignmentUpdate"}} ) %>
+	<%= select(:runlist, :employee, @as, { include_blank: true, prompt: runlist.employee || nil }, { class: "form-select", :id => "#{runlist.id}", data: { action: "runlist#assignmentUpdate"}} ) %>
 </td>
 <td>
 	<%= form.check_box :matWaiting, { data: { action: "runlist#checkBoxUpdate" }, :id => "#{runlist.id}"} %>

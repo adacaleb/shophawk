@@ -205,7 +205,7 @@ require 'database_cleaner/active_record'
 					end
 				end
 			end
-			DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets Database
+			DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets Runlist Database
 			Runlist.import runListItems #imports new array of hashes to Database
 		
 

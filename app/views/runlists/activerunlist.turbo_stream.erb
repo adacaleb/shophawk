@@ -25,7 +25,7 @@
             <% startDate = Date.strptime(date, "%m/%d/%Y") %> <!-- converts string to date type variable -->
             <% if @previousStartDate != startDate %> <!-- don't render another header if the date is same as previous -->
               <% if startDate.before? @today %>
-                <% @rowColor = "table-warning" %>
+                <% @rowColor = "table-danger" %>
                 <tr >
                   <th colspan="2" class="table-light" style="font-size: 14px"><%= runlist.Sched_Start %></th>
                 </tr>
