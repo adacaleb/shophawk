@@ -36,16 +36,16 @@ test:
 production:
   <<: *default
   #use for local server database
-  #database: shophawk
-  #host: 127.0.0.1
-  #username: postgres
-  #password: Gear1234
-  #prepared_statements: false
-  #advisory_locks: false
-  #port: 5432
+  database: shophawk
+  host: 127.0.0.1
+  username: postgres
+  password: Gear1234
+  prepared_statements: false
+  advisory_locks: false
+  port: 5432
 
 
   #use these settings for Heroku
-  adapter: postgresql
-  prepared_statements: false
-  advisory_locks: false
+  #adapter: postgresql
+  #prepared_statements: false
+  #advisory_locks: false
