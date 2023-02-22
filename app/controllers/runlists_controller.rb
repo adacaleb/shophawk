@@ -1,5 +1,5 @@
 class RunlistsController < ApplicationController
-  before_action :set_runlist, only: %i[ show edit update destroy  ]
+  before_action :set_runlist, only: %i[ show update destroy  ]
   require 'date'
 
 
@@ -9,13 +9,13 @@ class RunlistsController < ApplicationController
 
     #Runlist.importcsv #updates DB with current CSV file. OLD: now done with rake task
     @runlists = Runlist.all
-    @wc = [] #define empty array
+    @workCenters = [] #define empty array
     @wcs = Workcenter.all
     @wcs.each do |a| 
-      @wc << a.workCenter #creates array of just workcenters 
+      @workCenters << a.workCenter #creates array of just workcenters 
     end
-    @wc.uniq! #narrows down array to only be unique workcenters
-    @wc.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
+    @workCenters.uniq! #narrows down array to only be unique workcenters
+    @workCenters.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
     @departments = []
     @d = Department.all
     @d.each do |a|
@@ -31,16 +31,21 @@ class RunlistsController < ApplicationController
     @wc = Runlist.find_by( WC_Vendor: params[:wc])
     @wcName = @wc.WC_Vendor
     @today = Date.today#.strftime('%m-%d-%Y')
-        
-
-#    @departments = Department.all
     @as = []
-#    @departments.each do |department|
-#      department.assignments.each do |a|
-#        @as << a.assignment
-#      end
-#    end
-      
+    @d = Department.all
+    @departments = []
+    @d.each do |a|
+      @departments << a.department
+    end
+    @departments.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 }
+  end
+
+  def departmentselect
+    @d = Department.all
+    @d.each do |a|
+      @departments << a.department
+    end
+    @departments.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 }
   end
 
   def changedepartment
@@ -61,6 +66,13 @@ class RunlistsController < ApplicationController
     @assignments.each do |a|
       @as << a.assignment
     end
+    @workCenters = [] #define empty array
+    @wcs = Workcenter.all
+    @wcs.each do |a| 
+      @workCenters << a.workCenter #creates array of just workcenters 
+    end
+    @workCenters.uniq! #narrows down array to only be unique workcenters
+    @workCenters.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
   end
 
   def checkboxsubmit #updates checkbox value when toggled
@@ -76,23 +88,24 @@ class RunlistsController < ApplicationController
     end
   end
 
+  def newassignment
+    @department = Department.find_by(id: params[:departmentid]) #get matching department
+    #@departmentName = @department.department
+    @departmentid = @department.id #save its ID. this is passed on with a hidden text field in the new assignment form
+    @assignment = Assignment.new
+  end
+
   def assignmentsubmit
     @runlist = Runlist.find_by_id params[:id]
     @runlist.employee = params[:assignment]
     @runlist.save
   end
 
+  def closestreams
+  end
+
   # GET /runlists/1 or /runlists/1.json
   def show
-  end
-
-  # GET /runlists/new
-  def new
-    @runlist = Runlist.new
-  end
-
-  # GET /runlists/1/edit
-  def edit
   end
 
   # POST /runlists or /runlists.json

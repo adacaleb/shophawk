@@ -1,4 +1,14 @@
-<%= turbo_stream.update "refreshDepartment" do %>
+<%= turbo_stream.update "departmentselect" do %>
+
+  <select class="form-select" data-action="change->runlist#changedepartment"> <!-- data action is the js controller to run -->
+      <option selected>Department</option>
+      <% @departments.each do |w| %>
+        <option ><%= w %></option>
+      <% end %>
+  </select>
+<% end %>
+
+<%= turbo_stream.update "refresh" do %>
 <div class="row">
   <div class="col-5"></div>
   <div class="col">
@@ -9,6 +19,16 @@
   </div>
 </div>
 <% end %>
+
+<%= turbo_stream.update "editDepartmentButton" do %>
+<% end %>
+
+<%= turbo_stream.update "newassignmentbutton" do %>
+<% end %> 
+
+<%= turbo_stream.update "newAssignment" do %>
+<% end %>
+
 
 <%= turbo_stream.update "activerunlistrender" do %>
     <% i = 0 %>

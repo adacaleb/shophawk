@@ -2,27 +2,30 @@
     <div class="text-white">
       <div class="row">
         <div class="col-3">
-          <select class="form-select" data-action="change->runlist#changedepartment"> <!-- data action is the js controller to run -->
-            <option selected>Department</option>
-            <% @departments.each do |w| %>
+          <div id="departmentselect">
+            <select class="form-select" data-action="change->runlist#changedepartment"> <!-- data action is the js controller to run -->
+              <option selected>Department</option>
+              <% @departments.each do |w| %>
               <option ><%= w %></option>
-            <% end %>
-          </select>
+              <% end %>
+            </select>
+          </div>
         </div>
         <div class="col" id="editDepartmentButton">
           <%= link_to "New department", new_department_path, class: "btn btn btn-success" %>
         </div>
         <div class="col-auto" id="newassignmentbutton"></div>
-        <div class="col-2 justify-content-end">
-          <select class="form-select" data-action="change->runlist#changeWc" > <!-- data action is the js controller to run -->
+        <div id="wcSelect" class="col-2 justify-content-end">
+          <select class="form-select" data-action="change->runlist#changeWc"> <!-- data action is the js controller to run -->
             <option selected>WorkCenter</option>
-            <% @wc.each do |w| %>
+            <% @workCenters.each do |w| %>
               <option ><%= w %></option>
             <% end %>
           </select>
         </div>
       </div>
-    <div id="refreshDepartment"></div>
+    <div id="refresh"></div>
+    <div id="newAssignment"></div>
     </br>
     <div id="activerunlistrender"></div>  <!-- id sets the turbo stream page to get rendered -->
 

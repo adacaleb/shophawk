@@ -1,3 +1,12 @@
+<%= turbo_stream.update "wcSelect" do %>
+  <select class="form-select" data-action="change->runlist#changeWc"> <!-- data action is the js controller to run -->
+    <option selected>WorkCenter</option>
+    <% @workCenters.each do |w| %>
+      <option ><%= w %></option>
+    <% end %>
+  </select>
+<% end %>
+
 <%= turbo_stream.update "editDepartmentButton" do %>
 <div class="btn-group" >
     <%= link_to "New department", new_department_path, class: "btn btn btn-success" %>
@@ -6,14 +15,13 @@
 <% end %>
 
 <%= turbo_stream.update "newassignmentbutton" do %>
-
 <div class="btn-group" >
-  <%= link_to "New assignment", new_assignment_path(:departmentid => @departmentid), data: { turbo_frame: "newassignment" }, class: "btn btn-info" %>
-  <%= link_to "Show Assignments", assignments_path(:departmentid => @departmentid), data: { turbo_frame: "assignments" } , class: "btn btn-dark" %>  
+  <%= link_to "New assignment", newassignment_runlists_path(:departmentid => @departmentid), data: { turbo_frame: "newassignment" }, class: "btn btn-info" %>
+  <%= link_to "Show Assignments", assignments_path(:departmentid => @departmentid, :department => @department), data: { turbo_frame: "assignments" } , class: "btn btn-dark" %>  
 </div>
 <% end %> 
 
-<%= turbo_stream.update "refreshDepartment" do %>
+<%= turbo_stream.update "refresh" do %>
 <div class="row">
   <div class="col-1">
     <%= link_to "Refresh", changedepartment_runlists_path(:department => @departmentName), class: "btn btn-secondary" %>
@@ -25,6 +33,10 @@
   <div class="col"></div>
 </div>
 <% end %>
+
+<%= turbo_stream.update "newAssignment" do %>
+<% end %>
+
 
 <%= turbo_stream.update "activerunlistrender" do %>
   <!--  <h4>Today is <%= @today = Date.today %> </h4> -->

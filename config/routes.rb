@@ -8,6 +8,9 @@ Rails.application.routes.draw do
       get :checkboxsubmit, defaults: { format: :turbo_stream }
       get :changedepartment, defaults: { format: :turbo_stream } #need to have a view.turbo_stream.erb to render to work
       get :assignmentsubmit, defaults: { format: :turbo_stream } #used to call controller to save assignment selection
+      get :editassignments, defaults: { format: :turbo_stream }
+      get :newassignment, defaults: { format: :turbo_stream }
+      get :closestreams, defaults: { format: :turbo_stream }
     end
   end
 
