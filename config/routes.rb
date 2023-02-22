@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     collection do
       get :activerunlist
       get :checkboxsubmit
-      get :changedepartment #need to have a view.turbo_stream.erb to render to work
+      get :changedepartment, defaults: { format: :turbo_stream } #need to have a view.turbo_stream.erb to render to work
       get :assignmentsubmit #used to call controller to save assignment selection
     end
   end

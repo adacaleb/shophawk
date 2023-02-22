@@ -46,6 +46,7 @@ class RunlistsController < ApplicationController
 
     @department = Department.find_by(department: params[:department]) #gets department object that matches data sent form frontend
     @departmentid = @department.id #saves the ID number of department
+    @departmentName = @department.department
     @wclist = [] #initiate array
     @department.workcenters.each do |a| #for the department, add the associated workCenters to the array
       @wclist << a.workCenter
