@@ -26,9 +26,10 @@ class RunlistsController < ApplicationController
   end
 
   def activerunlist #loads up selected Workcenter for Runlist
-    @wc = Runlist.where(WC_Vendor: params[:wc]) #loads all workcenters that match the select field chosen sent over using runlist_controller.js
-    @wc = @wc.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
-    #puts @wc
+    @workCenters = Runlist.where(WC_Vendor: params[:wc]) #loads all workcenters that match the select field chosen sent over using runlist_controller.js
+    @workCenters = @workCenters.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
+    @wc = Runlist.find_by( WC_Vendor: params[:wc])
+    @wcName = @wc.WC_Vendor
     @today = Date.today#.strftime('%m-%d-%Y')
         
 
