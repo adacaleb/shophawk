@@ -16,7 +16,7 @@
     </div>
     <div class="col">
       <%= hidden_field_tag(:departmentid, @departmentid) %>
-      <%= form.submit class: "btn btn-primary", data: { action: "change->runlist#changedepartment"} %>
+      <%= form.submit class: "btn btn-primary" %>
     </div>
     <div class="col d-md-flex justify-content-end">
       <%= link_to "Cancel", closestreams_runlists_path,  class: "btn btn-secondary" %>

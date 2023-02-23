@@ -5,12 +5,51 @@ require 'csv'
 require 'database_cleaner/active_record'
 #The CSV Import code is running as a rake task save in /lib/tasks/csvimport.  It's then ran via a .bat file on the desktop "csvimport.bat", and ran via the windows task scheduler every 5 minutes
 	
+	def self.getDepartments
+		#load and sort departments for select box
+	    @departments = []
+	    @d = Department.all
+	    @d.each do |a|
+	      @departments << a.department
+	    end
+	    return @departments.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 }
+	end
+
+	def self.getWorkcenters
+		#Load and sort workcenters for select box
+		@workCenters = [] #define empty array
+    	@wcs = Workcenter.all
+    	@wcs.each do |a| 
+      		@workCenters << a.workCenter #creates array of just workcenters 
+	    end
+	    @workCenters.uniq! #narrows down array to only be unique workcenters
+	    return @workCenters.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
+	end 
+
+	def self.loadOperations(workCentersToShow, isDepartment)
+		@operations = Runlist.where(WC_Vendor: workCentersToShow) 
+	    @operations = @operations.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
+	    if isDepartment == true
+	    	@operations = @operations.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.WC_Vendor <=> b.WC_Vendor : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
+	    end
+	    @operations.each do |op| #sorts the date field to look correct for user
+	      year = op.Sched_Start[0..3]
+	      day = op.Sched_Start[8..9]
+	      month = op.Sched_Start[5..7]
+	      op.Sched_Start = "#{month}#{day}-#{year}"
+	    end
+	    return @operations
+	end
+
+
+
+
 	def self.importcsv
 	runListItems = [] #empties array for new csv import
 			old = Runlist.where.not(employee: [nil, ""], dots: [nil, ""], matWaiting: [nil, "", false], Material: [nil, ""]) #saves what's altered to pass on later
 			CSV.foreach('app/assets/csv/runListOps.csv', headers: true, :col_sep => "`") do |row| #imports initial csv and creates all arrays needed
 				#Below line filters out old/unwanted operations
-				if row[2].to_s == "Y-WELD" || row[2].to_s == "---------" || row[2].to_s == "Y-TOOTHRND" || row[2].to_s == "Y-MILL" || row[2].to_s == "Y-KEYSEAT" || row[2].to_s == "Y-HT" || row[2].to_s == "Y-HOB" || row[2].to_s == "Y-GRIND" || row[2].to_s == "Y-BROACH" || row[2].to_s == "REMODEL" || row[2].to_s == "SHIP -HELP" || row[2].to_s == "" || row[2].to_s == "VOLUNTEER" || row[2].to_s == "Y-TURN"
+				if row[2].to_s == "Y-WELD" || row[2].to_s == "---------" || row[2].to_s == "Y-TOOTHRND" || row[2].to_s == "Y-MILL" || row[2].to_s == "Y-KEYSEAT" || row[2].to_s == "Y-HT" || row[2].to_s == "Y-HOB" || row[2].to_s == "Y-GRIND" || row[2].to_s == "Y-BROACH" || row[2].to_s == "REMODEL" || row[2].to_s == "SHIP -HELP" || row[2].to_s == "" || row[2].to_s == "VOLUNTEER" || row[2].to_s == "Y-TURN" || row[5] == "NULL"
 				else
 					runListItems << {
 			    	Job: row[0], 
@@ -100,10 +139,10 @@ require 'database_cleaner/active_record'
 				if schedSrt == "NULL"
 						schedSrt = ""
 				else
-					year = schedSrt[0..3]
-					day = schedSrt[8..9]
-					month = schedSrt[5..7]
-					items[:Sched_Start] = "#{month}#{day}-#{year}"
+#					year = schedSrt[0..3]
+#					day = schedSrt[8..9]
+#					month = schedSrt[5..7]
+#					items[:Sched_Start] = "#{month}#{day}-#{year}"
 				end
 				#calculate current location
 				if @firstWc == nil #initialize variable
