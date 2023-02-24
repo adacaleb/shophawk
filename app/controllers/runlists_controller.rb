@@ -13,7 +13,7 @@ class RunlistsController < ApplicationController
     @today = Date.today#.strftime('%m-%d-%Y')
     @departments = Runlist.getDepartments
     #load all operations that match the select field chosen sent over using runlist_controller.js
-    @operations = Runlist.loadOperations(params[:wc], false)
+    @operations = Runlist.loadOperations(params[:wc], false, true)
     @as = [] #empty assignments array
     
   end

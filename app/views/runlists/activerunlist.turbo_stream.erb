@@ -21,6 +21,7 @@
 <% end %>
 
 <%= turbo_stream.update "editDepartmentButton" do %>
+<%= link_to "New department", new_department_path, class: "btn btn btn-success" %>
 <% end %>
 
 <%= turbo_stream.update "newassignmentbutton" do %>
@@ -65,7 +66,7 @@
                 </tr>
               <% end %>
               <% if startDate == @today %>
-                <% @rowColor = "table-success" %>
+                <% @rowColor = "table-light" %>
                 <tr >
                   <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
                 </tr>
@@ -75,6 +76,9 @@
                 <tr>
                   <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
                 </tr>
+              <% end %>
+              <% if op.status == "S" %>
+                <% @rowColor = "table-info" %>
               <% end %>
             <% end %>
             <% @previousStartDate = startDate %>
@@ -86,7 +90,7 @@
             <% break %>
           <% end %>
 
-        <% end %>
-      </tbody>
-    </table>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>

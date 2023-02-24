@@ -155,7 +155,7 @@ namespace :import do
 				end
 				#merge material data
 				mat.each do |row|
-					if items[:Job] == row[:Job] 
+					if items[:Job] == row[:Job]
 						items[:Material] = row[:Material]
 						items[:Mat_Vendor] = row[:Mat_Vendor]
 						items[:Mat_Description] = row[:Mat_Description]
@@ -174,14 +174,19 @@ namespace :import do
 						#who's operation is still open for, thus removing the material from every following job in the runlist after the saw
 						#department completes their operation.  To get around this, we save every runlist op that has material populated, and copy it over
 						#to the new data here if the operation still exists. 
-						items[:Material] = data.Material
-						items[:Mat_Vendor] = data.Mat_Vendor
-						items[:Mat_Description] = data.Mat_Description
+						#items[:Material] = data.Material
+						#items[:Mat_Vendor] = data.Mat_Vendor
+						#items[:Mat_Description] = data.Mat_Description
 						break
 					end
 				end
+
+				if items[:Material] == ""
+					items[:Material] = "Customer Supplied"
+				end
+
 			end
-			DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets Database
+			DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets runlists database table
 			Runlist.import runListItems #imports new array of hashes to Database
 		
 
