@@ -16,10 +16,14 @@
         <div class="col"><%= form.submit class: "btn btn-primary" %></div>
         <div class="col"><%= link_to "Cancel", runlists_path, class: "btn btn-secondary" %></div>
       </div>
-      </br>
+      
+      <div class="form-check form-switch">
+          <%= form.check_box :started, {class: "form-check-input", type: "checkbox", role: "switch"} %> <h5></h5>
+          <%= form.label :started, "Show started jobs for this Department" %>
+      </div>
     </div>
-    <div class="card-body">   
-      <div class="form-5-col form-check form-switch">
+    <div class="card-body ">
+      <div class="form-4-col form-check form-switch">
         <%= form.collection_check_boxes(:workcenter_ids, Workcenter.all, :id, :workCenter) do |b| %>
           <li>
             <%= b.check_box(class: "form-check-input", type: "checkbox", role: "switch") %>

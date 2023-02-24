@@ -26,8 +26,14 @@ require 'database_cleaner/active_record'
 	    return @workCenters.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
 	end 
 
-	def self.loadOperations(workCentersToShow, isDepartment)
-		@operations = Runlist.where(WC_Vendor: workCentersToShow) 
+	def self.loadOperations(workCentersToShow, isDepartment, showStarted)
+		show = []
+		if showStarted == true #sets variable to compare against to render started jobs or not based on status
+			show = ["S", "O"]
+		else
+			show = ["O"]
+		end
+		@operations = Runlist.where(WC_Vendor: workCentersToShow, status: show) 
 	    @operations = @operations.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.Job <=> b.Job : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within
 	    if isDepartment == true
 	    	@operations = @operations.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.WC_Vendor <=> b.WC_Vendor : a.Sched_Start <=> b.Sched_Start } #sorts items by schedule start date, then job # within

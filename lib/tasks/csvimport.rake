@@ -19,6 +19,8 @@ namespace :import do
 			    	Sched_Start: row[5],
 			    	Sched_End: row[6],
 				    Sequence: row[7],
+					status: row[8],
+
 
 				    Customer: "", 
 						Order_Date: "", 
