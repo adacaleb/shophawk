@@ -12,7 +12,9 @@
 	<%= select(:runlist, :employee, @as, { include_blank: true, prompt: runlist.employee || nil }, { class: "form-select", :id => "#{runlist.id}", data: { action: "runlist#assignmentUpdate"}} ) %>
 </td>
 <td>
-	<%= form.check_box :matWaiting, { data: { action: "runlist#checkBoxUpdate" }, :id => "#{runlist.id}"} %>
+	<div class="form-check form-switch" >
+		<%= form.check_box :matWaiting, { data: { action: "runlist#checkBoxUpdate" }, :id => "#{runlist.id}", class: "form-check-input", type: "checkbox", role: "switch"} %>
+	</div>
 </td>
 <td style="font-size: .9vw"><%= runlist.WC_Vendor %></td>
 <td style="font-size: .9vw"><%= runlist.currentOp %></td> <!-- calc location from sequence -->

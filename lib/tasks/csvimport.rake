@@ -23,36 +23,36 @@ namespace :import do
 
 
 				    Customer: "", 
-						Order_Date: "", 
-						Part_Number: "", 
-						Rev: "", 
-						Description: "", 
-						Order_Quantity: "", 
-						Extra_Quantity: "", 
-						Pick_Quantity: "", 
-						Make_Quantity: "",
-						Open_Operations: "", 
-						Completed_Quantity: "", 
-						Shipped_Quantity: "", 
-						FG_Transfer_Qty: "", 
-						In_Production_Quantity: "", 
-						Certs_Required: "", 
-						Act_Scrap_Quantity: "", 
-						Customer_PO: "", 
-						Customer_PO_LN: "", 
-						Job_Sched_End: "", 
-						Job_Sched_Start: "", 
-						Note_Text: "", 
-						Released_Date: "",
+					Order_Date: "", 
+					Part_Number: "", 
+					Rev: "", 
+					Description: "", 
+					Order_Quantity: "", 
+					Extra_Quantity: "", 
+					Pick_Quantity: "", 
+					Make_Quantity: "",
+					Open_Operations: "", 
+					Completed_Quantity: "", 
+					Shipped_Quantity: "", 
+					FG_Transfer_Qty: "", 
+					In_Production_Quantity: "", 
+					Certs_Required: "", 
+					Act_Scrap_Quantity: "", 
+					Customer_PO: "", 
+					Customer_PO_LN: "", 
+					Job_Sched_End: "", 
+					Job_Sched_Start: "", 
+					Note_Text: "", 
+					Released_Date: "",
 
-						Material: "", 
-			    		Mat_Vendor: "",
-			    		Mat_Description: "",
+					Material: "", 
+		    		Mat_Vendor: "",
+		    		Mat_Description: "",
 
-			    		employee: "",
-						dots: "",
-						currentOp: "",
-						matWaiting: ""
+		    		employee: "",
+					dots: "",
+					currentOp: "",
+					matWaiting: ""
 			    	}
 			    end
 			end
@@ -86,12 +86,19 @@ namespace :import do
 				}
 			end
 			mat = [] #new array for material import
+			matStats = []
 			CSV.foreach('app/assets/csv/tempmat.csv', 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
 				mat << {
 					Job: row[0],
 					Material: row[1], 
 			      	Mat_Vendor: row[2],
 			      	Mat_Description: row[3]
+					}
+					#Below is saved for calculating if material pending should be removed or added after all merging is done. 
+					matStats << {
+						Job: row[0],
+						buyOrPick: row[4],
+						status: row[5]
 					}
 			end		
 
@@ -115,7 +122,6 @@ namespace :import do
 					@firstWc = items[:WC_Vendor]
 					items[:currentOp] = @firstWc
 				end
-				@lastJob = items[:Job]
 				#merge Jobs data
 				jobs.each do |row|
 					schEnd = row[:Job_Sched_End].to_s #reorganize date field
@@ -165,18 +171,10 @@ namespace :import do
 				#imports data previously saved from users into these jobs
 				old.each do |data| 
 					if data[:Job_Operation].to_s == items[:Job_Operation].to_s
-						#binding.pry
 						items[:employee] = data.employee
-						#items[:currentOp] = data.currentOp
 						items[:matWaiting] = data.matWaiting
 						items[:dots] = data.dots
-						#material is tricky. I don't want to export EVERY materail history with the export script. But it's only exporting material
-						#who's operation is still open for, thus removing the material from every following job in the runlist after the saw
-						#department completes their operation.  To get around this, we save every runlist op that has material populated, and copy it over
-						#to the new data here if the operation still exists. 
-						#items[:Material] = data.Material
-						#items[:Mat_Vendor] = data.Mat_Vendor
-						#items[:Mat_Description] = data.Mat_Description
+						#material export includes the exact previous year of data for import
 						break
 					end
 				end
@@ -184,26 +182,63 @@ namespace :import do
 				if items[:Material] == ""
 					items[:Material] = "Customer Supplied"
 				end
-
+				@anypreviousTrue = false #initiate variable
+				@anypreviousFalse = false
+				@inLoop = false
+				matStats.each do |stats|
+					if items[:Job] == stats[:Job]
+						if @lastMaterialJob != stats[:Job] && @inLoop == true #if it's a mat req under the same job, but technically different
+							@anypreviousTrue = false
+							@anypreviousFalse = false
+							break
+						end
+						#Situations to turn ON Material Pending
+						if @anypreviousTrue == false #meaning the previous check for this job came back negative
+							if items[:Sequence] == 0 && items[:WC_Vendor] == "IN" && stats[:status] == "O" && stats[:buyOrPick] == "B"
+								items[:matWaiting] = true
+								@anypreviousTrue = true
+							end
+						end
+						#Situations to turn OFF Material Pending
+						if @anypreviousTrue == false
+							if items[:Sequence] == 0 && items[:WC_Vendor] == "A-SAW" && stats[:status] == "C" && stats[:buyOrPick] == "P"
+								@anypreviousTrue = true 
+								items[:matWaiting] = false
+								@anypreviousTrue == true
+							end
+						end
+					end
+					@lastMaterialJob = stats[:Job]
+					@inLoop = true
+				end
+				@inLoop = false
+				@lastJob = items[:Job]
 			end
 			DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets runlists database table
 			Runlist.import runListItems #imports new array of hashes to Database
-		
-
-			#check for new Workcenters from Jobboss and import if needed
-			@wcs = [] #initialize array
-			@runlists = Runlist.all #call all runlists
-			@runlists.each do |r| #make lists of workcenters
-				@wcs << r.WC_Vendor
 			end
-		    @wcs.uniq! #narrows down array to only be unique workcenters
-		    @wcs.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
-			@wcs.each do |a| #check if the WC exists in Workcenter model, if not, save it into the DB
-		    if Workcenter.exists?(workCenter: a) #if the workcenter does not exist in our list, add it to the list
-		    else
-		      @workcenter = Workcenter.new(workCenter: a)
-		      @workcenter.save
-		    end
+
+			#check once a day for new Workcenters from Jobboss and import if needed
+			if i > 120
+				i = 0
+			else 
+				i = i + 1
+			end
+			if i = 0
+				@runlists = Runlist.all
+				@wcs = [] #initialize array
+				@runlists.each do |r| #make lists of workcenters
+					@wcs << r.WC_Vendor
+				end
+			    @wcs.uniq! #narrows down array to only be unique workcenters
+			    @wcs.sort! { |a,b| a && b ? a <=> b : a ? -1 : 1 } #sorts workcenter alphbetically
+				@wcs.each do |a| #check if the WC exists in Workcenter model, if not, save it into the DB
+			    if Workcenter.exists?(workCenter: a) #if the workcenter does not exist in our list, add it to the list
+			    else
+			      @workcenter = Workcenter.new(workCenter: a)
+			      @workcenter.save
+			    end
+			end
 		end
  
 

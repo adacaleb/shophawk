@@ -13,7 +13,7 @@ default: &default
 
 development:
   <<: *default
-  database: shophawk
+  database: shophawkdev
   host: 127.0.0.1
   username: postgres
   password: Gear1234
@@ -28,7 +28,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: shophawk
+  database: shophawkdev
   host: 127.0.0.1
   username: postgres
   password: Gear1234
