@@ -1,6 +1,16 @@
 Job`Customer`Order_Date`Part_Number`Rev`Description`Order_Quantity`Extra_Quantity`Pick_Quantity`Make_Quantity`Open_Operations`Completed_Quantity`Shipped_Quantity`FG_Transfer_Qty`In_Production_Quantity`Certs_Required`Act_Scrap_Quantity`Customer_PO`Customer_PO_LN`Sched_End`Sched_Start`Note_Text`Released_Date
-128255`QUAL-CONN`2023-02-16 00:00:00.000`1266432`NULL`56T GEAR- HORIZ. CHAIN DR`3`0`0`3`8`0`0`0`3`0`0`22987`1`2023-03-22 00:00:00.000`2023-02-22 00:00:00.000`1 OF 3 ITEMS
-
+---`--------`----------`-----------`---`-----------`--------------`--------------`-------------`-------------`---------------`------------------`----------------`---------------`----------------------`--------------`------------------`-----------`--------------`---------`-----------`---------`-------------
+LBR2023-02`NULL`2023-01-30 00:00:00.000`NULL`NULL`NULL`1`0`0`1`4`0`0`0`1`0`0`NULL`NULL`NULL`NULL`NULL`NULL
+128447`PENNY LANE`2023-02-28 00:00:00.000`26L075 X C'BORES`-`STEEL, HUB, BOLT PATTERN`10`0`0`10`7`0`0`0`10`0`0`02282023`2`NULL`NULL`1 OF 2 ITEMS - RETURN SAMPLE - JAMIE`2023-03-01 00:00:00.000
+128269`MAD MEMORI`2023-02-17 00:00:00.000`40A40`NULL`W/ BOLT PATTERN`2`0`0`2`1`0`0`0`2`0`0`23006913-00`1`2023-03-03 00:00:00.000`2023-02-24 00:00:00.000`1 OF 11 ITEMS 
 BRENT`2023-02-17 00:00:00.000
+127760`BRINKMAN`2023-01-16 00:00:00.000`5080-226-22`G`40T SPUR GEAR`50`2`0`52`3`0`0`0`52`0`0`581408`1`2023-03-13 00:00:00.000`2023-01-26 00:00:00.000`1 ITEM 
+Mike K`2023-01-16 00:00:00.000
+127641`BOURN-KOCH`2023-01-09 00:00:00.000`49296`G`146T TABLE DRIVE GEAR`20`0`0`20`6`0`0`0`20`0`0`178340`2`2023-03-28 00:00:00.000`2023-01-30 00:00:00.000`1 OF 2 ITEMS
 
-(663 rows affected)
+BRENT`2023-01-11 00:00:00.000
+127580`EDG GEAR`2023-01-03 00:00:00.000`477849`NULL`15T, 6DP SPUR GEAR`40`0`0`40`1`0`0`0`40`0`0`RF 01/03/23`1`2023-03-03 00:00:00.000`2023-02-07 00:00:00.000`1 ITEM
+
+Greg V`2023-01-03 00:00:00.000
+
+(6 rows affected)

@@ -4,7 +4,8 @@ class RunlistsController < ApplicationController
 
   # GET /runlists or /runlists.json
   def index
-    Runlist.importcsv #updates DB with current CSV file. OLD: now done with rake task
+    Runlist.updateRunList
+    #Runlist.importcsv #updates DB with current CSV file. OLD: now done with rake task
     @workCenters = Runlist.getWorkcenters
     @departments = Runlist.getDepartments
   end
@@ -92,7 +93,7 @@ class RunlistsController < ApplicationController
     @department.workcenters.each do |a| #for the department, load the associated workCenters to the array
       @workCentersToShow << a.workCenter
     end
-    @operations = Runlist.loadOperations(@workCentersToShow, true)
+    @operations = Runlist.loadOperations(@workCentersToShow, true, true)
     #load assignments for the selected department
     @assignments = @department.assignments
     @as = []
