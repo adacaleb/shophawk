@@ -1,0 +1,6 @@
+sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT [Job] ,[Job_Operation] ,[WC_Vendor] ,[Operation_Service] ,[Vendor] ,[Sched_Start] ,[Sched_End] ,[Sequence], [Status] FROM [PRODUCTION].[dbo].[Job_Operation] WHERE Sched_Start > DATEADD(month,-13,GETDATE()) ORDER BY Job_Operation DESC" -o "C:\railsapps\shophawkdev\app\assets\csv\yearlyRunListOps.csv" -W -w 1024 -s "`"
+
+sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT [Job] ,[Customer] ,[Order_Date] ,[Part_Number] ,[Rev] ,[Description] ,[Order_Quantity] ,[Extra_Quantity] ,[Pick_Quantity] ,[Make_Quantity] ,[Open_Operations] ,[Completed_Quantity] ,[Shipped_Quantity] ,[FG_Transfer_Qty] ,[In_Production_Quantity] ,[Certs_Required] ,[Act_Scrap_Quantity] ,[Customer_PO] ,[Customer_PO_LN] ,[Sched_End] ,[Sched_Start] ,[Note_Text] ,[Released_Date] FROM [PRODUCTION].[dbo].[Job] WHERE Sched_Start > DATEADD(month,-13,GETDATE()) ORDER BY Job DESC" -o "C:\railsapps\shophawkdev\app\assets\csv\yearlyJobs.csv" -W -w 1024 -s "`"
+
+sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT [Job] ,[Material] ,[Vendor] ,[Description] ,[Pick_Buy_Indicator] ,[Status] FROM [PRODUCTION].[dbo].[Material_Req] WHERE Due_Date > DATEADD(month,-13,GETDATE()) ORDER BY Job DESC" -o "C:\railsapps\shophawkdev\app\assets\csv\yearlyMat.csv" -W -w 1024 -s "`"
+
