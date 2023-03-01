@@ -93,7 +93,7 @@ class RunlistsController < ApplicationController
     @department.workcenters.each do |a| #for the department, load the associated workCenters to the array
       @workCentersToShow << a.workCenter
     end
-    @operations = Runlist.loadOperations(@workCentersToShow, true, true)
+    @operations = Runlist.loadOperations(@workCentersToShow, true, @department.started)
     #load assignments for the selected department
     @assignments = @department.assignments
     @as = []

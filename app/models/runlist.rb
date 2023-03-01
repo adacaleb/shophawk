@@ -48,12 +48,13 @@ require 'database_cleaner/active_record'
 	end
 
 	def self.updateRunList #Checks for new operations that haven't been added to DB, and saves them
-		runListItems, matStats = self.csvToArrayOfHashes("runListOps", "tempjobs", "tempmat") #Creates combined array of hashes from the called out csv files
+		runListItems = self.csvToArrayOfHashes("runListOps", "tempjobs", "tempmat") #Creates combined array of hashes from the called out csv files
 		#need above line to get list of ALL operations, new or old.  next if statement has options if in db already or not
 		newImports = [] #new operations to save to DB
 		runListItems.each do |op|
 			current = Runlist.find_by(Job_Operation: op[:Job_Operation])
 			if current == nil #if this is a new operation not found in the database, add it to array to import at the end
+				#binding.pry
 				newOp = self.newJobOp(op[:Job_Operation]) #pulls data from yearly csv exports to populate fields of new operations
 				newImports << newOp #append to array
 			else #if the record is found, we are going to update the current record with what's different
@@ -64,35 +65,56 @@ require 'database_cleaner/active_record'
 				
 				
 				current.save
-				current.currentOp = self.updateCurrentOp(op[:Job])
+				self.statusCalculations(op[:Job])
 			end
 		end
-		#binding.pry
-		puts newImports.count #how many new operations are being saved
+		#puts newImports.count #how many new operations are being saved
 		Runlist.import newImports
-
-
-		#Runlist.find operations with matching jobs that were changed, sort into order, then calculate new current location and materail waiting
 	end
 
-	def self.updateCurrentOp(opJob)
+
+	def self.statusCalculations(opJob)
 		job = Runlist.where(Job: opJob)
 		job = job.sort_by { |a| a.Sequence }
 		found = false
+		foundMatWaiting = false
+		matCancel = false
 		job.each do |op|
-			puts op.Sequence
-			if op.status == "O" || op.status == "S"
-				if found == false
+			#puts op.Sequence
+			#calculate current location
+			if found == true
+					op.currentOp = @foundOp
+			else
+				if op.status == "O" || op.status == "S"
 					@foundOp = op.WC_Vendor
 					op.currentOp  = @foundOp
 					found = true
-					puts op.currentOp
-				end
-				if found == true
-					op.currentOp = @foundOp
-					puts op.currentOp
 				end
 			end
+			#Calculate if material pending should be turned off
+			if matCancel == true
+				op.matWaiting = false
+			else
+				if op.WC_Vendor == "A-SAW" && op.status == "C"
+					matCancel = true
+					op.matWaiting = false
+				end
+				if op.WC_Vendor == "IN" && op.status == "C"
+					matCancel = true
+					op.matWaiting = false
+				end
+			end
+			#calculate if material is pending
+			if foundMatWaiting == true
+				op.matWaiting = true
+			else
+				if op.status == "O" && op.WC_Vendor == "IN"
+					foundMatWaiting = true
+					op.matWaiting = true
+				end
+			end
+
+			
 			op.save #Saves the new currentop value if it's different
 		end
 	end
@@ -181,7 +203,6 @@ require 'database_cleaner/active_record'
 			}
 		end
 		mat = [] #new array for material import
-		matStats = []
 		CSV.foreach("app/assets/csv/#{mats}.csv", 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
 			mat << {
 				Job: row[0],
@@ -190,11 +211,6 @@ require 'database_cleaner/active_record'
 		      	Mat_Description: row[3]
 				}
 				#Below is saved for calculating if material pending should be removed or added after all merging is done. 
-				matStats << {
-					Job: row[0],
-					buyOrPick: row[4],
-					status: row[5]
-				}
 		end		
 		runListItems.reverse! #reserves array so sequence numbers are in order for current location calculation
 		runListItems.each do |runListItems| #parses through each item and merges with mat and jobs array
@@ -275,7 +291,7 @@ require 'database_cleaner/active_record'
 			end
 			@lastJob = runListItems[:Job].to_s
 		end
-		return runListItems, matStats
+		return runListItems
 	end
 
 	def self.newJobOp(jobOp)
@@ -333,7 +349,9 @@ require 'database_cleaner/active_record'
 		
 		
 		CSV.foreach('app/assets/csv/yearlyJobs.csv', 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
+			#binding.pry
 			if row[0] == runListItem[0][:Job]
+
 				schEnd = row[19].to_s #reorganize date field
 				if schEnd == "NULL"
 					schEnd = ""
@@ -385,41 +403,8 @@ require 'database_cleaner/active_record'
 
 	#the code that imports the CSV's from JObboss is in ~/lib/tasks/csvimport.rake
 	def self.importcsv
-		runListItems, matStats = self.csvToArrayOfHashes("yearlyRunListOps", "yearlyJobs", "yearlyMat")
-
-#		runListItems.reverse! #reserves array so operations are in order for calculating pending material
-#		runListItems.each do |runListItems|
-#			@anypreviousTrue = false #initiate variable
-#			@anypreviousFalse = false
-#			@inLoop = false
-#			matStats.each do |stats|
-#				if runListItems[:Job].to_s == stats[:Job].to_s
-#					if @lastMaterialJob != stats[:Job].to_s && @inLoop == true #if it's a mat req under the same job, but technically different
-#						@anypreviousTrue = false
-#						@anypreviousFalse = false
-#						break
-#					end
-#					#Situations to turn ON Material Pending
-#					if @anypreviousTrue == false #meaning the previous check for this job came back negative
-#						if runListItems[:Sequence] == 0 && runListItems[:WC_Vendor] == "IN" && stats[:status] == "O" && stats[:buyOrPick] == "B"
-#							runListItems[:matWaiting] = true
-#							@anypreviousTrue = true
-#						end
-#					end
-#					#Situations to turn OFF Material Pending
-#					if @anypreviousTrue == false
-#						if runListItems[:Sequence] == 0 && runListItems[:WC_Vendor] == "A-SAW" && stats[:status] == "C" && stats[:buyOrPick] == "P"
-#							@anypreviousTrue = true 
-#							runListItems[:matWaiting] = false
-#							@anypreviousTrue == true
-#						end
-#					end
-#				end
-#				@lastMaterialJob = stats[:Job].to_s
-#				@inLoop = true
-#			end
-#			@inLoop = false
-#		end
+		#clears db and imports all data from last 13 months
+		runListItems = self.csvToArrayOfHashes("yearlyRunListOps", "yearlyJobs", "yearlyMat")
 
 		DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets runlists database table
 		Runlist.import runListItems #imports new array of hashes to Database
