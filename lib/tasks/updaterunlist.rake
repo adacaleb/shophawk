@@ -11,7 +11,7 @@ namespace :update do
 			foundMatWaiting = false
 			matCancel = false
 			job.each do |op|
-				puts op.Sequence
+				#puts op.Sequence
 				#calculate current location
 				if found == true
 						op.currentOp = @foundOp
@@ -354,7 +354,7 @@ namespace :update do
 				self.statusCalculations(op[:Job])
 			end
 		end
-		puts newImports.count #how many new operations are being saved
+		#puts newImports.count #how many new operations are being saved
 		Runlist.import newImports
 
 	end
