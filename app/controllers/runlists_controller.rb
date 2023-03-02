@@ -1,6 +1,17 @@
 class RunlistsController < ApplicationController
   require 'date'
+  helper_method :dailyHoursCalc #helper method's are available to use from the view pages
 
+  def dailyHoursCalc(date, operations) #Called from view to get hours for each day
+    #testy = operations[Sched_Start:]
+    estimatedTime = 0
+    operations.each do |op|
+      if op.Sched_Start.to_s == date.to_s
+        estimatedTime = estimatedTime.to_f + op.EstTotalHrs.to_f
+      end
+    end
+    return estimatedTime
+  end
 
   # GET /runlists or /runlists.json
   def index

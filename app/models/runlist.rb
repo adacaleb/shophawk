@@ -47,6 +47,13 @@ require 'database_cleaner/active_record'
 	    return @operations
 	end
 
+	def self.calcHoursForDay
+
+	end
+
+
+	#*********Below is technically ran in the rake task files every 5 minutes via windows task scheduler.  it's here for testing if needed ***********
+
 	def self.updateRunList #Checks for new operations that haven't been added to DB, and saves them
 		runListItems = self.csvToArrayOfHashes("runListOps", "tempjobs", "tempmat") #Creates combined array of hashes from the called out csv files
 		#need above line to get list of ALL operations, new or old.  next if statement has options if in db already or not

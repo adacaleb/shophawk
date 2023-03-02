@@ -1,7 +1,16 @@
 Job`Customer`Order_Date`Part_Number`Rev`Description`Order_Quantity`Extra_Quantity`Pick_Quantity`Make_Quantity`Open_Operations`Completed_Quantity`Shipped_Quantity`FG_Transfer_Qty`In_Production_Quantity`Certs_Required`Act_Scrap_Quantity`Customer_PO`Customer_PO_LN`Sched_End`Sched_Start`Note_Text`Released_Date
 ---`--------`----------`-----------`---`-----------`--------------`--------------`-------------`-------------`---------------`------------------`----------------`---------------`----------------------`--------------`------------------`-----------`--------------`---------`-----------`---------`-------------
-128443`GATES`2023-02-28 00:00:00.000`P72-5MGT-25 X 2012`-`STEEL, FLANGED, LESS BUSHING`8`0`0`8`3`0`0`0`8`0`0`1817113`1`2023-03-07 00:00:00.000`2023-03-01 00:00:00.000`1 ITEM - JAMIE`2023-02-28 00:00:00.000
-127832`EDG GEAR`2023-01-19 00:00:00.000`51743`C`72T, 8 DP ECCENTRIC HOUSING`4`0`0`4`4`0`0`0`4`0`0`RF 01/19/23`4`2023-03-22 00:00:00.000`2023-01-27 00:00:00.000`1 ITEM
-Greg V`2023-01-20 00:00:00.000
+LBR2023-03`NULL`2023-02-28 00:00:00.000`NULL`NULL`NULL`1`0`0`1`7`0`0`0`1`0`0`NULL`NULL`NULL`NULL`NULL`NULL
+128476`PARKDALE`2023-03-02 00:00:00.000`PGH30844`-`50T, 1 MOD. SPUR GEAR`1`0`0`1`6`0`0`0`1`0`0`28913`1`NULL`NULL`1 ITEM - JAMIE
+`2023-03-02 00:00:00.000
+128361`AMM INC.`2023-02-22 00:00:00.000`250-10009-02-A`A`LOVEJOY F5 - 40MM KEYWAY ONLY`1`0`0`1`0`1`1`0`0`0`0`45172`2`2023-03-03 00:00:00.000`2023-02-27 00:00:00.000`1 OF 2 ITEMS
 
-(2 rows affected)
+BRENT`2023-02-23 00:00:00.000
+128360`AMM INC.`2023-02-22 00:00:00.000`250-10009-01-A`NULL`LOVEJOY F5 -1.25" KEYWAY ONLY`2`0`0`2`0`2`2`0`0`0`0`45172`1`2023-03-03 00:00:00.000`2023-02-28 00:00:00.000`1 OF 2 ITEMS
+
+BRENT`2023-02-23 00:00:00.000
+128257`QUAL-CONN`2023-02-16 00:00:00.000`922372-Q`2`22T, 8-10 P, L.H. HELICAL GEAR`9`0`0`9`9`0`0`0`9`0`0`22987`3`2023-03-22 00:00:00.000`2023-02-24 00:00:00.000`1 OF 3 ITEMS
+
+BRENT`2023-02-17 00:00:00.000
+
+(5 rows affected)

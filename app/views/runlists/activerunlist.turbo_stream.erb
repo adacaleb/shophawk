@@ -56,25 +56,31 @@
         <% @previousStartDate = "01/01/1990" %> <!-- initialize startdate variable -->
         <% @operations.each do |op| %>
           <% date = op.Sched_Start.to_s %>
-            <% date = date.gsub("-", "/").to_s %> <!-- converts "-" to "/" for date strptime class -->
-            <% startDate = Date.strptime(date, "%m/%d/%Y") %> <!-- converts string to date type variable -->
+            <% dates = date.gsub("-", "/").to_s %> <!-- converts "-" to "/" for date strptime class -->
+            <% startDate = Date.strptime(dates, "%m/%d/%Y") %> <!-- converts string to date type variable -->
             <% if @previousStartDate != startDate %> <!-- don't render another header if the date is same as previous -->
               <% if startDate.before? @today %>
                 <% @rowColor = "table-danger" %>
                 <tr >
                   <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
+                  <th colspan="2" class="table-light" style="font-size: 14px">~<%= dailyHoursCalc(date, @operations) %> Hours</th>
+
                 </tr>
               <% end %>
               <% if startDate == @today %>
                 <% @rowColor = "table-light" %>
                 <tr >
                   <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
+                  <th colspan="2" class="table-light" style="font-size: 14px">~<%= dailyHoursCalc(date, @operations) %> Hours</th>
+
                 </tr>
               <% end %>
               <% if startDate.after? @today %>
                 <% @rowColor = "table-default" %>
                 <tr>
                   <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
+                  <th colspan="2" class="table-light" style="font-size: 14px">~<%= dailyHoursCalc(date, @operations) %> Hours</th>
+
                 </tr>
               <% end %>
               <% if op.status == "S" %>

@@ -21,6 +21,7 @@ namespace :import do
 			    	Sched_End: row[6],
 				    Sequence: row[7],
 					status: row[8],
+					EstTotalHrs: row[9],
 
 
 				    Customer: "", 
