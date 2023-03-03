@@ -1,16 +1,23 @@
-Job`Customer`Order_Date`Part_Number`Rev`Description`Order_Quantity`Extra_Quantity`Pick_Quantity`Make_Quantity`Open_Operations`Completed_Quantity`Shipped_Quantity`FG_Transfer_Qty`In_Production_Quantity`Certs_Required`Act_Scrap_Quantity`Customer_PO`Customer_PO_LN`Sched_End`Sched_Start`Note_Text`Released_Date
----`--------`----------`-----------`---`-----------`--------------`--------------`-------------`-------------`---------------`------------------`----------------`---------------`----------------------`--------------`------------------`-----------`--------------`---------`-----------`---------`-------------
-LBR2023-03`NULL`2023-02-28 00:00:00.000`NULL`NULL`NULL`1`0`0`1`7`0`0`0`1`0`0`NULL`NULL`NULL`NULL`NULL`NULL
-128476`PARKDALE`2023-03-02 00:00:00.000`PGH30844`-`50T, 1 MOD. SPUR GEAR`1`0`0`1`6`0`0`0`1`0`0`28913`1`NULL`NULL`1 ITEM - JAMIE
-`2023-03-02 00:00:00.000
-128361`AMM INC.`2023-02-22 00:00:00.000`250-10009-02-A`A`LOVEJOY F5 - 40MM KEYWAY ONLY`1`0`0`1`0`1`1`0`0`0`0`45172`2`2023-03-03 00:00:00.000`2023-02-27 00:00:00.000`1 OF 2 ITEMS
+Job`Customer`Order_Date`Part_Number`Rev`Description`Order_Quantity`Extra_Quantity`Pick_Quantity`Make_Quantity`Open_Operations`Completed_Quantity`Shipped_Quantity`FG_Transfer_Qty`In_Production_Quantity`Certs_Required`Act_Scrap_Quantity`Customer_PO`Customer_PO_LN`Sched_End`Sched_Start`Note_Text`Released_Date`User_Values
+---`--------`----------`-----------`---`-----------`--------------`--------------`-------------`-------------`---------------`------------------`----------------`---------------`----------------------`--------------`------------------`-----------`--------------`---------`-----------`---------`-------------`-----------
+128518`NULL`2023-03-03 00:00:00.000`NULL`NULL`NULL`1`0`0`1`0`0`0`0`1`0`0`NULL`NULL`NULL`NULL``NULL`NULL
+128517`NULL`2023-03-03 00:00:00.000`NULL`NULL`NULL`1`0`0`1`0`0`0`0`1`0`0`NULL`NULL`NULL`NULL``NULL`NULL
+128516`NULL`2023-03-03 00:00:00.000`NULL`NULL`NULL`1`0`0`1`0`0`0`0`1`0`0`NULL`NULL`NULL`NULL``NULL`NULL
+128515`NULL`2023-03-03 00:00:00.000`NULL`NULL`NULL`1`0`0`1`0`0`0`0`1`0`0`NULL`NULL`NULL`NULL``NULL`NULL
+128514`NULL`2023-03-03 00:00:00.000`NULL`NULL`NULL`1`0`0`1`0`0`0`0`1`0`0`NULL`NULL`NULL`NULL``NULL`NULL
+128472`USNRL`2023-03-01 00:00:00.000`FSG-21105`A`23T, 24DP SPUR GEAR`5`0`0`5`9`0`0`0`5`0`0`23-0490`1`2023-03-22 00:00:00.000`2023-03-03 00:00:00.000`1 ITEM - JAMIE`2023-03-02 00:00:00.000`4320
+128366`MODULAR CO`2023-02-23 00:00:00.000`5821-10`NULL`71T, ¼ CP`1`0`0`1`5`0`0`0`1`0`0`53351`3`2023-03-24 00:00:00.000`2023-02-28 00:00:00.000`1 OF 5 ITEMS
+Dave H`2023-02-23 00:00:00.000`NULL
+128242`STEEGER`2023-02-15 00:00:00.000`STG04650_14-02A`NULL`40T, 2.5 MOD. IDLER GEAR`5`0`0`5`2`0`0`0`5`0`0`13635`2`2023-03-09 00:00:00.000`2023-02-28 00:00:00.000`1 OF 3 ITEMS 
+Caleb H`2023-02-16 00:00:00.000`NULL
+128108`KORBER`2023-02-08 00:00:00.000`039343`NULL`P48-14M-55`1`0`0`1`0`1`0`0`1`0`0`4201150410`1`2023-03-03 00:00:00.000`2023-02-22 00:00:00.000`1 OF 2 ITEMS - SEPARATE SHIP DATES - THIS SHIPS LAST
+Greg V`2023-02-09 00:00:00.000`NULL
+128090`QUAD-SUSSE`2023-02-06 00:00:00.000`GBE15230-1`NULL`40298 ASSEMBLY`6`0`0`6`0`12`0`0`6`0`0`4639714`1`2023-03-06 00:00:00.000`2023-03-03 00:00:00.000`1 ITEM `NULL`NULL
+127949`EDG GEAR`2023-01-26 00:00:00.000`416614`NULL`85T, 10 DP SPLIT UPPER GEAR`10`0`0`10`7`0`0`0`10`0`0`RF 01/26/23`5`2023-03-23 00:00:00.000`2023-02-06 00:00:00.000`1 ITEM
 
-BRENT`2023-02-23 00:00:00.000
-128360`AMM INC.`2023-02-22 00:00:00.000`250-10009-01-A`NULL`LOVEJOY F5 -1.25" KEYWAY ONLY`2`0`0`2`0`2`2`0`0`0`0`45172`1`2023-03-03 00:00:00.000`2023-02-28 00:00:00.000`1 OF 2 ITEMS
+Greg V`2023-01-27 00:00:00.000`NULL
+127665`EDG GEAR`2023-01-11 00:00:00.000`334414`A`36T, 6 DP SPUR GEAR`10`0`0`10`1`0`0`0`10`0`0`RF 01/10/23`8`2023-03-15 00:00:00.000`2023-02-03 00:00:00.000`1 ITEM
 
-BRENT`2023-02-23 00:00:00.000
-128257`QUAL-CONN`2023-02-16 00:00:00.000`922372-Q`2`22T, 8-10 P, L.H. HELICAL GEAR`9`0`0`9`9`0`0`0`9`0`0`22987`3`2023-03-22 00:00:00.000`2023-02-24 00:00:00.000`1 OF 3 ITEMS
+Greg V`2023-01-11 00:00:00.000`NULL
 
-BRENT`2023-02-17 00:00:00.000
-
-(5 rows affected)
+(12 rows affected)

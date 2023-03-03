@@ -10,7 +10,7 @@ class RunlistsController < ApplicationController
         estimatedTime = estimatedTime.to_f + op.EstTotalHrs.to_f
       end
     end
-    return estimatedTime
+    return estimatedTime.round(2)
   end
 
   # GET /runlists or /runlists.json

@@ -53,7 +53,7 @@ namespace :update do
 
 		def self.csvToArrayOfHashes(ops, job, mats)
 			runListItems = [] #empties array for new csv import
-			old = Runlist.where.not(employee: [nil, ""], dots: [nil, ""], matWaiting: [nil, "", false], Material: [nil, ""]) #saves what's altered to pass on later
+			old = Runlist.where.not(employee: [nil, ""], matWaiting: [nil, "", false], Material: [nil, ""]) #saves what's altered to pass on later
 			CSV.foreach("app/assets/csv/#{ops}.csv", headers: true, :col_sep => "`") do |row| #imports initial csv and creates all arrays needed
 				#Below line filters out old/unwanted operations
 				if row[2].to_s == "Y-WELD" || row[2].to_s == "---------" || row[2].to_s == "Y-TOOTHRND" || row[2].to_s == "Y-MILL" || row[2].to_s == "Y-KEYSEAT" || row[2].to_s == "Y-HT" || row[2].to_s == "Y-HOB" || row[2].to_s == "Y-GRIND" || row[2].to_s == "Y-BROACH" || row[2].to_s == "REMODEL" || row[2].to_s == "SHIP -HELP" || row[2].to_s == "" || row[2].to_s == "VOLUNTEER" || row[2].to_s == "Y-TURN" || row[5] == "NULL"
@@ -131,7 +131,8 @@ namespace :update do
 					Job_Sched_End: row[19], 
 					Job_Sched_Start: row[20], 
 					Note_Text: row[21], 
-					Released_Date: row[22]
+					Released_Date: row[22],
+					User_Value: row [23]
 				}
 			end
 			mat = [] #new array for material import
@@ -144,6 +145,7 @@ namespace :update do
 					}
 					#Below is saved for calculating if material pending should be removed or added after all merging is done. 
 			end		
+			
 			runListItems.reverse! #reserves array so sequence numbers are in order for current location calculation
 			runListItems.each do |runListItems| #parses through each item and merges with mat and jobs array
 				schedSrt = runListItems[:Sched_Start].to_s #reorganizes and prepares date field for sorting at end
@@ -195,6 +197,7 @@ namespace :update do
 						runListItems[:Job_Sched_Start] = row[:Job_Sched_Start]
 						runListItems[:Note_Text] = row[:Note_Text] 
 						runListItems[:Released_Date] = row[:Released_Date]
+
 						break
 					end
 				end
@@ -216,7 +219,6 @@ namespace :update do
 					if data[:Job_Operation].to_s == runListItems[:Job_Operation].to_s
 						runListItems[:employee] = data.employee
 						runListItems[:matWaiting] = data.matWaiting
-						runListItems[:dots] = data.dots
 						#material export includes the exact previous year of data for import
 						break
 					end
@@ -334,6 +336,39 @@ namespace :update do
 			return runListItem[0]
 		end
 
+		def self.updateDots(userV)
+			CSV.foreach("app/assets/csv/#{userV}.csv", 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
+				#User_Value: row[0],
+				#dots: row[1]
+				dot = row[1].to_s.upcase
+				ops = Runlist.where(User_Value: row[0])
+				ops.each do |op|
+					case dot
+					when "O"
+						op.dots = 1
+					when "0"
+						op.dots = 1
+					when "1"
+						op.dots = 1
+					when "OO"
+						op.dots = 2
+					when "00"
+						op.dots = 2
+					when "2"
+						op.dots = 2
+					when "OOO"
+						op.dots = 3
+					when "000"
+						op.dots = 3
+					when "3"
+						op.dots = 3
+					end
+					op.save
+				end
+			end
+		end
+
+
 
 		#***************main code to run that imports changed data from last 6 minutes***************
 		runListItems = self.csvToArrayOfHashes("runListOps", "tempjobs", "tempmat") #Creates combined array of hashes from the called out csv files
@@ -350,7 +385,7 @@ namespace :update do
 				current.status = op[:status]
 				current.Sched_Start = op[:Sched_Start]
 				current.Sched_End = op[:Sched_End]
-				
+				current.dots = op[:dots]
 				
 				current.save
 				self.statusCalculations(op[:Job])
@@ -358,6 +393,7 @@ namespace :update do
 		end
 		#puts newImports.count #how many new operations are being saved
 		Runlist.import newImports
+		self.updateDots("userValues")
 
 	end
 end
