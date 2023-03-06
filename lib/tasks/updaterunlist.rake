@@ -7,6 +7,7 @@ namespace :update do
 		def self.statusCalculations(opJob)
 			job = Runlist.where(Job: opJob)
 			job = job.sort_by { |a| a.Sequence }
+			#binding.pry
 			@found = false
 			@foundMatWaiting = false
 			@matCancel = false
@@ -47,7 +48,7 @@ namespace :update do
 				end
 				op.save #Saves the new currentop value if it's different
 			end
-			binding.pry
+			#binding.pry
 		end
 
 
@@ -56,11 +57,11 @@ namespace :update do
 			old = Runlist.where.not(employee: [nil, ""], matWaiting: [nil, "", false], Material: [nil, ""]) #saves what's altered to pass on later
 			CSV.foreach("app/assets/csv/#{ops}.csv", headers: true, :col_sep => "`") do |row| #imports initial csv and creates all arrays needed
 				#Below line filters out old/unwanted operations
-				if row[2].to_s == "Y-WELD" || row[2].to_s == "---------" || row[2].to_s == "Y-TOOTHRND" || row[2].to_s == "Y-MILL" || row[2].to_s == "Y-KEYSEAT" || row[2].to_s == "Y-HT" || row[2].to_s == "Y-HOB" || row[2].to_s == "Y-GRIND" || row[2].to_s == "Y-BROACH" || row[2].to_s == "REMODEL" || row[2].to_s == "SHIP -HELP" || row[2].to_s == "" || row[2].to_s == "VOLUNTEER" || row[2].to_s == "Y-TURN" || row[5] == "NULL"
+				if  row[5] == "NULL" || row[2].to_s == "Y-WELD" || row[2].to_s == "---------" || row[2].to_s == "Y-TOOTHRND" || row[2].to_s == "Y-MILL" || row[2].to_s == "Y-KEYSEAT" || row[2].to_s == "Y-HT" || row[2].to_s == "Y-HOB" || row[2].to_s == "Y-GRIND" || row[2].to_s == "Y-BROACH" || row[2].to_s == "REMODEL" || row[2].to_s == "SHIP -HELP" || row[2].to_s == "" || row[2].to_s == "VOLUNTEER" || row[2].to_s == "Y-TURN"
 				else
 					runListItems << {
-			    	Job: row[0], 
-			    	Job_Operation: row[1], 
+			    	Job: row[0],
+			    	Job_Operation: row[1],
 			    	WC_Vendor: row[2],
 			    	Operation_Service: row[3],
 			    	Vendor: row[4],
@@ -282,58 +283,61 @@ namespace :update do
 			    end
 			end
 			
-			
-			CSV.foreach('app/assets/csv/yearlyJobs.csv', 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
-				#binding.pry
-				if row[0] == runListItem[0][:Job]
-
-					schEnd = row[19].to_s #reorganize date field
-					if schEnd == "NULL"
-						schEnd = ""
-					else
-						year = schEnd[0..3]
-						day = schEnd[8..9]
-						month = schEnd[5..7]
-						schEnd = "#{month}#{day}-#{year}"
+			if runListItem.any? == true
+				CSV.foreach('app/assets/csv/yearlyJobs.csv', 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
+					#binding.pry
+					if row[0] == runListItem[0][:Job]
+						#binding.pry
+						schEnd = row[19].to_s #reorganize date field
+						if schEnd == "NULL"
+							schEnd = ""
+						else
+							year = schEnd[0..3]
+							day = schEnd[8..9]
+							month = schEnd[5..7]
+							schEnd = "#{month}#{day}-#{year}"
+						end
+						runListItem[0][:Customer] = row[1]
+						runListItem[0][:Order_Date] = row[2]
+						runListItem[0][:Part_Number] = row[3]
+						runListItem[0][:Rev] = row[4]
+						runListItem[0][:Description] = row[5]
+						runListItem[0][:Order_Quantity] = row[6]
+						runListItem[0][:Extra_Quantity] = row[7]
+						runListItem[0][:Pick_Quantity] = row[8]
+						runListItem[0][:Make_Quantity] = row[9]
+						runListItem[0][:Open_Operations] = row[10]
+						runListItem[0][:Completed_Quantity] = row[11]
+						runListItem[0][:Shipped_Quantity] = row[12]
+						runListItem[0][:FG_Transfer_Qty] = row[13]
+						runListItem[0][:In_Production_Quantity] = row[14]
+						runListItem[0][:Certs_Required] = row[15]
+						runListItem[0][:Act_Scrap_Quantity] = row[16]
+						runListItem[0][:Customer_PO] = row[17]
+						runListItem[0][:Customer_PO_LN] = row[18]
+						runListItem[0][:Job_Sched_End] = schEnd
+						runListItem[0][:Job_Sched_Start] = row[20]
+						runListItem[0][:Note_Text] = row[21] 
+						runListItem[0][:Released_Date] = row[22]
+						break
 					end
-					runListItem[0][:Customer] = row[1]
-					runListItem[0][:Order_Date] = row[2]
-					runListItem[0][:Part_Number] = row[3]
-					runListItem[0][:Rev] = row[4]
-					runListItem[0][:Description] = row[5]
-					runListItem[0][:Order_Quantity] = row[6]
-					runListItem[0][:Extra_Quantity] = row[7]
-					runListItem[0][:Pick_Quantity] = row[8]
-					runListItem[0][:Make_Quantity] = row[9]
-					runListItem[0][:Open_Operations] = row[10]
-					runListItem[0][:Completed_Quantity] = row[11]
-					runListItem[0][:Shipped_Quantity] = row[12]
-					runListItem[0][:FG_Transfer_Qty] = row[13]
-					runListItem[0][:In_Production_Quantity] = row[14]
-					runListItem[0][:Certs_Required] = row[15]
-					runListItem[0][:Act_Scrap_Quantity] = row[16]
-					runListItem[0][:Customer_PO] = row[17]
-					runListItem[0][:Customer_PO_LN] = row[18]
-					runListItem[0][:Job_Sched_End] = schEnd
-					runListItem[0][:Job_Sched_Start] = row[20]
-					runListItem[0][:Note_Text] = row[21] 
-					runListItem[0][:Released_Date] = row[22]
-					break
 				end
-			end
-			CSV.foreach('app/assets/csv/yearlyMat.csv', 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
-				#binding.pry
-				if row[0] == runListItem[0][:Job]
-					runListItem[0][:Material] = row[1]
-					runListItem[0][:Mat_Vendor] = row[2]
-					runListItem[0][:Mat_Description] = row[3]
-					break
+				CSV.foreach('app/assets/csv/yearlyMat.csv', 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
+					#binding.pry
+					if row[0] == runListItem[0][:Job]
+						runListItem[0][:Material] = row[1]
+						runListItem[0][:Mat_Vendor] = row[2]
+						runListItem[0][:Mat_Description] = row[3]
+						break
+					end
 				end
+				if runListItem[0][:Material] == ""
+							runListItem[0][:Material] = "Customer Supplied"
+				end
+				return runListItem[0]
+			else
+				return runListItem
 			end
-			if runListItem[0][:Material] == ""
-						runListItem[0][:Material] = "Customer Supplied"
-			end
-			return runListItem[0]
 		end
 
 		def self.updateDots(userV)
@@ -374,12 +378,15 @@ namespace :update do
 		runListItems = self.csvToArrayOfHashes("runListOps", "tempjobs", "tempmat") #Creates combined array of hashes from the called out csv files
 		#need above line to get list of ALL operations, new or old.  next if statement has options if in db already or not
 		newImports = [] #new operations to save to DB
+		jobsToUpdate = []
 		runListItems.each do |op|
 			current = Runlist.find_by(Job_Operation: op[:Job_Operation])
 			if current == nil #if this is a new operation not found in the database, add it to array to import at the end
 				#binding.pry
 				newOp = self.newJobOp(op[:Job_Operation]) #pulls data from yearly csv exports to populate fields of new operations
-				newImports << newOp #append to array
+				if newOp.any? == true
+					newImports << newOp #append to array
+				end
 			else #if the record is found, we are going to update the current record with what's different
 				#overwrite fields that are important with new data
 				current.status = op[:status]
@@ -388,11 +395,16 @@ namespace :update do
 				current.dots = op[:dots]
 				
 				current.save
-				self.statusCalculations(op[:Job])
+				jobsToUpdate << op[:Job] #adds to array of jobs to update current op and material pending for
 			end
 		end
 		#puts newImports.count #how many new operations are being saved
 		Runlist.import newImports
+		jobsToUpdate.uniq!
+		#binding.pry
+		jobsToUpdate.each do |job| #updates current op and material pending for each job in array.
+			self.statusCalculations(job)
+		end
 		self.updateDots("userValues")
 
 	end
