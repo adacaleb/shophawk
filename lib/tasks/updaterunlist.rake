@@ -7,47 +7,47 @@ namespace :update do
 		def self.statusCalculations(opJob)
 			job = Runlist.where(Job: opJob)
 			job = job.sort_by { |a| a.Sequence }
-			found = false
-			foundMatWaiting = false
-			matCancel = false
+			@found = false
+			@foundMatWaiting = false
+			@matCancel = false
+			#binding.pry
 			job.each do |op|
 				#puts op.Sequence
 				#calculate current location
-				if found == true
+				if @found == true
 						op.currentOp = @foundOp
 				else
 					if op.status == "O" || op.status == "S"
 						@foundOp = op.WC_Vendor
 						op.currentOp  = @foundOp
-						found = true
+						@found = true
 					end
 				end
 				#Calculate if material pending should be turned off
-				if matCancel == true
+				if @matCancel == true
 					op.matWaiting = false
 				else
 					if op.WC_Vendor == "A-SAW" && op.status == "C"
-						matCancel = true
+						@matCancel = true
 						op.matWaiting = false
 					end
 					if op.WC_Vendor == "IN" && op.status == "C"
-						matCancel = true
+						@matCancel = true
 						op.matWaiting = false
 					end
 				end
 				#calculate if material is pending
-				if foundMatWaiting == true
+				if @foundMatWaiting == true
 					op.matWaiting = true
 				else
 					if op.status == "O" && op.WC_Vendor == "IN"
-						foundMatWaiting = true
+						@foundMatWaiting = true
 						op.matWaiting = true
 					end
 				end
-
-				
 				op.save #Saves the new currentop value if it's different
 			end
+			binding.pry
 		end
 
 
