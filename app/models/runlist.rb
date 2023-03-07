@@ -5,6 +5,64 @@ require 'csv'
 require 'database_cleaner/active_record'
 #The CSV Import code is running as a rake task save in /lib/tasks/csvimport.  It's then ran via a .bat file on the desktop "csvimport.bat", and ran via the windows task scheduler every 5 minutes
 	
+	def self.calculateDots(operations)
+		@oneDots = []
+	    @twoDots = []
+	    @threeDots = []
+	    operations.each do |op|
+	      case op.dots
+	      when 1
+	        @oneDots << [op.Job, op.Sched_Start]
+	      when 2
+	        @twoDots << [op.Job, op.Sched_Start]
+	      when 3 
+	        @threeDots << [op.Job, op.Sched_Start]
+	      end
+	    end
+	    if @oneDots.any? || @twoDots.any? || @threeDots.any?
+	      @dots = true
+	    end
+	    return @oneDots, @twoDots, @threeDots, @dots
+	end
+
+	def self.calculateWeeklyLoad(operations, department)
+	    oneWeekDate = Date.today + 1.week
+        twoWeekDate = Date.today + 2.week
+        threeWeekDate = Date.today + 3.week
+        fourWeekDate = Date.today + 4.week
+        oneWeekDate = oneWeekDate.to_s
+        twoWeekDate = twoWeekDate.to_s
+        threeWeekDate = threeWeekDate.to_s
+        fourWeekDate = fourWeekDate.to_s
+        @oneWeekLoad = 0
+        @twoWeekLoad = 0
+        @threeWeekLoad = 0
+        @fourWeekLoad = 0
+        operations.each do |op|
+	        date = Date.strptime(op.Sched_Start, "%m-%d-%Y").to_s
+	        if date < oneWeekDate
+		        @oneWeekLoad = @oneWeekLoad + op.EstTotalHrs.to_f
+		        @twoWeekLoad = @twoWeekLoad + op.EstTotalHrs.to_f
+	            @threeWeekLoad = @threeWeekLoad + op.EstTotalHrs.to_f
+	        end
+	        if date < twoWeekDate && date >= oneWeekDate
+	            @twoWeekLoad = @twoWeekLoad + op.EstTotalHrs.to_f
+	            @threeWeekLoad = @threeWeekLoad + op.EstTotalHrs.to_f
+	        end
+	        if date < threeWeekDate && date >= twoWeekDate
+	            @threeWeekLoad = @threeWeekLoad + op.EstTotalHrs.to_f
+	        end
+	        if date < fourWeekDate && date >= threeWeekDate
+	            @fourWeekLoad = @fourWeekLoad + op.EstTotalHrs.to_f
+	        end
+        end
+	    @oneWeekLoad = (@oneWeekLoad.round(0) / (department.capacity * 5)) * 100
+	    @twoWeekLoad = (@twoWeekLoad.round(0) / (department.capacity * 10)) * 100
+	    @threeWeekLoad = (@threeWeekLoad.round(0) / (department.capacity * 15)) * 100
+	    @fourWeekLoad = (@fourWeekLoad.round(0) / (department.capacity * 15)) * 100
+    	return @oneWeekLoad, @twoWeekLoad, @threeWeekLoad, @fourWeekLoad
+	end
+
 	def self.getDepartments
 		#load and sort departments for select box
 	    @departments = []

@@ -16,13 +16,23 @@
         <div class="col"><%= form.submit class: "btn btn-primary" %></div>
         <div class="col"><%= link_to "Cancel", runlists_path, class: "btn btn-secondary" %></div>
       </div>
-      
-      <div class="form-check form-switch">
+      </br>
+      <div>
+        <div class="row" >
+          <div class="col-1">
+            <%= form.number_field :capacity, class: "form-control", min: 0 %>
+          </div>
+          <div class="col" style="margin-top: 5px;">
+            <h5><strong>Daily</strong> capacity for This Department in <strong>Hours</strong></h5>
+          </div>
+        </div>
+        <div class="form-check form-switch">
           <%= form.check_box :started, {class: "form-check-input", type: "checkbox", role: "switch"} %>
           <%= form.label :started, "Show started jobs for this Department" %>
+        </div>
       </div>
     </div>
-    <div class="card-body ">
+    <div class="card-body">
       <div class="form-4-col form-check form-switch">
         <%= form.collection_check_boxes(:workcenter_ids, Workcenter.all, :id, :workCenter) do |b| %>
           <li>
@@ -32,7 +42,6 @@
         <% end %>
       </div>
     </div>
-  </div>
 <% end %>
 
 

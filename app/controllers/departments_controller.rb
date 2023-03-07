@@ -67,6 +67,6 @@ class DepartmentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def department_params
-      params.require(:department).permit(:department, :started, :workcenter_ids => [])#inputting array, so it has to be an array
+      params.require(:department).permit(:department, :started, :capacity, :workcenter_ids => [])#inputting array, so it has to be an array
     end
 end

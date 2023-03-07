@@ -27,7 +27,26 @@ class RunlistsController < ApplicationController
     #load all operations that match the select field chosen sent over using runlist_controller.js
     @operations = Runlist.loadOperations(params[:wc], false, true)
     @as = [] #empty assignments array
-    
+
+    @oneDots = []
+    @twoDots = []
+    @threeDots = []
+    @operations.each do |op|
+      case op.dots
+      when 1
+        @oneDots << [op.Job, op.Sched_Start]
+      when 2
+        @twoDots << [op.Job, op.Sched_Start]
+      when 3 
+        @threeDots << [op.Job, op.Sched_Start]
+      end
+    end
+    if @oneDots.any? || @twoDots.any? || @threeDots.any?
+      @dots = true
+    end
+    @oneDots, @twoDots, @threeDots, @dots =  Runlist.calculateDots(@operations)
+    @isDepartment = false
+    #@oneWeekLoad, @twoWeekLoad, @threeWeekLoad, @fourWeekLoad = Runlist.calculateWeeklyLoad(@operations, @department)
   end
 
   def changedepartment
@@ -47,6 +66,11 @@ class RunlistsController < ApplicationController
     @assignments.each do |a|
       @as << a.assignment
     end
+    #Dots and weekly load information
+    @oneDots, @twoDots, @threeDots, @dots =  Runlist.calculateDots(@operations)
+    @oneWeekLoad, @twoWeekLoad, @threeWeekLoad, @fourWeekLoad = Runlist.calculateWeeklyLoad(@operations, @department)
+    @isDepartment = true
+    
   end
 
   def checkboxsubmit #updates checkbox value when toggled
