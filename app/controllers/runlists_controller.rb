@@ -68,8 +68,13 @@ class RunlistsController < ApplicationController
     end
     #Dots and weekly load information
     @oneDots, @twoDots, @threeDots, @dots =  Runlist.calculateDots(@operations)
-    @oneWeekLoad, @twoWeekLoad, @threeWeekLoad, @fourWeekLoad = Runlist.calculateWeeklyLoad(@operations, @department)
-    @isDepartment = true
+    if @department.capacity == 0 then @department.capacity = nil end
+    if @department.capacity.present?
+      @oneWeekLoad, @twoWeekLoad, @threeWeekLoad, @fourWeekLoad = Runlist.calculateWeeklyLoad(@operations, @department)
+      @isDepartment = true
+    else
+      @isDepartment = false
+    end
     
   end
 

@@ -7,7 +7,8 @@
           <div class="col">
             <div class=" text-bg-info align-items-stretch"  style="border-radius: 20px">
               <div class="text-center">
-                <strong><u>Single Dot Jobs</u></strong>
+                <% if @oneDots.count > 1 then oneCount = "Jobs" else oneCount = "Job" end %>
+                <strong><u>Single Dot <%= oneCount %></u></strong>
               </div>
               <div class="text-center">
                 <% @oneDots.each do |dot| %>
@@ -22,7 +23,8 @@
           <div class="col ">
             <div class=" text-bg-warning"  style="border-radius: 20px"  style="height: 100%">
               <div class="text-center">
-                <strong><u>Double Dots</u></strong>
+                <% if @twoDots.count > 1 then twoCount = "Dots" else twoCount = "Dot" end %>
+                <strong><u>Double <%= twoCount %></u></strong>
               </div>
               <div class="text-center">
                   <% @twoDots.each do |dot| %>
@@ -37,7 +39,8 @@
           <div class="col">
             <div class="text-bg-danger"  style="border-radius: 20px">
               <div class="text-center">
-                <strong><u>Triple Dots</u></strong>
+                <% if @threeDots.count > 1 then threeCount = "Dots" else threeCount = "Dot" end %>
+                <strong><u>Triple <%= threeCount %></u></strong>
               </div>
               <div class="text-center">
                 <% @threeDots.each do |dot| %>
@@ -58,7 +61,7 @@
               <% if @oneWeekLoad > 100 then loadColor = "danger" elsif @threeWeekLoad < 100 && @threeWeekLoad > 90 then loadColor = "warning" else loadColor = "light" end %>
               <div class="text-bg-<%= loadColor %>" style="border-radius: 20px">
                 <div class="text-center">
-                  Load for coming week: <%= @oneWeekLoad.round(0) %>%
+                  Load For Coming Week: <%= @oneWeekLoad.round(0) %>%
                 </div>
               </div>
             </div>
@@ -92,7 +95,7 @@
   </div>
 <!-- add number of dots to top of runlist. copy table into same spot and run as a seperate table if there are dotted jobs -->
 
-    <table style="table-layout:fixed" class="table table-dark table-striped table-hover align-middle table table-bordered text-center" >
+    <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
       <thead>
         <tr>
           <th width="70px" scope="col">Job</th>
@@ -106,7 +109,6 @@
           <th width="50px" style="font-size: 10px" scope="col">Material Pending</th>
           <th width="90px" style="font-size: 14px" scope="col">Operation</th>
           <th width="90px" style="font-size: 12px" scope="col">Current Location</th>
-          <th width="42px" style="font-size: 12px" scope="col">Dots</th>
         </tr>
       </thead>
       <tbody>
