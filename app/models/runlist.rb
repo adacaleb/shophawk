@@ -4,7 +4,8 @@ class Runlist < ApplicationRecord
 require 'csv'
 require 'database_cleaner/active_record'
 #The CSV Import code is running as a rake task save in /lib/tasks/csvimport.  It's then ran via a .bat file on the desktop "csvimport.bat", and ran via the windows task scheduler every 5 minutes
-	
+		
+
 	def self.calculateDots(operations)
 		@oneDots = []
 	    @twoDots = []
@@ -39,22 +40,24 @@ require 'database_cleaner/active_record'
         @threeWeekLoad = 0
         @fourWeekLoad = 0
         operations.each do |op|
-	        date = Date.strptime(op.Sched_Start, "%m-%d-%Y").to_s
-	        if date < oneWeekDate
-		        @oneWeekLoad = @oneWeekLoad + op.EstTotalHrs.to_f
-		        @twoWeekLoad = @twoWeekLoad + op.EstTotalHrs.to_f
-	            @threeWeekLoad = @threeWeekLoad + op.EstTotalHrs.to_f
-	        end
-	        if date < twoWeekDate && date >= oneWeekDate
-	            @twoWeekLoad = @twoWeekLoad + op.EstTotalHrs.to_f
-	            @threeWeekLoad = @threeWeekLoad + op.EstTotalHrs.to_f
-	        end
-	        if date < threeWeekDate && date >= twoWeekDate
-	            @threeWeekLoad = @threeWeekLoad + op.EstTotalHrs.to_f
-	        end
-	        if date < fourWeekDate && date >= threeWeekDate
-	            @fourWeekLoad = @fourWeekLoad + op.EstTotalHrs.to_f
-	        end
+        	if op.Sched_Start != "-NULL"
+		        date = Date.strptime(op.Sched_Start, "%m-%d-%Y").to_s
+		        if date < oneWeekDate
+			        @oneWeekLoad = @oneWeekLoad + op.EstTotalHrs.to_f
+			        @twoWeekLoad = @twoWeekLoad + op.EstTotalHrs.to_f
+		            @threeWeekLoad = @threeWeekLoad + op.EstTotalHrs.to_f
+		        end
+		        if date < twoWeekDate && date >= oneWeekDate
+		            @twoWeekLoad = @twoWeekLoad + op.EstTotalHrs.to_f
+		            @threeWeekLoad = @threeWeekLoad + op.EstTotalHrs.to_f
+		        end
+		        if date < threeWeekDate && date >= twoWeekDate
+		            @threeWeekLoad = @threeWeekLoad + op.EstTotalHrs.to_f
+		        end
+		        if date < fourWeekDate && date >= threeWeekDate
+		            @fourWeekLoad = @fourWeekLoad + op.EstTotalHrs.to_f
+		        end
+		    end
         end
 	    @oneWeekLoad = (@oneWeekLoad.round(0) / (department.capacity * 5)) * 100
 	    @twoWeekLoad = (@twoWeekLoad.round(0) / (department.capacity * 10)) * 100
@@ -97,16 +100,12 @@ require 'database_cleaner/active_record'
 	    	@operations = @operations.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.WC_Vendor <=> b.WC_Vendor : a.Sched_Start <=> b.Sched_Start } #sorts runListItem[0] by schedule start date, then job # within
 	    end
 	    @operations.each do |op| #sorts the date field to look correct for user
-	      year = op.Sched_Start[0..3]
-	      day = op.Sched_Start[8..9]
-	      month = op.Sched_Start[5..7]
-	      op.Sched_Start = "#{month}#{day}-#{year}"
+	        year = op.Sched_Start[0..3]
+	        day = op.Sched_Start[8..9]
+	        month = op.Sched_Start[5..7]
+	        op.Sched_Start = "#{month}#{day}-#{year}"
 	    end
 	    return @operations
-	end
-
-	def self.calcHoursForDay
-
 	end
 
 

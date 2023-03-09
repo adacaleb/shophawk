@@ -127,6 +127,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_135722) do
     t.string "status"
     t.string "EstTotalHrs"
     t.string "User_Value"
+    t.index ["User_Value"], name: "index_runlists_on_User_Value"
   end
 
   create_table "turninginvs", force: :cascade do |t|

@@ -7,8 +7,8 @@
           <div class="col">
             <div class=" text-bg-info align-items-stretch"  style="border-radius: 20px">
               <div class="text-center">
-                <% if @oneDots.count > 1 then oneCount = "Jobs" else oneCount = "Job" end %>
-                <strong><u>Single Dot <%= oneCount %></u></strong>
+                <% if @oneDots.count > 1 then oneCount = "Dots" else oneCount = "Dot" end %>
+                <strong><u>Single <%= oneCount %></u></strong>
               </div>
               <div class="text-center">
                 <% @oneDots.each do |dot| %>
@@ -114,44 +114,45 @@
       <tbody>
         <% @previousStartDate = "01/01/1990" %> <!-- initialize startdate variable -->
         <% @operations.each do |op| %>
-          <% date = op.Sched_Start.to_s %>
-            <% dates = date.gsub("-", "/").to_s %> <!-- converts "-" to "/" for date strptime class -->
-            <% startDate = Date.strptime(dates, "%m/%d/%Y") %> <!-- converts string to date type variable -->
-            <% if @previousStartDate != startDate %> <!-- don't render another header if the date is same as previous -->
-              <% if startDate.before? @today %>
-                <% @rowColor = "table-danger" %>
-                <tr >
-                  <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
-                  <th colspan="2" class="table-light" style="font-size: 14px">~<%= dailyHoursCalc(date, @operations) %> Hours</th>
-                </tr>
+          <% if op.Sched_Start.to_s != "-NULL" %>
+            <% date = op.Sched_Start.to_s %>
+              <% dates = date.gsub("-", "/").to_s %> <!-- converts "-" to "/" for date strptime class -->
+              <% startDate = Date.strptime(dates, "%m/%d/%Y") %> <!-- converts string to date type variable -->
+              <% if @previousStartDate != startDate %> <!-- don't render another header if the date is same as previous -->
+                <% if startDate.before? @today %>
+                  <% @rowColor = "table-danger" %>
+                  <tr >
+                    <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
+                    <th colspan="2" class="table-light" style="font-size: 14px">~<%= dailyHoursCalc(date, @operations) %> Hours</th>
+                  </tr>
+                <% end %>
+                <% if startDate == @today %>
+                  <% @rowColor = "table-light" %>
+                  <tr >
+                    <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
+                    <th colspan="2" class="table-light" style="font-size: 14px">~<%= dailyHoursCalc(date, @operations) %> Hours</th>
+                  </tr>
+                <% end %>
+                <% if startDate.after? @today %>
+                  <% @rowColor = "table-default" %>
+                  <tr>
+                    <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
+                    <th colspan="2" class="table-light" style="font-size: 14px">~<%= dailyHoursCalc(date, @operations) %> Hours</th>
+                  </tr>
+                <% end %>
+                <% if op.status == "S" %>
+                  <% @rowColor = "table-info" %>
+                <% end %>
               <% end %>
-              <% if startDate == @today %>
-                <% @rowColor = "table-light" %>
-                <tr >
-                  <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
-                  <th colspan="2" class="table-light" style="font-size: 14px">~<%= dailyHoursCalc(date, @operations) %> Hours</th>
-                </tr>
-              <% end %>
-              <% if startDate.after? @today %>
-                <% @rowColor = "table-default" %>
-                <tr>
-                  <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
-                  <th colspan="2" class="table-light" style="font-size: 14px">~<%= dailyHoursCalc(date, @operations) %> Hours</th>
-                </tr>
-              <% end %>
-              <% if op.status == "S" %>
-                <% @rowColor = "table-info" %>
-              <% end %>
+              <% @previousStartDate = startDate %>
+              <tr class="<%= @rowColor %>" >
+               <%= render op %>
+              </tr>
+            <% i = i + 1 %>
+            <% if i == 1000 %>
+              <% break %>
             <% end %>
-            <% @previousStartDate = startDate %>
-            <tr class="<%= @rowColor %>" >
-             <%= render op %>
-            </tr>
-          <% i = i + 1 %>
-          <% if i == 1000 %>
-            <% break %>
           <% end %>
-
       <% end %>
     </tbody>
   </table>

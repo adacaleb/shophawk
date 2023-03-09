@@ -15,8 +15,6 @@ class RunlistsController < ApplicationController
 
   # GET /runlists or /runlists.json
   def index
-    #Runlist.updateRunList
-    #Runlist.importcsv #updates DB with current CSV file. OLD: now done with rake task
     @workCenters = Runlist.getWorkcenters
     @departments = Runlist.getDepartments
   end
