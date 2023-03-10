@@ -237,7 +237,7 @@ namespace :update do
 			if row[0] != nil
 				dot = row[1].to_s.upcase
 				ops = Runlist.where(User_Value: row[0])
-				puts ops
+				#puts ops
 				ops.each do |op|
 					case dot
 						when "O"
