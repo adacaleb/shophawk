@@ -58,7 +58,7 @@
         <div class="card-header">
           <div class="row">
             <div class="col-3" style="height: 100%">
-              <% if @oneWeekLoad > 100 then loadColor = "danger" elsif @threeWeekLoad < 100 && @threeWeekLoad > 90 then loadColor = "warning" else loadColor = "light" end %>
+              <% if @oneWeekLoad > 100 then loadColor = "danger" elsif @oneWeekLoad < 100 && @oneWeekLoad > 90 then loadColor = "warning" else loadColor = "light" end %>
               <div class="text-bg-<%= loadColor %>" style="border-radius: 20px">
                 <div class="text-center">
                   Load For Coming Week: <%= @oneWeekLoad.round(0) %>%
@@ -66,7 +66,7 @@
               </div>
             </div>
             <div class="col-3">
-              <% if @twoWeekLoad > 100 then loadColor = "danger" elsif @threeWeekLoad < 100 && @threeWeekLoad > 90 then loadColor = "warning" else loadColor = "light" end %>
+              <% if @twoWeekLoad > 100 then loadColor = "danger" elsif @twoWeekLoad < 100 && @twoWeekLoad > 90 then loadColor = "warning" else loadColor = "light" end %>
               <div class="text-bg-<%= loadColor %>"  style="border-radius: 20px">
                 <div class="text-center">
                   Week 2 Load: <%= @twoWeekLoad.round(0) %>%
@@ -82,7 +82,7 @@
               </div>
             </div>
             <div class="col-3">
-              <% if @fourWeekLoad > 100 then loadColor = "danger" elsif @threeWeekLoad < 100 && @threeWeekLoad > 90 then loadColor = "warning" else loadColor = "light" end %>
+              <% if @fourWeekLoad > 100 then loadColor = "danger" elsif @fourWeekLoad < 100 && @fourWeekLoad > 90 then loadColor = "warning" else loadColor = "light" end %>
               <div class="text-bg-<%= loadColor %>"  style="border-radius: 20px">
                 <div class="text-center">
                   Week 4 Load: <%= @fourWeekLoad.round(0) %>%

@@ -105,34 +105,10 @@ class RunlistsController < ApplicationController
     @assignment.save
     DepartmentAssignment.create(department_id: params[:departmentid], assignment_id: @assignment.id)
     render 'runlists/changedepartment', department: @department 
-
-#    respond_to do |format|
-#      if @assignment.save
-#        DepartmentAssignment.create(department_id: params[:departmentid], assignment_id: @assignment.id)
-        #above line saves a new record in the join table DepartmentAssignment to associate the new assignment to the currently selected department
- #       format.html { render changedepartment_runlists_path(:department => @department.department), notice: "Assignment was successfully created." }
-#        format.json { render :show, status: :created, location: @assignment }
-#      else
-        #format.html { render :new, status: :unprocessable_entity }
-        #format.json { render json: @assignment.errors, status: :unprocessable_entity }
-#      end
- #   end
   end
 
   def showAssignments
     @department = Department.find_by(id: params[:departmentid])
-    @assignments = @department.assignments
-
-    @today = Date.today #.strftime('%m-%d-%Y')
-    @workCenters = Runlist.getWorkcenters
-    #makes a list of all workcenters in the department that matches data sent from runlist.js
-    @department = Department.find_by(department: params[:department]) 
-    @workCentersToShow = [] #initiate array
-    @department.workcenters.each do |a| #for the department, load the associated workCenters to the array
-      @workCentersToShow << a.workCenter
-    end
-    @operations = Runlist.loadOperations(@workCentersToShow, true, @department.started)
-    #load assignments for the selected department
     @assignments = @department.assignments
     @as = []
     @assignments.each do |a|
