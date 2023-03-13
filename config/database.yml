@@ -19,6 +19,7 @@ development:
   username: postgres
   password: <%= ENV['DATABASE_PASSWORD'] %>
 
+
   #adapter: sqlite3
   #pool: 5
   #timeout: 5000
@@ -33,6 +34,7 @@ test:
   host: 127.0.0.1
   username: postgres
   password: <%= ENV['DATABASE_PASSWORD'] %>
+
 
 production:
   <<: *default
