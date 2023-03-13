@@ -1,0 +1,49 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  announcements: MyString
+  quote: MyString
+  mondayO: MyString
+  mondayC: MyString
+  tuesdayO: MyString
+  tuesdayC: MyString
+  wednesdayO: MyString
+  wednesdayC: MyString
+  thursdayO: MyString
+  thursdayC: MyString
+  fridayO: MyString
+  fridayC: MyString
+  nextMondayO: MyString
+  nextMondayC: MyString
+  nextTuesdayO: MyString
+  nextTuesdayC: MyString
+  nextWednesdayO: MyString
+  nextWednesdayC: MyString
+  nextThursdayO: MyString
+  nextThursdayC: MyString
+  nextFridayO: MyString
+  nextFridayC: MyString
+
+two:
+  announcements: MyString
+  quote: MyString
+  mondayO: MyString
+  mondayC: MyString
+  tuesdayO: MyString
+  tuesdayC: MyString
+  wednesdayO: MyString
+  wednesdayC: MyString
+  thursdayO: MyString
+  thursdayC: MyString
+  fridayO: MyString
+  fridayC: MyString
+  nextMondayO: MyString
+  nextMondayC: MyString
+  nextTuesdayO: MyString
+  nextTuesdayC: MyString
+  nextWednesdayO: MyString
+  nextWednesdayC: MyString
+  nextThursdayO: MyString
+  nextThursdayC: MyString
+  nextFridayO: MyString
+  nextFridayC: MyString

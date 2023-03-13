@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @slideshow %>
+
+<div>
+  <%= link_to "Edit this slideshow", edit_slideshow_path(@slideshow) %> |
+  <%= link_to "Back to slideshows", slideshows_path %>
+
+  <%= button_to "Destroy this slideshow", @slideshow, method: :delete %>
+</div>

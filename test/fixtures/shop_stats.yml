@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  missedStarts: 1
+  missedShips: 1
+  scrap: 1
+  totalJobs: 1
+  totalRevenue: 1
+  sixWeekRevenue: 1
+  newTravelors: 1
+
+two:
+  missedStarts: 1
+  missedShips: 1
+  scrap: 1
+  totalJobs: 1
+  totalRevenue: 1
+  sixWeekRevenue: 1
+  newTravelors: 1

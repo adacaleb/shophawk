@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_07_135722) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_13_191409) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -128,6 +128,45 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_135722) do
     t.string "EstTotalHrs"
     t.string "User_Value"
     t.index ["User_Value"], name: "index_runlists_on_User_Value"
+  end
+
+  create_table "shop_stats", force: :cascade do |t|
+    t.integer "missedStarts"
+    t.integer "missedShips"
+    t.integer "scrap"
+    t.integer "totalJobs"
+    t.integer "totalRevenue"
+    t.integer "sixWeekRevenue"
+    t.integer "newTravelors"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "slideshows", force: :cascade do |t|
+    t.string "announcements"
+    t.string "quote"
+    t.string "mondayO"
+    t.string "mondayC"
+    t.string "tuesdayO"
+    t.string "tuesdayC"
+    t.string "wednesdayO"
+    t.string "wednesdayC"
+    t.string "thursdayO"
+    t.string "thursdayC"
+    t.string "fridayO"
+    t.string "fridayC"
+    t.string "nextMondayO"
+    t.string "nextMondayC"
+    t.string "nextTuesdayO"
+    t.string "nextTuesdayC"
+    t.string "nextWednesdayO"
+    t.string "nextWednesdayC"
+    t.string "nextThursdayO"
+    t.string "nextThursdayC"
+    t.string "nextFridayO"
+    t.string "nextFridayC"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "turninginvs", force: :cascade do |t|

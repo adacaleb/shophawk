@@ -1,0 +1,2 @@
+class ShopStat < ApplicationRecord
+end

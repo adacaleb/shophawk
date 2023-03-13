@@ -1,0 +1,127 @@
+<%= form_with(model: slideshow) do |form| %>
+  <% if slideshow.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(slideshow.errors.count, "error") %> prohibited this slideshow from being saved:</h2>
+
+      <ul>
+        <% slideshow.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :announcements, style: "display: block" %>
+    <%= form.text_field :announcements %>
+  </div>
+
+  <div>
+    <%= form.label :quote, style: "display: block" %>
+    <%= form.text_field :quote %>
+  </div>
+
+  <div>
+    <%= form.label :mondayO, style: "display: block" %>
+    <%= form.text_field :mondayO %>
+  </div>
+
+  <div>
+    <%= form.label :mondayC, style: "display: block" %>
+    <%= form.text_field :mondayC %>
+  </div>
+
+  <div>
+    <%= form.label :tuesdayO, style: "display: block" %>
+    <%= form.text_field :tuesdayO %>
+  </div>
+
+  <div>
+    <%= form.label :tuesdayC, style: "display: block" %>
+    <%= form.text_field :tuesdayC %>
+  </div>
+
+  <div>
+    <%= form.label :wednesdayO, style: "display: block" %>
+    <%= form.text_field :wednesdayO %>
+  </div>
+
+  <div>
+    <%= form.label :wednesdayC, style: "display: block" %>
+    <%= form.text_field :wednesdayC %>
+  </div>
+
+  <div>
+    <%= form.label :thursdayO, style: "display: block" %>
+    <%= form.text_field :thursdayO %>
+  </div>
+
+  <div>
+    <%= form.label :thursdayC, style: "display: block" %>
+    <%= form.text_field :thursdayC %>
+  </div>
+
+  <div>
+    <%= form.label :fridayO, style: "display: block" %>
+    <%= form.text_field :fridayO %>
+  </div>
+
+  <div>
+    <%= form.label :fridayC, style: "display: block" %>
+    <%= form.text_field :fridayC %>
+  </div>
+
+  <div>
+    <%= form.label :nextMondayO, style: "display: block" %>
+    <%= form.text_field :nextMondayO %>
+  </div>
+
+  <div>
+    <%= form.label :nextMondayC, style: "display: block" %>
+    <%= form.text_field :nextMondayC %>
+  </div>
+
+  <div>
+    <%= form.label :nextTuesdayO, style: "display: block" %>
+    <%= form.text_field :nextTuesdayO %>
+  </div>
+
+  <div>
+    <%= form.label :nextTuesdayC, style: "display: block" %>
+    <%= form.text_field :nextTuesdayC %>
+  </div>
+
+  <div>
+    <%= form.label :nextWednesdayO, style: "display: block" %>
+    <%= form.text_field :nextWednesdayO %>
+  </div>
+
+  <div>
+    <%= form.label :nextWednesdayC, style: "display: block" %>
+    <%= form.text_field :nextWednesdayC %>
+  </div>
+
+  <div>
+    <%= form.label :nextThursdayO, style: "display: block" %>
+    <%= form.text_field :nextThursdayO %>
+  </div>
+
+  <div>
+    <%= form.label :nextThursdayC, style: "display: block" %>
+    <%= form.text_field :nextThursdayC %>
+  </div>
+
+  <div>
+    <%= form.label :nextFridayO, style: "display: block" %>
+    <%= form.text_field :nextFridayO %>
+  </div>
+
+  <div>
+    <%= form.label :nextFridayC, style: "display: block" %>
+    <%= form.text_field :nextFridayC %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
