@@ -1,0 +1,9 @@
+<%= turbo_stream.update "newAssignment" do %> 
+  <div class="card text-bg-dark mb-3 ">
+    <div class="card-body">
+      <div class="col">
+        <%= render "assignments/form", assignment: @assignment %>
+      </div>
+    </div>
+  </div>
+<% end %>

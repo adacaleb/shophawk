@@ -1,0 +1,39 @@
+<%= turbo_stream.update "departmentselect" do %>
+
+  <select class="form-select" data-action="change->runlist#changedepartment"> <!-- data action is the js controller to run -->
+      <option selected>Department</option>
+      <% @departments.each do |w| %>
+        <option ><%= w %></option>
+      <% end %>
+  </select>
+<% end %>
+
+<%= turbo_stream.update "refresh" do %>
+<div class="row">
+  <div class="col-5"></div>
+  <div class="col">
+    Data Syncs every 5 minutes from Jobboss
+  </div>
+  <div class="col-1">
+    <%= link_to "Refresh", activerunlist_runlists_path(:wc => params[:wc]), class: "btn btn-secondary justify-content-end" %>
+  </div>
+</div>
+<% end %>
+
+<%= turbo_stream.update "editDepartmentButton" do %>
+<%= link_to "New department", new_department_path, class: "btn btn btn-success" %>
+<% end %>
+
+<%= turbo_stream.update "newassignmentbutton" do %>
+<% end %> 
+
+<%= turbo_stream.update "newAssignment" do %>
+<% end %>
+
+<%= turbo_stream.update "showAssignments" do %>
+<% end %>
+
+
+<%= turbo_stream.update "activerunlistrender" do %>
+    <%= render "runlists/showrunlist" %>
+<% end %>

@@ -1,0 +1,23 @@
+<%= turbo_stream.update "showAssignments" do %>
+</br>
+      <div class="card text-bg-dark mb-3 ">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-1"></div>
+              <div class="col-10 d-md-flex justify-content-center"><h4>Assignments for <%= @department.department %></h4></div>
+                <div class="col-1 d-md-flex justify-content-end">
+                <%= link_to "Close",  closestreams_runlists_path, class: "btn btn-secondary", data: { action: "change->runlist#changeWc"} %>
+                </div>
+          </div>
+          
+          <div class="card-body  text-white text-center">
+            
+            <% @assignments.each do |assignment| %>
+              <%= render assignment %>
+              <%= link_to "Delete", assignmentdestroy_path(assignment, :departmentid => params[:departmentid], :department => params[:department]), method: :delete, class: "btn btn-danger" %>
+            </br>
+              
+            <% end %>
+          </div>
+      </div>
+<% end %>

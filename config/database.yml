@@ -13,10 +13,12 @@ default: &default
 
 development:
   <<: *default
-  database: shophawkdev
+  #database and password defined in "config/env_variable_secrets.yml" file
+  database: <%= ENV['DATABASE'] %>
   host: 127.0.0.1
   username: postgres
-  password: Gear1234
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+
 
   #adapter: sqlite3
   #pool: 5
@@ -28,13 +30,25 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: shophawkdev
+  database: <%= ENV['DATABASE'] %>
   host: 127.0.0.1
   username: postgres
-  password: Gear1234
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+
 
 production:
-  adapter: postgresql
+  <<: *default
+  #use for local server database
+  database: <%= ENV['DATABASE'] %>
+  host: 127.0.0.1
+  username: postgres
+  password: <%= ENV['DATABASE_PASSWORD'] %>
   prepared_statements: false
   advisory_locks: false
-  #port: 5432
+  port: 5432
+
+
+  #use these settings for Heroku
+  #adapter: postgresql
+  #prepared_statements: false
+  #advisory_locks: false

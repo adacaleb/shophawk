@@ -15,7 +15,13 @@ gem "jbuilder"
 gem "tzinfo-data"
 gem "bootsnap", require: false
 gem "pry"
-
+gem 'pg', '~> 1.4', '>= 1.4.5'
+gem 'activerecord-import'
+gem 'database_cleaner-active_record'
+gem 'hotwire-rails', '~> 0.1.3'
+gem 'importmap-rails'
+gem 'requestjs-rails'
+gem 'date', '~> 0.0.1'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -32,7 +38,7 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
-  gem 'pg', '~> 1.4', '>= 1.4.5'
+  
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
@@ -41,7 +47,7 @@ group :development do
 end
 
 group :production  do
-  gem 'pg', '~> 1.4', '>= 1.4.5'
+  
 end
 
 group :test do

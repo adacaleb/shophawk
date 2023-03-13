@@ -6,8 +6,18 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+
 module Shophawk
   class Application < Rails::Application
+
+    #load enviroment variables from defined files
+    config.before_configuration do
+      env_file = File.join(Rails.root, 'config', 'env_variable_secrets.yml')
+      YAML.load(File.open(env_file)).each do |key, value|
+      ENV[key.to_s] = value
+      end if File.exists?(env_file)
+    end
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
@@ -18,5 +28,6 @@ module Shophawk
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.secret_key_base = 'edgertongear'
   end
 end

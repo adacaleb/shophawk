@@ -1,0 +1,1 @@
+@call rake import:csv %*

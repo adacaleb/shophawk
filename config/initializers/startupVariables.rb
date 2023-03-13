@@ -1,0 +1,1 @@
+DatabaseCleaner.allow_production = true

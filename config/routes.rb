@@ -1,6 +1,22 @@
 Rails.application.routes.draw do
-  
+  resources :assignments
+  resources :departments
 
+  resources :runlists do
+    collection do
+      get :activerunlist, defaults: { format: :turbo_stream }
+      get :checkboxsubmit, defaults: { format: :turbo_stream }
+      get :changedepartment, defaults: { format: :turbo_stream } #need to have a view.turbo_stream.erb to render to work
+      get :assignmentsubmit, defaults: { format: :turbo_stream } #used to call controller to save assignment selection
+      get :showAssignments, defaults: { format: :turbo_stream }
+      get :newassignment, defaults: { format: :turbo_stream }
+      get :closestreams, defaults: { format: :turbo_stream }
+      end
+  end
+
+
+  get "runlists/:id/destroyassignment", to: "runlists#destroyassignment", as: :assignmentdestroy
+  post "runlists/:id/createassignment", to: "runlists#createassignment", as: :createassignment, defaults: { format: :turbo_stream }
   get "millinginvs/:id/checkout", to: "millinginvs#checkout", as: :millingcheckout
   get "millinginvs/:id/checkin", to: "millinginvs#checkin", as: :millingcheckin
   post "millinginvs/:id", to: "millinginvs#status", as: :millingstatus
@@ -13,6 +29,8 @@ Rails.application.routes.draw do
   resources :histories
   resources :turninginvs
   resources :millinginvs
+  resources :runlists
+
 
   #patch "turninginvs/:id/checkout", to: "turninginvs#update"
   # get 'home/index'  #commented out bc we set the root page on the next line. 
