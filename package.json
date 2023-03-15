@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "@rails/request.js": "^0.0.8"
+    "@rails/request.js": "^0.0.8",
+    "chart.js": "^4.2.1",
+    "chartkick": "^5.0.1"
   }
 }

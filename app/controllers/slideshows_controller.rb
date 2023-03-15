@@ -30,6 +30,19 @@ class SlideshowsController < ApplicationController
 
   # GET /slideshows/1/edit
   def edit
+    @slideshow = Slideshow.find(1)
+    @weekStart = Date.today.beginning_of_week(:monday)
+    @nextWeekStart = @weekStart + 1.week
+    @weekEnd = @weekStart + 4.days
+    @weekStart = @weekStart.to_s
+    @weekEnd = @weekEnd.to_s
+    @weekStart = @weekStart[5..9]
+    @weekEnd = @weekEnd[5..9]
+    @nextWeekEnd = @nextWeekStart + 4.days
+    @nextWeekStart = @nextWeekStart.to_s
+    @nextWeekEnd = @nextWeekEnd.to_s
+    @nextWeekStart = @nextWeekStart[5..9]
+    @nextWeekEnd = @nextWeekEnd[5..9]
   end
 
   # POST /slideshows or /slideshows.json
@@ -51,7 +64,7 @@ class SlideshowsController < ApplicationController
   def update
     respond_to do |format|
       if @slideshow.update(slideshow_params)
-        format.html { redirect_to slideshow_url(@slideshow), notice: "Slideshow was successfully updated." }
+        format.html { redirect_to slideshows_path, notice: "Slideshow was successfully updated." }
         format.json { render :show, status: :ok, location: @slideshow }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -78,6 +91,6 @@ class SlideshowsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def slideshow_params
-      params.require(:slideshow).permit(:announcements, :quote, :mondayO, :mondayC, :tuesdayO, :tuesdayC, :wednesdayO, :wednesdayC, :thursdayO, :thursdayC, :fridayO, :fridayC, :nextMondayO, :nextMondayC, :nextTuesdayO, :nextTuesdayC, :nextWednesdayO, :nextWednesdayC, :nextThursdayO, :nextThursdayC, :nextFridayO, :nextFridayC)
+      params.require(:slideshow).permit(:todoList, :announcements, :quote, :mondayO, :mondayC, :tuesdayO, :tuesdayC, :wednesdayO, :wednesdayC, :thursdayO, :thursdayC, :fridayO, :fridayC, :nextMondayO, :nextMondayC, :nextTuesdayO, :nextTuesdayC, :nextWednesdayO, :nextWednesdayC, :nextThursdayO, :nextThursdayC, :nextFridayO, :nextFridayC)
     end
 end

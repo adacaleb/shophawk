@@ -22,6 +22,8 @@ gem 'hotwire-rails', '~> 0.1.3'
 gem 'importmap-rails'
 gem 'requestjs-rails'
 gem 'date', '~> 0.0.1'
+gem 'chartkick'
+gem 'groupdate' #allows group_by_day functionality
 
 # Use Sass to process CSS
 # gem "sassc-rails"

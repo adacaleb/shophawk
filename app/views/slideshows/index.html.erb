@@ -1,22 +1,18 @@
 <% require 'date' %>
 
 <p style="color: green"><%= notice %></p>
-
+<%= line_chart Runlist.group_by_day(:updated_at).count %>
 
 <div id="slideshows" class="text-white">
 
 </div>
 
-<div class="carousel slide">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
+<div id="carouselExample" class="carousel slide">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <div class="card text-bg-light mb-3" >
-        <div class="card-header text-center "><h1>Shop Hours</h1></div>
+      <div class="card text-bg-light mb-3" style=" height: 98vh" >
+        <div class="card-header text-center "><h1>Shop Hours</h1>
+        </div>
         <div class="card-body">
           <div class="row">
             <div class="col-6">
@@ -25,56 +21,56 @@
                   <h3>This Week</h3>
                   <h3><%= @weekStart %> to <%= @weekEnd %></h3>
                 </div>
-                  <div class="card-body">
-                    <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
-                      <thead>
-                        <tr>
-                          <th scope="col">Day</th>
-                          <th scope="col">Open</th>
-                          <th scope="col">Close</th>
-                        </tr>
-                      </thead>
-                      <tbody style="font-size: X-large;">
-                        <tr>
-                          <td>Monday</td>
-                            <% if @slideshow.mondayO != "7" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.mondayO %></td>
-                            <% if @slideshow.mondayC != "4" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.mondayC %></td>
-                        </tr>
-                        <tr>
-                          <td>Tuesday</td>
-                            <% if @slideshow.tuesdayO != "7" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.tuesdayO %></td>
-                            <% if @slideshow.tuesdayC != "4" then background = "text-bg-danger" end %>
-                          <td><%= @slideshow.tuesdayC %></td>
-                        </tr>
-                        <tr>
-                          <td>Wednesday</td>
-                            <% if @slideshow.wednesdayO != "7" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.wednesdayO %></td>
-                            <% if @slideshow.wednesdayC != "4" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.wednesdayC %></td>
-                        </tr>
-                        <tr>
-                          <td>Thursday</td>
-                            <% if @slideshow.thursdayO != "7" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.thursdayO %></td>
-                            <% if @slideshow.thursdayC != "4" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.thursdayC %></td>
-                        </tr>
-                        <tr>
-                          <td>Friday</td>
-                            <% if @slideshow.fridayO != "7" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.fridayO %></td>
-                            <% if @slideshow.fridayC != "4" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.fridayC %></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                <div class="card-body">
+                  <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
+                    <thead>
+                      <tr>
+                        <th scope="col">Day</th>
+                        <th scope="col">Open</th>
+                        <th scope="col">Close</th>
+                      </tr>
+                    </thead>
+                    <tbody style="font-size: X-large;">
+                      <tr>
+                        <td>Monday</td>
+                        <% if @slideshow.mondayO != "7" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.mondayO %></td>
+                        <% if @slideshow.mondayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.mondayC %></td>
+                      </tr>
+                      <tr>
+                        <td>Tuesday</td>
+                        <% if @slideshow.tuesdayO != "7" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.tuesdayO %></td>
+                        <% if @slideshow.tuesdayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td><%= @slideshow.tuesdayC %></td>
+                      </tr>
+                      <tr>
+                        <td>Wednesday</td>
+                        <% if @slideshow.wednesdayO != "7" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.wednesdayO %></td>
+                        <% if @slideshow.wednesdayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.wednesdayC %></td>
+                      </tr>
+                      <tr>
+                        <td>Thursday</td>
+                        <% if @slideshow.thursdayO != "7" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.thursdayO %></td>
+                        <% if @slideshow.thursdayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.thursdayC %></td>
+                      </tr>
+                      <tr>
+                        <td>Friday</td>
+                        <% if @slideshow.fridayO != "7" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.fridayO %></td>
+                        <% if @slideshow.fridayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.fridayC %></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
+            </div>
 
             <div class="col-6">
               <div class="card text-bg-light text-center mb-3">
@@ -84,75 +80,117 @@
                 </div>
                 <div class="card-body">
                   <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
-                      <thead>
-                        <tr>
-                          <th scope="col">Day</th>
-                          <th scope="col">Open</th>
-                          <th scope="col">Close</th>
-                        </tr>
-                      </thead>
-                      <tbody style="font-size: X-large;">
-                        <tr>
-                          <td>Monday</td>
-                            <% if @slideshow.nextMondayO != "7" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.nextMondayO %></td>
-                            <% if @slideshow.nextMondayC != "4" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.nextMondayC %></td>
-                        </tr>
-                        <tr>
-                          <td>Tuesday</td>
-                            <% if @slideshow.nextTuesdayO != "7" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.nextTuesdayO %></td>
-                            <% if @slideshow.nextTuesdayC != "4" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.nextTuesdayC %></td>
-                        </tr>
-                        <tr>
-                          <td>Wednesday</td>
-                            <% if @slideshow.nextWednesdayO != "7" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.nextWednesdayO %></td>
-                            <% if @slideshow.nextWednesdayC != "4" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.nextWednesdayC %></td>
-                        </tr>
-                        <tr>
-                          <td>Thursday</td>
-                            <% if @slideshow.nextThursdayO != "7" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.nextThursdayO %></td>
-                            <% if @slideshow.nextThursdayC != "4" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.nextThursdayC %></td>
-                        </tr>
-                        <tr>
-                          <td>Friday</td>
-                            <% if @slideshow.nextFridayO != "7" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.nextFridayO %></td>
-                            <% if @slideshow.nextFridayC != "4" then background = "text-bg-danger" end %>
-                          <td class="<%= background %>"><%= @slideshow.nextFridayC %></td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <thead>
+                      <tr>
+                        <th scope="col">Day</th>
+                        <th scope="col">Open</th>
+                        <th scope="col">Close</th>
+                      </tr>
+                    </thead>
+                    <tbody style="font-size: X-large;">
+                      <tr>
+                        <td>Monday</td>
+                        <% if @slideshow.nextMondayO != "7" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.nextMondayO %></td>
+                        <% if @slideshow.nextMondayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.nextMondayC %></td>
+                      </tr>
+                      <tr>
+                        <td>Tuesday</td>
+                        <% if @slideshow.nextTuesdayO != "7" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.nextTuesdayO %></td>
+                        <% if @slideshow.nextTuesdayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.nextTuesdayC %></td>
+                      </tr>
+                      <tr>
+                        <td>Wednesday</td>
+                        <% if @slideshow.nextWednesdayO != "7" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.nextWednesdayO %></td>
+                        <% if @slideshow.nextWednesdayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.nextWednesdayC %></td>
+                      </tr>
+                      <tr>
+                        <td>Thursday</td>
+                        <% if @slideshow.nextThursdayO != "7" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.nextThursdayO %></td>
+                        <% if @slideshow.nextThursdayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.nextThursdayC %></td>
+                      </tr>
+                      <tr>
+                        <td>Friday</td>
+                        <% if @slideshow.nextFridayO != "7" then background = "text-bg-danger" else background = "text-bg-default" end %>
+                        <td class="<%= background %>"><%= @slideshow.nextFridayO %></td>
+                        <% if @slideshow.nextFridayC != "4" then background = "text-bg-danger" end %>
+                        <td class="<%= background %>"><%= @slideshow.nextFridayC %></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
-       </div>
+        </div>
       </div>
     </div>
     <div class="carousel-item">
-      yes yes
-      <img src="..." class="d-block w-100" alt="...">
+      <div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
+        <div class="card-header">
+          <h1>Announcements</h1>
+        </div>
+        <div class="card-body">
+          <h1>
+            <%= simple_format(@slideshow.announcements) %>
+          </h1>
+        </div>
+      </div>
     </div>
     <div class="carousel-item">
-      no
-      <img src="..." class="d-block w-100" alt="...">
+      <div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
+        <div class="card-header">
+          <h1>Wise Words</h1>
+        </div>
+        <div class="card-body" >
+          <h1>
+            <%= image_tag(@slideshow.quote, style:"width: 75vw; height: 85vh; object-fit: fill;") %>
+          </h1>
+        </div>
+      </div>
+    </div>
+    <% if @slideshow.todoList != "" || @slideshow.todoList != nil %>
+      <div class="carousel-item">
+        <div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
+          <div class="card-header">
+            <h1>ToDo List</h1>
+          </div>
+          <div class="card-body">
+            <h1>
+              <%= simple_format(@slideshow.todoList) %>
+            </h1>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="carousel-item">
+      <div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
+          <div class="card-header">
+            <h1>ToDo List</h1>
+          </div>
+          <div class="card-body">
+            <h1>
+              <%= line_chart Turninginv.group_by_day(:created_at).count %>
+            </h1>
+          </div>
+        </div>
+      
     </div>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-
-<%= link_to "Edit slideshow", edit_slideshow_path(@slideshow), class: "btn btn-primary" %>

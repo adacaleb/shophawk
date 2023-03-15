@@ -1,10 +1,141 @@
-<h1>Editing slideshow</h1>
+<div class="text-white">
+  <div class="card text-bg-light mb-3">
+    <%= form_with(model: @slideshow) do |form| %>
+      <% if @slideshow.errors.any? %>
+        <div style="color: red">
+          <h2><%= pluralize(slideshow.errors.count, "error") %> prohibited this slideshow from being saved:</h2>
 
-<%= render "form", slideshow: @slideshow %>
+          <ul>
+            <% @slideshow.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-<br>
+      <div class="card text-bg-light mb-3" >
+        <div class="card-header text-center "><h1>Edit Slideshow</h1></div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <div class="card text-bg-light text-center mb-3">
+                <div class="card-header">
+                  <h3>This Week</h3>
+                  <h3><%= @weekStart %> to <%= @weekEnd %></h3>
+                </div>
+                  <div class="card-body">
+                    <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
+                      <thead style="font-size: X-large">
+                        <tr>
+                          <th scope="col">Day</th>
+                          <th scope="col">Open</th>
+                          <th scope="col">Close</th>
+                        </tr>
+                      </thead>
+                      <tbody style="font-size: X-large">
+                        <tr>
+                          <td>Monday</td>
+                          <td><%= form.number_field :mondayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                          <td><%= form.number_field :mondayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                        <tr>
+                          <td>Tuesday</td>
+                          <td><%= form.number_field :tuesdayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                          <td><%= form.number_field :tuesdayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                        <tr>
+                          <td>Wednesday</td>
+                          <td><%= form.number_field :wednesdayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                          <td><%= form.number_field :wednesdayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                        <tr>
+                          <td>Thursday</td>
+                          <td><%= form.number_field :thursdayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                          <td><%= form.number_field :thursdayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                        <tr>
+                          <td>Friday</td>
+                          <td><%= form.number_field :fridayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                          <td><%= form.number_field :fridayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
 
-<div>
-  <%= link_to "Show this slideshow", @slideshow %> |
-  <%= link_to "Back to slideshows", slideshows_path %>
+            <div class="col-6">
+              <div class="card text-bg-light text-center mb-3">
+                <div class="card-header">
+                  <h3>Next Week</h3>
+                  <h3><%= @nextWeekStart %> to <%= @nextWeekEnd %></h3>
+                </div>
+                <div class="card-body">
+                  <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
+                      <thead style="font-size: X-large">
+                        <tr>
+                          <th scope="col">Day</th>
+                          <th scope="col">Open</th>
+                          <th scope="col">Close</th>
+                        </tr>
+                      </thead>
+                      <tbody style="font-size: X-large;">
+                        <tr>
+                          <td>Monday</td>
+                          <td><%= form.number_field :nextMondayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                          <td><%= form.number_field :nextMondayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                        <tr>
+                          <td>Tuesday</td>
+                          <td><%= form.number_field :nextTuesdayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                          <td><%= form.number_field :nextTuesdayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                        <tr>
+                          <td>Wednesday</td>
+                          <td><%= form.number_field :nextWednesdayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                          <td><%= form.number_field :nextWednesdayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                        <tr>
+                          <td>Thursday</td>
+                          <td><%= form.number_field :nextThursdayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                          <td><%= form.number_field :nextThursdayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                        <tr>
+                          <td>Friday</td>
+                          <td><%= form.number_field :nextFridayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                          <td><%= form.number_field :nextFridayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <%= form.submit "Save Changes", class:"btn btn-primary" %>
+          </div>
+        <div style="font-size: X-large;">
+          <div>
+            Announcements:
+            <%= form.text_area :announcements, class: "form-control form-control-lg", style: "height: 200px"  %>
+          </div>
+          </br>
+          <div>
+            Quote Image: Must be an image url from the web
+            <%= form.text_field :quote, class: "form-control form-control-lg" %>
+          </div>
+          </br>
+          <div>
+            ToDo List:
+            <%= form.text_area :todoList, class: "form-control form-control-lg", style: "height: 140px"  %>
+          </div>
+          </br>
+        </div>
+      <% end %>
+      </div>
+    </div>
+    <div>
+      <%= link_to "Back to slideshows", slideshows_path, class:"btn btn-secondary" %>
+    </div>
+  </div>
 </div>
