@@ -2,9 +2,6 @@
 import "controllers"
 import "@hotwired/turbo-rails"
 import "@rails/request.js"
-import "chartkick"
-import "Chart.bundle"
-import "chartkick/chart.js"
-import "chartkick/chart.js"
-//= require chartkick
+
 //= require Chart.bundle
+//= require chartkick
