@@ -36,3 +36,6 @@
 
 # ignore database env file
 /config/env_variable_secrets.yml
+
+#ignore csv's to import
+/app/assets/csv
