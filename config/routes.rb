@@ -15,6 +15,10 @@ Rails.application.routes.draw do
       end
   end
 
+  namespace :charts do 
+    get "total_jobs"
+  end 
+
 
   get "runlists/:id/destroyassignment", to: "runlists#destroyassignment", as: :assignmentdestroy
   post "runlists/:id/createassignment", to: "runlists#createassignment", as: :createassignment, defaults: { format: :turbo_stream }

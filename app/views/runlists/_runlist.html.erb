@@ -4,27 +4,37 @@
 <% if runlist.dots == 2 then cellColor = "text-bg-warning" end %>
 <% if runlist.dots == 3 then cellColor = "text-bg-danger" end %>
 <%= form_with model: runlist do |form| %>
-<td class="<%= cellColor %>"><%= runlist.Job %></td>
-<td class="<%= cellColor %>"><%= runlist.Make_Quantity %></td>
-<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Material %></td>
-<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Part_Number %></td>
-<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Description %></td>
-<td style="font-size: 14px" class="<%= cellColor %>"><%= runlist.Job_Sched_End %></td> <!-- ship date as last op on routing? -->
-<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Customer %></td> 
-<td style="font-size: 14px" class="<%= cellColor %>">
-	<%= select(:runlist, :employee, @as, { include_blank: true, prompt: runlist.employee || nil }, { class: "form-select cellColor", :id => "#{runlist.id}", data: { action: "runlist#assignmentUpdate"}} ) %>
-</td>
-<td style="font-size: 14px" class="<%= cellColor %>">
-	<div class="form-check form-switch" >
-		<%= form.check_box :matWaiting, { data: { action: "runlist#checkBoxUpdate" }, :id => "#{runlist.id}", class: "form-check-input cellColor", type: "checkbox", role: "switch"} %>
-	</div>
-</td>
-<% if runlist.WC_Vendor == runlist.currentOp %>
-	<td style="font-size:14px" colspan="2" class="<%= cellColor %>">&#10004; Job at <%= runlist.WC_Vendor %></td>
-<% else %>
-	<td style="font-size: 14px" class="<%= cellColor %>"><%= runlist.WC_Vendor %></td>
-	<td style="font-size: 14px" class="<%= cellColor %>"><%= runlist.currentOp %></td> <!-- calc location from sequence -->
-<% end %>
-
+	<td class="<%= cellColor %>"><%= runlist.Job %></td>
+	<td class="<%= cellColor %>"><%= runlist.Make_Quantity %></td>
+	<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Material %></td>
+	<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Part_Number %></td>
+	<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Description %></td>
+	<td style="font-size: 14px" class="<%= cellColor %>"><%= runlist.Job_Sched_End %></td> <!-- ship date as last op on routing? -->
+	<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Customer %></td> 
+	<td style="font-size: 14px" class="<%= cellColor %>">
+		<%= select(:runlist, :employee, @as, { include_blank: true, prompt: runlist.employee || nil }, { class: "form-select cellColor", :id => "#{runlist.id}", data: { action: "runlist#assignmentUpdate"}} ) %>
+	</td>
+	<td style="font-size: 14px" class="<%= cellColor %>">
+		<div class="form-check form-switch" >
+			<%= form.check_box :matWaiting, { data: { action: "runlist#checkBoxUpdate" }, :id => "#{runlist.id}", class: "form-check-input cellColor", type: "checkbox", role: "switch"} %>
+		</div>
+	</td>
+	<% if runlist.Operation_Service == "NULL" %>
+		<% if runlist.WC_Vendor == runlist.currentOp %>
+			<td style="font-size:14px" colspan="3" class="<%= cellColor %>">&#10004; Job at <%= runlist.WC_Vendor %></td>
+		<% else %>
+			<td style="font-size: 14px" class="<%= cellColor %>"><%= runlist.currentOp %></td> <!-- calc location from sequence -->
+			<td style="font-size: 14px" colspan="2" class="<%= cellColor %>"><%= runlist.WC_Vendor %></td>
+		<% end %>
+	<% else %>
+		<% if runlist.WC_Vendor == runlist.currentOp %>
+			<td style="font-size:14px" colspan="2" class="<%= cellColor %>">&#10004; Job at <%= runlist.WC_Vendor %></td>
+			<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Operation_Service %></td>
+		<% else %>
+			<td style="font-size: 14px" class="<%= cellColor %>"><%= runlist.currentOp %></td> <!-- calc location from sequence -->
+			<td style="font-size: 14px" class="<%= cellColor %>"><%= runlist.WC_Vendor %></td>
+			<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Operation_Service %></td>
+		<% end %>
+	<% end %>
 <% end %>
 

@@ -11,14 +11,16 @@ require 'database_cleaner/active_record'
 	    @twoDots = []
 	    @threeDots = []
 	    operations.each do |op|
-	      case op.dots
-	      when 1
-	        @oneDots << [op.Job, op.Sched_Start]
-	      when 2
-	        @twoDots << [op.Job, op.Sched_Start]
-	      when 3 
-	        @threeDots << [op.Job, op.Sched_Start]
-	      end
+	    	if op.Sched_Start != "NULL" || op.Sched_Start != nil
+		        case op.dots
+		        when 1
+		    	    @oneDots << [op.Job, op.Sched_Start]
+		        when 2
+		    	    @twoDots << [op.Job, op.Sched_Start]
+		     	when 3 
+		    	    @threeDots << [op.Job, op.Sched_Start]
+		        end
+		    end
 	    end
 	    if @oneDots.any? || @twoDots.any? || @threeDots.any?
 	      @dots = true
@@ -100,10 +102,16 @@ require 'database_cleaner/active_record'
 	    	@operations = @operations.sort { |a,b| (a.Sched_Start == b.Sched_Start) ? a.WC_Vendor <=> b.WC_Vendor : a.Sched_Start <=> b.Sched_Start } #sorts runListItem[0] by schedule start date, then job # within
 	    end
 	    @operations.each do |op| #sorts the date field to look correct for user
+	        #operation start format
 	        year = op.Sched_Start[0..3]
 	        day = op.Sched_Start[8..9]
 	        month = op.Sched_Start[5..7]
 	        op.Sched_Start = "#{month}#{day}-#{year}"
+	        #job ship date format
+			year = op.Job_Sched_End[0..3]
+	        day = op.Job_Sched_End[8..9]
+	        month = op.Job_Sched_End[5..7]
+	        op.Job_Sched_End = "#{month}#{day}-#{year}"	        
 	    end
 	    return @operations
 	end

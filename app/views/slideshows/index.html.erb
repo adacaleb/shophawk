@@ -1,7 +1,7 @@
 <% require 'date' %>
 
 <p style="color: green"><%= notice %></p>
-<%= line_chart Runlist.group_by_day(:updated_at).count %>
+<%= line_chart charts_total_jobs_path %>
 
 <div id="slideshows" class="text-white">
 
@@ -178,7 +178,7 @@
           </div>
           <div class="card-body">
             <h1>
-              <%= line_chart Turninginv.group_by_day(:created_at).count %>
+              <%= line_chart Turninginv.group_by_day(:created_at, last: 2).count %>
             </h1>
           </div>
         </div>
