@@ -17,6 +17,32 @@ class SlideshowsController < ApplicationController
     @nextWeekEnd = @nextWeekEnd.to_s
     @nextWeekStart = @nextWeekStart[5..9]
     @nextWeekEnd = @nextWeekEnd[5..9]
+    @totalSlides = 5
+    @nextbtn = 2
+    @currentSlide = 1
+  end
+
+  def slides
+    @slideshow = Slideshow.find(1)
+    @weekStart = Date.today.beginning_of_week(:monday)
+    @nextWeekStart = @weekStart + 1.week
+    @weekEnd = @weekStart + 4.days
+    @weekStart = @weekStart.to_s
+    @weekEnd = @weekEnd.to_s
+    @weekStart = @weekStart[5..9]
+    @weekEnd = @weekEnd[5..9]
+    @nextWeekEnd = @nextWeekStart + 4.days
+    @nextWeekStart = @nextWeekStart.to_s
+    @nextWeekEnd = @nextWeekEnd.to_s
+    @nextWeekStart = @nextWeekStart[5..9]
+    @nextWeekEnd = @nextWeekEnd[5..9]
+    @currentSlide = params[:nextbtn].to_i
+    @totalSlides = 5
+    @nextbtn = @currentSlide + 1
+    if @nextbtn > @totalSlides
+      @nextbtn = 1
+    end
+
   end
 
   # GET /slideshows/1 or /slideshows/1.json

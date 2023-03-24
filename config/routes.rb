@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :slideshows
+
   resources :assignments
   resources :departments
 
@@ -13,6 +13,12 @@ Rails.application.routes.draw do
       get :newassignment, defaults: { format: :turbo_stream }
       get :closestreams, defaults: { format: :turbo_stream }
       end
+  end
+
+  resources :slideshows do 
+    collection do 
+      get :slides, defaults: { format: :turbo_stream }
+    end
   end
 
   namespace :charts do 

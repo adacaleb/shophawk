@@ -8,3 +8,9 @@
 
   <%= button_to "Destroy this slideshow", @slideshow, method: :delete %>
 </div>
+
+
+<%= turbo_frame_tag "message" do %>
+    <h1 class="text-white">here</h1>
+     <%= link_to "Edit this slideshow", edit_slideshow_path(@slideshow) %>
+<% end %>

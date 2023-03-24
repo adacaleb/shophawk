@@ -1,18 +1,14 @@
 <% require 'date' %>
 
-<p style="color: green"><%= notice %></p>
-<%= line_chart charts_total_jobs_path %>
+<div id="slides"> <!-- id="slides" is used to define turbo_stream content that gets updated -->
+  <div data-controller="slideshow" data-slideshow-slide="<%= @currentSlide %>">
+    <%= link_to "Refresh", slides_slideshows_path(:nextbtn => @nextbtn), class: "btn btn-secondary justify-content-end" %>
+    <button class="btn btn-primary" data-action="click->slideshow#next">Next</button>
 
-<div id="slideshows" class="text-white">
+    <h1 class="text-white"> Current <%= @currentSlide %> | Next Slide <%= @nextbtn %> </h1>
 
-</div>
-
-<div id="carouselExample" class="carousel slide">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <div class="card text-bg-light mb-3" style=" height: 98vh" >
-        <div class="card-header text-center "><h1>Shop Hours</h1>
-        </div>
+    <div class="card text-bg-light mb-3" style=" height: 98vh" >
+      <div class="card-header text-center "><h1>Shop Hours</h1></div>
         <div class="card-body">
           <div class="row">
             <div class="col-6">
@@ -130,67 +126,8 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
-        <div class="card-header">
-          <h1>Announcements</h1>
-        </div>
-        <div class="card-body">
-          <h1>
-            <%= simple_format(@slideshow.announcements) %>
-          </h1>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
-        <div class="card-header">
-          <h1>Wise Words</h1>
-        </div>
-        <div class="card-body" >
-          <h1>
-            <%= image_tag(@slideshow.quote, style:"width: 75vw; height: 85vh; object-fit: fill;") %>
-          </h1>
-        </div>
-      </div>
-    </div>
-    <% if @slideshow.todoList != "" || @slideshow.todoList != nil %>
-      <div class="carousel-item">
-        <div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
-          <div class="card-header">
-            <h1>ToDo List</h1>
-          </div>
-          <div class="card-body">
-            <h1>
-              <%= simple_format(@slideshow.todoList) %>
-            </h1>
-          </div>
-        </div>
-      </div>
-    <% end %>
-
-    <div class="carousel-item">
-      <div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
-          <div class="card-header">
-            <h1>ToDo List</h1>
-          </div>
-          <div class="card-body">
-            <h1>
-              <%= line_chart Turninginv.group_by_day(:created_at, last: 2).count %>
-            </h1>
-          </div>
-        </div>
-      
     </div>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
+
+
 </div>
