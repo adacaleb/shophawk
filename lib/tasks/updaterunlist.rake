@@ -7,8 +7,12 @@ namespace :update do
 		jobsToUpdate = []
 		newOps = [] #empties array for new csv import
 		CSV.foreach("app/assets/csv/runListOps.csv", headers: true, :col_sep => "`") do |row| #imports initial csv and creates all arrays needed
-			op = Runlist.find_by(Job_Operation: row[1])
+			op = Runlist.find_by(Job: row[0], Sequence: row[7]) #search by these to find and replace operations that get changed/replaced
 			if op.present? #if record already exists in our DB, we just update the needed fields
+				if op.Job_Operation != row[1] then op.Job_Operation = row[1] end
+				if op.WC_Vendor != row[2] then op.WC_Vendor = row[2] end
+				if op.Operation_Service != row[3] then op.Operation_Service = row[3] end
+				if op.Vendor != row[4] then op.Vendor = row[4] end
 				if op.Sched_Start != row[5] then op.Sched_Start = row[5] end
 				if op.Sched_End != row[6] then op.Sched_End = row[6] end
 				if op.Sequence != row[7] then op.Sequence = row[7] end
@@ -136,7 +140,7 @@ namespace :update do
 		Runlist.import newOps
 		#update operations with changed job info and material AFTER import 
 		CSV.foreach("app/assets/csv/tempjobs.csv", 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
-			if row[0].to_s == nil || row[0].to_s == "" || row[0].to_s == "---" || row[0].to_s == "BRENT" || row[0].to_s == "Greg V" || row[0].to_s == "Caleb H" || row[0].to_s == "Dave H"
+			if row[0].to_s == nil || row[0].to_s == "" || row[0].to_s == "---"
 			else
 				jobs = Runlist.where(Job: row[0])
 				if jobs.present? #if record already exists in our DB, we just update the needed fields
@@ -171,7 +175,7 @@ namespace :update do
 			end
 		end
 		CSV.foreach("app/assets/csv/tempmat.csv", 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
-			if row[0].to_s == nil || row[0].to_s == "" || row[0].to_s == "---" || row[0].to_s == "BRENT" || row[0].to_s == "Greg V" || row[0].to_s == "Caleb H" || row[0].to_s == "Dave H"
+			if row[0].to_s == nil || row[0].to_s == "" || row[0].to_s == "---"
 			else
 				jobs = Runlist.where(Job: row[0])
 				if jobs.present? #if record already exists in our DB, we just update the needed fields
@@ -263,6 +267,6 @@ namespace :update do
 				end
 			end
 		end
-
+		CSV.foreach("app/assets/csv/yearlyRunListOps.csv", 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
 	end
 end
