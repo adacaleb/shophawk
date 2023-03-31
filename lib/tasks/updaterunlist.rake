@@ -267,6 +267,6 @@ namespace :update do
 				end
 			end
 		end
-		CSV.foreach("app/assets/csv/yearlyRunListOps.csv", 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
+		
 	end
 end
