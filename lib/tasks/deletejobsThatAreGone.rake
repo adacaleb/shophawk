@@ -5,7 +5,7 @@ require 'date'
 #It just cross references that with the shophawk database. if any extra operations exist, it deletes them from the shophawk DB
 namespace :delete do 
 	task :jobsThatAreGone => :environment do 
-		date = Date.today - 360
+		date = Date.today - 365
 		lastJob = 0
 		started = 0
 		sequence = 0
@@ -47,16 +47,17 @@ namespace :delete do
 	#			EstTotalHrs: row[9]
 			end
 		end
-		#puts totalOpsPerJob.count
+		puts totalOpsPerJob.count
 		totalOpsPerJob.each do |job|
 			jobs = Runlist.where(Job: job[:job])
 			jobs = jobs.sort_by { |a| a.Sequence }
 			#puts job[:job]
 			#puts job[:sequence]
 			jobs.each do |a|
-				#puts a.Sequence
 				if a.Sequence <= job[:sequence] #delete any operations that are outside sequence detected from Jobboss
+					#puts "Yes"
 				else 
+					puts a.Job
 					a.delete
 				end
 			end
