@@ -6,6 +6,7 @@ namespace :import do
 
 		jobsToUpdate = [] #array for jobs to check at the end for stats
 		newOps = [] #empties array for new csv import
+		puts "parsing yearlyRunListOps csv"
 		CSV.foreach("app/assets/csv/yearlyRunListOps.csv", headers: true, :col_sep => "`") do |row| #imports initial csv and creates all arrays needed
 			if row[0].to_s != "---"
 				newOps << {
@@ -57,6 +58,7 @@ namespace :import do
 		    	jobsToUpdate << row[0] #running list of jobs to update after import
 		    end
 		end
+		puts "merging operations with Job and Material Information, then merging with old user entered data"
 		newOps.each do |op| #parses through each item and merges with mat and jobs array
 			if op[:status] == "O" || op[:status] == "S"
 				schedSrt = op[:Sched_Start].to_s #reorganizes and prepares date field for sorting at end
@@ -124,11 +126,13 @@ namespace :import do
 				end
 			end
 		end
+		puts "wiping database for fresh import"
 		DatabaseCleaner.clean_with(:truncation, :only => %w[runlists]) #resets runlists database table
+		puts "Importing new data"
 		Runlist.import newOps
 		#update operations with changed job info and material AFTER import 
 
-		
+		puts "calculating material pending and statuses"
 		jobsToUpdate.uniq! #narrow down list of alterered Jobs to be unique
 		jobsToUpdate.each do |opJob|
 			jobs = Runlist.where(Job: opJob)
@@ -175,13 +179,13 @@ namespace :import do
 				op.save #Saves the new currentop value if it's different
 			end
 		end
+		puts "calculating number of dots for jobs"
 		CSV.foreach("app/assets/csv/yearlyUserValues.csv", 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
 			#User_Value: row[0],
 			#dots: row[1]
 			if row[0] != nil
 				dot = row[1].to_s.upcase
 				ops = Runlist.where(User_Value: row[0])
-				puts ops
 				ops.each do |op|
 					case dot
 						when "O"

@@ -1,0 +1,1 @@
+@call rake delete:jobsThatAreGone %*
