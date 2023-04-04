@@ -121,22 +121,23 @@
           <% startDate = Date.strptime(dates, "%m/%d/%Y") %> <!-- converts string to date type variable -->
           <!-- new day row and logic -->
           <% if @previousStartDate != startDate %> <!-- don't render another header if the date is same as previous -->
+            <% hours = dailyHoursCalc(date, @operations) %>
             <% if startDate.before? @today %>
-              <tr >
+              <tr >                
                 <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
-                <th colspan="2" class="table-light" style="font-size: 14px">~<%= dailyHoursCalc(date, @operations) %> Hours</th>
+                <th colspan="2" class="table-light" style="font-size: 14px">~<%= hours %> Hours</th>
               </tr>
             <% end %>
             <% if startDate == @today %>
               <tr >
                 <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
-                <th colspan="2" class="table-light" style="font-size: 14px">~<%= dailyHoursCalc(date, @operations) %> Hours</th>
+                <th colspan="2" class="table-light" style="font-size: 14px">~<%= hours %> Hours</th>
               </tr>
             <% end %>
             <% if startDate.after? @today %>
               <tr>
                 <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
-                <th colspan="2" class="table-light" style="font-size: 14px">~<%= dailyHoursCalc(date, @operations) %> Hours</th>
+                <th colspan="2" class="table-light" style="font-size: 14px">~<%= hours %> Hours</th>
               </tr>
             <% end %>
           <% end %>
