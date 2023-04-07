@@ -23,6 +23,18 @@ export default class extends Controller {
     console.log(`${currentSlide}`)
 
   }
+  previous() {
+    let currentSlide = this.data.get("slide") //get data from slideshow_controller about current slide. do it this way to manage state
+    let path = this.data.get("path")
+    currentSlide = parseInt(currentSlide) - 1 //partseInt converts string to number
+    if (currentSlide < 1) {
+      currentSlide = 5
+    }
+    get(`/slideshows/slides/?nextbtn=${currentSlide}`, { responseKind: "turbo-stream"}) //loads next turbostream
+
+    console.log(`${currentSlide}`)
+
+  }
 
 
 

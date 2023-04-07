@@ -25,15 +25,17 @@ class ChartsController < ApplicationController
 				#puts row[22]
 				#puts row[22][0..9].to_date
 				date = row[22][0..9].to_date
+				#puts date
 				#row[22] is the Released_Date field for each job
 				if date <= Date.today - 180 #if out of range of date parameter passed in
-					break
+					#break
 				else
 					jobs << {job: row[0], date: date}
 				end
 				#puts date, dailyCount
 			end
 		end
+		#puts jobs
 		firstLoop = true
 		jobs = jobs.sort_by { |a| a[:date] }
 		jobs.reverse!

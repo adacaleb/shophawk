@@ -1,7 +1,10 @@
 <%= turbo_stream.update "slides" do %>
 	<div data-controller="slideshow" data-slideshow-slide="<%= @currentSlide %>" data-slideshow-path="<%= request.path %>">
 		<%= link_to "Next Slide", slides_slideshows_path(:nextbtn => @nextbtn), class: "btn btn-secondary justify-content-end" %>
+		<button class="btn btn-primary" data-action="click->slideshow#previous">Previous</button>
 		<button class="btn btn-primary" data-action="click->slideshow#next">Next</button>
+
+
 		<h1 class="text-white"> Current <%= @currentSlide %> | Next Slide <%= @nextbtn %> </h1>
 			<% case @currentSlide %>
 			<% when 1 %>
