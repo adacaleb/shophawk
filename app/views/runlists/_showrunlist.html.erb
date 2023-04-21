@@ -115,7 +115,7 @@
       <tbody>
       <% @previousStartDate = "01/01/1990" %> <!-- initialize startdate variable -->
       <% @operations.each do |op| %>
-        <% if op.Sched_Start.to_s != "-NULL" %>
+        <% if op.Sched_Start.to_s != "-NULL" && op.Job_Sched_End.to_s != "-NULL" %>
           <% date = op.Sched_Start.to_s %>
           <% dates = date.gsub("-", "/").to_s %> <!-- converts "-" to "/" for date strptime class -->
           <% startDate = Date.strptime(dates, "%m/%d/%Y") %> <!-- converts string to date type variable -->
