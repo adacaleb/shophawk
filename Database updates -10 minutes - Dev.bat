@@ -20,7 +20,5 @@ sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT [User_Values] ,[Text
 
 ::bankstatement history
 sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT [Statement_Date] ,[Beginning_Balance] ,[Ending_Balance] ,[Account_Ending_Bal] ,[Outstanding_Checks] ,[Cleared_Deposits] ,[Cleared_Checks] ,[Last_Updated] FROM [PRODUCTION].[dbo].[Bank_History] WHERE Last_Updated > DATEADD(month,-12,GETDATE()) ORDER BY Last_Updated DESC" -o "C:\railsapps\shophawkdev\app\assets\csv\bankhistory.csv" -W -w 1024 -s "`"
-::Checkbook spending 
-sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT [Check_Number] ,[Vendor] ,[Bank] ,[Check_Date] ,[Check_Amt] ,[Discount_Amt] ,[Last_Updated] FROM [PRODUCTION].[dbo].[AP_Check] WHERE Status = 'Open' AND Last_Updated > DATEADD(month,-2,GETDATE()) ORDER BY Check_Date DESC" -o "C:\railsapps\shophawkdev\app\assets\csv\checkbookPayments.csv" -W -w 1024 -s "`"
-:: deposits
-sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT TOP (1000) [Bank] ,[Status] ,[Deposit_Date] ,[Base_Amount] ,[Last_Updated] FROM [PRODUCTION].[dbo].[Deposit] WHERE Last_Updated > DATEADD(month,-2,GETDATE()) ORDER BY Deposit_Date DESC" -o "C:\railsapps\shophawkdev\app\assets\csv\deposits.csv" -W -w 1024 -s "`"
+::Journal entry - 104 = checking account
+sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT [Source] ,[Amount] ,[Transaction_Date] ,[Reference] ,[Last_Updated] ,[Type] ,[Creation_Date] ,[GL_Account] FROM [PRODUCTION].[dbo].[Journal_Entry] WHERE GL_Account = '104' AND Creation_Date > DATEADD(month,-2,GETDATE()) ORDER BY Creation_Date DESC" -o "C:\railsapps\shophawkdev\app\assets\csv\Journal_Entry.csv" -W -w 1024 -s "`"

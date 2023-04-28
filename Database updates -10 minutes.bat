@@ -15,3 +15,8 @@ sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT [Job] ,[Customer] ,[
 sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT [Job] ,[Material] ,[Vendor] ,[Description] ,[Pick_Buy_Indicator] ,[Status] FROM [PRODUCTION].[dbo].[Material_Req] WHERE Due_Date > DATEADD(month,-13,GETDATE()) ORDER BY Job DESC" -o "C:\railsapps\shophawk\app\assets\csv\yearlyMat.csv" -W -w 1024 -s "`"
 
 sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT [User_Values] ,[Text1] FROM [PRODUCTION].[dbo].[User_Values] WHERE Text1 IS NOT NULL AND Last_Updated > DATEADD(month,-13,GETDATE())" -o "C:\railsapps\shophawk\app\assets\csv\yearlyUserValues.csv" -W -w 1024 -s "`"
+
+::bankstatement history
+sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT [Statement_Date] ,[Beginning_Balance] ,[Ending_Balance] ,[Account_Ending_Bal] ,[Outstanding_Checks] ,[Cleared_Deposits] ,[Cleared_Checks] ,[Last_Updated] FROM [PRODUCTION].[dbo].[Bank_History] WHERE Last_Updated > DATEADD(month,-12,GETDATE()) ORDER BY Last_Updated DESC" -o "C:\railsapps\shophawk\app\assets\csv\bankhistory.csv" -W -w 1024 -s "`"
+::Journal entry - 104 = checking account
+sqlcmd -S GEARSERVER\SQLEXPRESS -d PRODUCTION -E -Q "SELECT [Source] ,[Amount] ,[Transaction_Date] ,[Reference] ,[Last_Updated] ,[Type] ,[Creation_Date] ,[GL_Account] FROM [PRODUCTION].[dbo].[Journal_Entry] WHERE GL_Account = '104' AND Creation_Date > DATEADD(month,-2,GETDATE()) ORDER BY Creation_Date DESC" -o "C:\railsapps\shophawk\app\assets\csv\Journal_Entry.csv" -W -w 1024 -s "`"

@@ -17,6 +17,7 @@ module Shophawk
       ENV[key.to_s] = value
       end if File.exists?(env_file)
     end
+    config.autoload_paths += %W(#{config.root}/lib) #enables use of "resuable.rb" to work with methods accross controllers/models that include "Reusable" module
 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
