@@ -38,4 +38,4 @@
 /config/env_variable_secrets.yml
 
 #ignore csv's to import
-/app/assets/csv
+/app/assets/csv/*
