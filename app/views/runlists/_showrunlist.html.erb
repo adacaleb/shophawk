@@ -3,7 +3,13 @@
   <div class="card text-bg-dark"  style="border-radius: 20px, 20px">
     <% if @dots == true %>
       <div class="row">
-        <% if @oneDots.any? %>
+        <% single = false %>
+        <% @oneDots.each do |dot| %>
+            <% if dot[1] != "-NULL" %>
+            <% single = true %>
+            <% end %>
+        <% end %>
+        <% if single == true %>
           <div class="col">
             <div class=" text-bg-info align-items-stretch"  style="border-radius: 20px">
               <div class="text-center">
@@ -12,14 +18,22 @@
               </div>
               <div class="text-center">
                 <% @oneDots.each do |dot| %>
-                  Job <strong><%= dot[0] %></strong> Starting <strong><%= dot[1] %></strong>
+                  <% if dot[1] != "-NULL" %>
+                    Job <strong><%= dot[0] %></strong> Starting <strong><%= dot[1] %></strong>
+                  <% end %>
                  </br>
                 <% end %>
               </div>
             </div>
           </div>
         <% end %>
-        <% if @twoDots.any? %>
+        <% double = false %>
+        <% @twoDots.each do |dot| %>
+            <% if dot[1] != "-NULL" %>
+            <% double = true %>
+            <% end %>
+        <% end %>
+        <% if double == true %>
           <div class="col ">
             <div class=" text-bg-warning"  style="border-radius: 20px"  style="height: 100%">
               <div class="text-center">
@@ -28,14 +42,22 @@
               </div>
               <div class="text-center">
                   <% @twoDots.each do |dot| %>
-                    Job <strong><%= dot[0] %></strong> Starting <strong><%= dot[1] %></strong>
+                    <% if dot[1] != "-NULL" %>
+                      Job <strong><%= dot[0] %></strong> Starting <strong><%= dot[1] %></strong>
+                    <% end %>
                     </br>
                   <% end %>
               </div>
             </div>
           </div>
         <% end %>
-        <% if @threeDots.any? %>
+        <% triple = false %>
+        <% @threeDots.each do |dot| %>
+            <% if dot[1] != "-NULL" %>
+            <% triple = true %>
+            <% end %>
+        <% end %>
+        <% if triple == true %>
           <div class="col">
             <div class="text-bg-danger"  style="border-radius: 20px">
               <div class="text-center">
@@ -44,7 +66,9 @@
               </div>
               <div class="text-center">
                 <% @threeDots.each do |dot| %>
-                  Job <strong><%= dot[0] %></strong> Starting <strong><%= dot[1] %></strong>
+                  <% if dot[1] != "-NULL" %>
+                    Job <strong><%= dot[0] %></strong> Starting <strong><%= dot[1] %></strong>
+                  <% end %>
                   </br>
                 <% end %>
               </div>
