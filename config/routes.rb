@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   
-  resources :stats
+  resources :stats do
+    collection do 
+      get :openinv, defaults: { format: :turbo_stream }
+    end
+  end
   resources :assignments
   resources :departments
 

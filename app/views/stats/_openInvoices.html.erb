@@ -1,0 +1,53 @@
+<div style="overflow-y: scroll; height: 340px;">
+  <table class="table table-dark table-sm table-hover table-bordered text-center">
+    <thead>
+      <tr>
+        <th width=10%>Invoice</th>
+        <th width=10% >Customer</th>
+        <th >Invoice Date</th>
+        <th >Due Date</th>
+        <th >Term</th>
+        <th >Days Open</th>
+        <th >0-30</th>
+        <th >31-60</th>
+        <th >61-90</th>
+        <th >90+</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @render.each do |inv| %>
+          <% if inv[:late] == true then rowcolor = "table-danger" else rowcolor = "" end %>
+          <tr>
+            <td><%= inv[:invoice] %></td>
+            <td><%= inv[:customer] %></td>
+            <td><%= inv[:invoiceDate] %></td>
+            <td><%= inv[:dueDate] %></td>
+            <td><%= inv[:terms] %></td>
+            <td><%= inv[:daysOpen] %></td>
+            <% case inv[:period] %>
+            <% when 1 %>
+              <td class= <%= rowcolor %>><%= number_to_currency(inv[:openAmount]) %></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            <% when 2 %>
+              <td></td>
+              <td class= <%= rowcolor %>><%= number_to_currency(inv[:openAmount]) %></td>
+              <td></td>
+              <td></td>
+            <% when 3 %>
+              <td></td>
+              <td></td>
+              <td class= <%= rowcolor %>><%= number_to_currency(inv[:openAmount]) %></td>
+              <td></td>
+            <% when 4 %>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class= <%= rowcolor %>><%= number_to_currency(inv[:openAmount]) %></td>
+            <% end %>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

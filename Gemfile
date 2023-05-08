@@ -24,6 +24,7 @@ gem 'requestjs-rails'
 gem 'date', '~> 0.0.1'
 gem 'chartkick'
 gem 'groupdate' #allows group_by_day functionality
+gem 'working_hours'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
