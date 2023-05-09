@@ -235,38 +235,55 @@ namespace :update do
 				op.save #Saves the new currentop value if it's different
 			end
 		end
-		CSV.foreach("app/assets/csv/yearlyUserValues.csv", 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
-			#User_Value: row[0],
-			#dots: row[1]
-			if row[0] != nil
-				dot = row[1].to_s.upcase
-				ops = Runlist.where(User_Value: row[0])
-				#puts ops
-				ops.each do |op|
-					case dot
-						when "O"
-							op.dots = 1
-						when "0"
-							op.dots = 1
-						when "1"
-							op.dots = 1
-						when "OO"
-							op.dots = 2
-						when "00"
-							op.dots = 2
-						when "2"
-							op.dots = 2
-						when "OOO"
-							op.dots = 3
-						when "000"
-							op.dots = 3
-						when "3"
-							op.dots = 3
-					end
-					op.save
-				end
-			end
-		end
+
+		dotJobs = []
+	    CSV.foreach("app/assets/csv/yearlyUserValues.csv", 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
+	      if row[0] != nil
+	        dot = row[1].to_s.upcase
+	        ops = Runlist.where(User_Value: row[0])
+	        #puts ops
+	        ops.each do |op|
+	          dotJobs << op.Job
+	          break
+	        end
+	        ops.each do |op|
+	          case dot
+	            when nil
+	              op.dots = nil 
+	            when "O"
+	              op.dots = 1
+	            when "0"
+	              op.dots = 1
+	            when "1"
+	              op.dots = 1
+	            when "OO"
+	              op.dots = 2
+	            when "00"
+	              op.dots = 2
+	            when "2"
+	              op.dots = 2
+	            when "OOO"
+	              op.dots = 3
+	            when "000"
+	              op.dots = 3
+	            when "3"
+	              op.dots = 3
+	          end
+	          op.save
+	        end
+	      end
+	    end
+	    @operations = Runlist.where(status: "O").where().not(dots: nil) #select operations with dots and open
+	    checkJobs = []
+	    @operations.each do |op|
+	      if dotJobs.include? op.Job
+	        #puts "yes"
+	      else
+	        #puts "no"
+	        op.dots = nil #removes the unneeded dots from the job
+	        op.save
+	      end
+	    end
 		
 	end
 end

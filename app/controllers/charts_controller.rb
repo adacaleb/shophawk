@@ -59,7 +59,7 @@ class ChartsController < ApplicationController
 				end
 			end
 		end
-
+		jobsPerDay.reverse!
 		puts jobsPerDay.to_json
 		return jobsPerDay.to_json
 	end

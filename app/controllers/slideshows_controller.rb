@@ -1,5 +1,6 @@
 class SlideshowsController < ApplicationController
   require 'date'
+  require 'CSV'
   before_action :set_slideshow, only: %i[ show edit update destroy ]
 
   # GET /slideshows or /slideshows.json
@@ -20,7 +21,61 @@ class SlideshowsController < ApplicationController
     @totalSlides = 5
     @nextbtn = 2
     @currentSlide = 1
+
+    
+    dotJobs = []
+    CSV.foreach("app/assets/csv/yearlyUserValues.csv", 'r:iso-8859-1:utf-8', :quote_char => "|", headers: true, :col_sep => "`") do |row|
+      if row[0] != nil
+        dot = row[1].to_s.upcase
+        ops = Runlist.where(User_Value: row[0])
+        #puts ops
+        ops.each do |op|
+          dotJobs << op.Job
+          break
+        end
+        ops.each do |op|
+          case dot
+            when nil
+              op.dots = nil 
+            when "O"
+              op.dots = 1
+            when "0"
+              op.dots = 1
+            when "1"
+              op.dots = 1
+            when "OO"
+              op.dots = 2
+            when "00"
+              op.dots = 2
+            when "2"
+              op.dots = 2
+            when "OOO"
+              op.dots = 3
+            when "000"
+              op.dots = 3
+            when "3"
+              op.dots = 3
+          end
+          op.save
+        end
+      end
+    end
+    @operations = Runlist.where(status: "O").where().not(dots: nil) #select operations with dots and open
+    checkJobs = []
+    @operations.each do |op|
+      if dotJobs.include? op.Job
+        #puts "yes"
+      else
+        #puts "no"
+        op.dots = nil #removes the unneeded dots from the job
+        op.save
+      end
+    end
+
   end
+  
+
+
 
   def slides
     @slideshow = Slideshow.find(1)
@@ -42,6 +97,22 @@ class SlideshowsController < ApplicationController
     if @nextbtn > @totalSlides
       @nextbtn = 1
     end
+    @operations = Runlist.where(status: "O").where().not(dots: nil) #select operations with dots and open
+    @operations = @operations.uniq  { |op| op.Job }
+    @operations = @operations.sort_by { |op| [op.Job_Sched_End, -op.dots] }
+    @operations.each do |op| #sorts the date field to look correct for user
+          #operation start format
+          year = op.Sched_Start[0..3]
+          day = op.Sched_Start[8..9]
+          month = op.Sched_Start[5..7]
+          op.Sched_Start = "#{month}#{day}-#{year}"
+          #job ship date format
+          year = op.Job_Sched_End[0..3]
+          day = op.Job_Sched_End[8..9]
+          month = op.Job_Sched_End[5..7]
+          op.Job_Sched_End = "#{month}#{day}-#{year}"         
+      end
+    #puts @operations
 
   end
 
