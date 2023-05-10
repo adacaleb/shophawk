@@ -50,17 +50,17 @@ class SlideshowsController < ApplicationController
     @operations = @operations.uniq  { |op| op.Job }
     @operations = @operations.sort_by { |op| [op.Job_Sched_End, -op.dots] }
     @operations.each do |op| #sorts the date field to look correct for user
-          #operation start format
-          year = op.Sched_Start[0..3]
-          day = op.Sched_Start[8..9]
-          month = op.Sched_Start[5..7]
-          op.Sched_Start = "#{month}#{day}-#{year}"
-          #job ship date format
-          year = op.Job_Sched_End[0..3]
-          day = op.Job_Sched_End[8..9]
-          month = op.Job_Sched_End[5..7]
-          op.Job_Sched_End = "#{month}#{day}-#{year}"         
-      end
+        #operation start format
+        year = op.Sched_Start[0..3]
+        day = op.Sched_Start[8..9]
+        month = op.Sched_Start[5..7]
+        op.Sched_Start = "#{month}#{day}-#{year}"
+        #job ship date format
+        year = op.Job_Sched_End[0..3]
+        day = op.Job_Sched_End[8..9]
+        month = op.Job_Sched_End[5..7]
+        op.Job_Sched_End = "#{month}#{day}-#{year}" 
+    end
     #puts @operations
 
   end
