@@ -58,8 +58,24 @@
                           <td><%= form.number_field :fridayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
                           <td><%= form.number_field :fridayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
                         </tr>
+                        <tr>
+                          <td>Saturday</td>
+                          <td><%= form.number_field :saturdayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                          <td><%= form.number_field :saturdayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <h4>Show Saturday</h4>
+                          </td>
+                          <td colspan="2" style="text-align:center">
+                            <div class="form-check form-switch">
+                            <%= form.check_box :saturday, class: "form-check-input cellColor", type: "checkbox", role: "switch", style: "width: 50px; height: 25px"  %>
+                            </div>
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
+                    
                   </div>
                 </div>
               </div>
@@ -104,6 +120,21 @@
                           <td>Friday</td>
                           <td><%= form.number_field :nextFridayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
                           <td><%= form.number_field :nextFridayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                        <tr>
+                          <td>Saturday</td>
+                          <td><%= form.number_field :nextSaturdayO, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                          <td><%= form.number_field :nextSaturdayC, class: "form-control form-control-lg", style: "text-align:center" %></td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <h4>Show Saturday</h4>
+                          </td>
+                          <td colspan="2" style="text-align:center">
+                            <div class="form-check form-switch">
+                            <%= form.check_box :nextSaturday, class: "form-check-input cellColor", type: "checkbox", role: "switch", style: "width: 50px; height: 25px"  %>
+                            </div>
+                          </td>
                         </tr>
                       </tbody>
                     </table>

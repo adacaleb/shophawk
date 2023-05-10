@@ -1,0 +1,41 @@
+<div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
+			        <div class="card-header">
+			          <h1>Hot Jobs</h1>
+			        </div>
+			        <div class="card-body text-center" >
+						<table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
+							<thead>
+							<tr>
+							  <th width="60rem" scope="col">Dots</th>
+							  <th width="60rem" scope="col">Job</th>
+							  <th width="35rem" style="font-size: 12px" scope="col">Qty</th>
+							  <th width="100rem" scope="col">Material</th>
+							  <th width="100rem" scope="col">Part number</th>
+							  <th width="140rem" scope="col">Description</th>
+							  <th width="70rem" scope="col">Ship Date</th> 
+							  <th width="80rem" scope="col">Customer</th> 
+							  <th width="70rem" style="font-size: 12px" scope="col">Current Location</th>
+							</tr>
+							</thead>
+							<tbody>				
+								<% @operations.each do |op| %>
+									<% if op.Sched_Start.to_s != "-NULL" && op.Job_Sched_End.to_s != "-NULL" %>
+									  <tr>
+									  	<% if op.dots == 1 then dots = "O" end %>
+									  	<% if op.dots == 2 then dots = "OO" end %>
+									  	<% if op.dots == 3 then dots = "OOO" end %>
+									  	<td style="font-size: 26px; color: red" ><%= dots %></td>
+										<td style="font-size: 20px"><%= op.Job %></td>
+										<td style="font-size: 20px"><%= op.Make_Quantity %></td>
+										<td style="font-size: 20px" class="text-wrap"><%= op.Material %></td>
+										<td style="font-size: 20px" class="text-wrap"><%= op.Part_Number %></td>
+										<td style="font-size: 20px" class="text-wrap"><%= op.Description %></td>
+										<td style="font-size: 20px"><%= op.Job_Sched_End %></td> <!-- ship date as last op on routing? -->
+										<td style="font-size: 20px" class="text-wrap"><%= op.Customer %></td> 
+										<td style="font-size: 20px" class="text-wrap"><%= op.currentOp %></td>
+									  </tr>
+									<% end %>
+								<% end %>
+							</tbody>
+						</div>
+		     	</div>

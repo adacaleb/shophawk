@@ -1,0 +1,135 @@
+<div class="card text-bg-light mb-3" style=" height: 98vh" >
+					<div class="card-header text-center "><h1>Shop Hours</h1></div>
+				    <div class="card-body">
+				      <div class="row">
+				        <div class="col-6">
+				          <div class="card text-bg-light text-center mb-3">
+				            <div class="card-header">
+				              <h3>This Week</h3>
+				              <h3><%= @weekStart %> to <%= @weekEnd %></h3>
+				            </div>
+				            <div class="card-body">
+				              <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
+				                <thead>
+				                  <tr>
+				                    <th scope="col">Day</th>
+				                    <th scope="col">Open</th>
+				                    <th scope="col">Close</th>
+				                  </tr>
+				                </thead>
+				                <tbody style="font-size: X-large;">
+				                  <tr>
+				                    <td>Monday</td>
+				                    <% if @slideshow.mondayO != "6" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.mondayO %></td>
+				                    <% if @slideshow.mondayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.mondayC %></td>
+				                  </tr>
+				                  <tr>
+				                    <td>Tuesday</td>
+				                    <% if @slideshow.tuesdayO != "6" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.tuesdayO %></td>
+				                    <% if @slideshow.tuesdayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td><%= @slideshow.tuesdayC %></td>
+				                  </tr>
+				                  <tr>
+				                    <td>Wednesday</td>
+				                    <% if @slideshow.wednesdayO != "6" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.wednesdayO %></td>
+				                    <% if @slideshow.wednesdayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.wednesdayC %></td>
+				                  </tr>
+				                  <tr>
+				                    <td>Thursday</td>
+				                    <% if @slideshow.thursdayO != "6" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.thursdayO %></td>
+				                    <% if @slideshow.thursdayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.thursdayC %></td>
+				                  </tr>
+				                  <tr>
+				                    <td>Friday</td>
+				                    <% if @slideshow.fridayO != "6" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.fridayO %></td>
+				                    <% if @slideshow.fridayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.fridayC %></td>
+				                  </tr>
+				                  <% if @slideshow.saturday == true %>
+				                  <tr>
+				                    <td>Saturday</td>
+				                    <td class="text-bg-danger"><%= @slideshow.saturdayO %></td>
+				                    <td class="text-bg-danger"><%= @slideshow.saturdayC %></td>
+				                  </tr>
+				                  <% end %>
+				                </tbody>
+				              </table>
+				            </div>
+				          </div>
+				        </div>
+
+				        <div class="col-6">
+				          <div class="card text-bg-light text-center mb-3">
+				            <div class="card-header">
+				              <h3>Next Week</h3>
+				              <h3><%= @nextWeekStart %> to <%= @nextWeekEnd %></h3>
+				            </div>
+				            <div class="card-body">
+				              <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
+				                <thead>
+				                  <tr>
+				                    <th scope="col">Day</th>
+				                    <th scope="col">Open</th>
+				                    <th scope="col">Close</th>
+				                  </tr>
+				                </thead>
+				                <tbody style="font-size: X-large;">
+				                  <tr>
+				                    <td>Monday</td>
+				                    <% if @slideshow.nextMondayO != "6" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.nextMondayO %></td>
+				                    <% if @slideshow.nextMondayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.nextMondayC %></td>
+				                  </tr>
+				                  <tr>
+				                    <td>Tuesday</td>
+				                    <% if @slideshow.nextTuesdayO != "6" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.nextTuesdayO %></td>
+				                    <% if @slideshow.nextTuesdayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.nextTuesdayC %></td>
+				                  </tr>
+				                  <tr>
+				                    <td>Wednesday</td>
+				                    <% if @slideshow.nextWednesdayO != "6" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.nextWednesdayO %></td>
+				                    <% if @slideshow.nextWednesdayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.nextWednesdayC %></td>
+				                  </tr>
+				                  <tr>
+				                    <td>Thursday</td>
+				                    <% if @slideshow.nextThursdayO != "6" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.nextThursdayO %></td>
+				                    <% if @slideshow.nextThursdayC != "4" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.nextThursdayC %></td>
+				                  </tr>
+				                  <tr>
+				                    <td>Friday</td>
+				                    <% if @slideshow.nextFridayO != "6" then background = "text-bg-danger" else background = "text-bg-default" end %>
+				                    <td class="<%= background %>"><%= @slideshow.nextFridayO %></td>
+				                    <% if @slideshow.nextFridayC != "4" then background = "text-bg-danger" end %>
+				                    <td class="<%= background %>"><%= @slideshow.nextFridayC %></td>
+				                  </tr>
+				                  </tr>
+				                  <% if @slideshow.nextSaturday == true %>
+				                  <tr>
+				                    <td>Saturday</td>
+				                    <td class="text-bg-danger"><%= @slideshow.nextSaturdayO %></td>
+				                    <td class="text-bg-danger"><%= @slideshow.nextSaturdayC %></td>
+				                  </tr>
+				                  <% end %>
+				                </tbody>
+				              </table>
+				            </div>
+				          </div>
+				        </div>
+				      </div>
+				    </div>
+				</div>

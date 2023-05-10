@@ -137,6 +137,6 @@ class SlideshowsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def slideshow_params
-      params.require(:slideshow).permit(:todoList, :announcements, :quote, :mondayO, :mondayC, :tuesdayO, :tuesdayC, :wednesdayO, :wednesdayC, :thursdayO, :thursdayC, :fridayO, :fridayC, :nextMondayO, :nextMondayC, :nextTuesdayO, :nextTuesdayC, :nextWednesdayO, :nextWednesdayC, :nextThursdayO, :nextThursdayC, :nextFridayO, :nextFridayC)
+      params.require(:slideshow).permit(:todoList, :announcements, :quote, :saturday, :nextSaturday, :mondayO, :mondayC, :tuesdayO, :tuesdayC, :wednesdayO, :wednesdayC, :thursdayO, :thursdayC, :fridayO, :fridayC, :saturdayO, :saturdayC, :nextMondayO, :nextMondayC, :nextTuesdayO, :nextTuesdayC, :nextWednesdayO, :nextWednesdayC, :nextThursdayO, :nextThursdayC, :nextFridayO, :nextFridayC, :nextSaturdayO, :nextSaturdayC)
     end
 end
