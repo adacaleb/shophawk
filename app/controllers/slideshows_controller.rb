@@ -1,7 +1,7 @@
 class SlideshowsController < ApplicationController
   require 'date'
   require 'CSV'
-  before_action :set_slideshow, only: %i[ show edit update destroy ]
+  before_action :set_slideshow, only: %i[ show update destroy ]
 
   # GET /slideshows or /slideshows.json
   def index
@@ -28,7 +28,8 @@ class SlideshowsController < ApplicationController
 
   def slides
     @slideshow = Slideshow.find(1)
-    @weekStart = Date.today.beginning_of_week(:monday)
+    @weekStart = Date.today.beginning_of_week(:monday) #using gem 'working_hours'
+    puts @weekStart
     @nextWeekStart = @weekStart + 1.week
     @weekEnd = @weekStart + 4.days
     @weekStart = @weekStart.to_s
@@ -63,6 +64,33 @@ class SlideshowsController < ApplicationController
     end
     #puts @operations
 
+    #arrays for each day of the week for employee time off to populate
+    @mondaye = []
+    @tuesdaye = []
+    @wednesdaye = []
+    @thursdaye = []
+    @fridaye = []
+    @nextMondaye = []
+    @nextTuesdaye = []
+    @nextWednesdaye = []
+    @nextThursdaye = []
+    @nextFridaye = []
+    @weekStarte = Date.today.beginning_of_week(:monday) #using gem 'working_hours'
+    @nextWeekStarte = @weekStarte + 1.week
+    CSV.foreach("app/assets/csv/test.csv") do |row|
+      start = row[1][0..9]
+      start = start.to_date
+      ending = row[2][0..9]
+      ending = ending.to_date
+      #Calculate days between start and end
+      #create loop that moves day forward 1 for each day between
+      #check when day of week each day is on
+      #case function too add name and time to corresponding day of week array
+      #in view, do .each on daily arrays to populate who's off what day
+      
+      #WIP if start.between?(@WeekStarte, )
+    end
+
   end
 
   # GET /slideshows/1 or /slideshows/1.json
@@ -89,6 +117,50 @@ class SlideshowsController < ApplicationController
     @nextWeekEnd = @nextWeekEnd.to_s
     @nextWeekStart = @nextWeekStart[5..9]
     @nextWeekEnd = @nextWeekEnd[5..9]
+  end
+
+  def editTimeOff
+    #@slideshow = Slideshow.all
+    @today = Date.today.to_s + "T07:00"
+    @todayEnd = Date.today.to_s + "T04:00"
+  end
+
+  def saveTimeOff
+    @emp = []
+
+    file = "app/assets/csv/test.csv"
+    if CSV.table(file).count >= 0
+      CSV.foreach(file) do |row| #imports initial csv and creates all arrays needed
+        ending = row[2][0..9]
+        ending = ending.to_date
+        deleteDate = Date.today - 6 #sets up to delete any entry older than 6 days ago
+        if ending > deleteDate && row[0] != "" #if the end date is older than today, don't resave it to the csv
+          @emp << { name: row[0], startDate: row[1], endDate: row[2] }
+        end
+      end
+    end
+    if params[:name] != "" #for each entry, if the name isn't empty, save it
+      @emp << { name: params[:name], startDate: params[:startDate], endDate: params[:endDate] }
+    end
+    if params[:name2] != ""
+      @emp << { name: params[:name2], startDate: params[:startDate2], endDate: params[:endDate2] }
+    end
+    if params[:name3] != ""
+      @emp << { name: params[:name3], startDate: params[:startDate3], endDate: params[:endDate3] }
+    end
+    if params[:name4] != ""
+      @emp << { name: params[:name4], startDate: params[:startDate4], endDate: params[:endDate4] }
+    end
+    #puts @emp
+
+    
+    CSV.open( file, 'w' ) do |writer|
+      @emp.each do |emp|
+        writer << [ emp[:name], emp[:startDate], emp[:endDate] ]
+      end
+    end
+
+    #redirect_to slideshows_path
   end
 
   # POST /slideshows or /slideshows.json

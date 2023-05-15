@@ -20,6 +20,8 @@ Rails.application.routes.draw do
       end
   end
 
+  get "slideshows/editTimeOff", to: "slideshows#editTimeOff", as: :editTimeOff
+  post "/editTimeOff", to: "slideshows#saveTimeOff", as: :saveTimeOff
   resources :slideshows do 
     collection do 
       get :slides, defaults: { format: :turbo_stream }
@@ -29,6 +31,7 @@ Rails.application.routes.draw do
   namespace :charts do 
     get "total_jobs"
   end 
+
 
 
   get "runlists/:id/destroyassignment", to: "runlists#destroyassignment", as: :assignmentdestroy

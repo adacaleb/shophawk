@@ -1,16 +1,19 @@
 <% require 'date' %>
 
 <div id="slides"> <!-- id="slides" is used to define turbo_stream content that gets updated -->
-  <div data-controller="slideshow" data-slideshow-slide="<%= @currentSlide %>">
-    <%= link_to "Refresh", slides_slideshows_path(:nextbtn => @nextbtn), class: "btn btn-secondary justify-content-end" %>
+  <%= render "slideshows/shopHours" %>
+  <div data-controller="slideshow" data-slideshow-slide="<%= @currentSlide %>" data-slideshow-path="<%= request.path %>">
+    <!-- <%= link_to "Refresh", slides_slideshows_path(:nextbtn => @nextbtn), class: "btn btn-secondary justify-content-end" %> -->
     <button class="btn btn-primary" data-action="click->slideshow#previous">Previous</button>
     <button class="btn btn-primary" data-action="click->slideshow#next">Next</button>
-
+    <button class="btn btn-primary" data-action="click->slideshow#start">Start Slideshow</button>
     <h1 class="text-white"> Current <%= @currentSlide %> | Next Slide <%= @nextbtn %> </h1>
-
-    <%= render "slideshows/shopHours" %>
-    
   </div>
+    
+
+    
+    
+
 
 
 </div>

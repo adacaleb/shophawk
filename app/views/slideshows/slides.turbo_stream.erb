@@ -1,25 +1,15 @@
  <%= turbo_stream.update "slides" do %>
-	<div data-controller="slideshow" data-slideshow-slide="<%= @currentSlide %>" data-slideshow-path="<%= request.path %>">
-		<%= link_to "Next Slide", slides_slideshows_path(:nextbtn => @nextbtn), class: "btn btn-secondary justify-content-end" %>
-		<button class="btn btn-primary" data-action="click->slideshow#previous">Previous</button>
-		<button class="btn btn-primary" data-action="click->slideshow#next">Next</button>
+ 	
+		<div data-controller="slideshow" data-slideshow-slide="<%= @currentSlide %>" data-slideshow-path="<%= request.path %>">
+			
 
 
-		<h1 class="text-white"> Current <%= @currentSlide %> | Next Slide <%= @nextbtn %> </h1>
+		<div data-controller="slideshow" data-slideshow-slide="<%= @currentSlide %>" data-slideshow-path="<%= request.path %>">	
 			<% case @currentSlide %>
 			<% when 1 %>
 				<%= render "slideshows/shopHours" %>
 			<% when 2 %>
-				<div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
-			        <div class="card-header">
-			         	<h1>Announcements</h1>
-			        </div>
-			        <div class="card-body">
-				        <h1>
-				        	<%= simple_format(@slideshow.announcements) %>
-				        </h1>
-			        </div>
-		        </div>
+				<%= render "slideshows/announcements" %>
 			<% when 3 %>
 				<%= render "slideshows/hotJobs" %>
 			<% when 4 %>
@@ -45,7 +35,14 @@
 			        </div>
 		     	</div>
 			<% when 6 %>
-
+				<%= render "slideshows/timeOff" %>
 			<% end %>
+			<!-- <%= link_to "Next Slide", slides_slideshows_path(:nextbtn => @nextbtn), class: "btn btn-secondary justify-content-end" %> -->
+			<button class="btn btn-primary" data-action="click->slideshow#previous">Previous</button>
+			<button class="btn btn-primary" data-action="click->slideshow#next">Next</button>
+			<button class="btn btn-primary" data-action="click->slideshow#start">Resume Slideshow</button>
+			<button class="btn btn-primary" data-action="click->slideshow#stop">Stop Slideshow</button>			
+			<h1 class="text-white"> Current <%= @currentSlide %> | Next Slide <%= @nextbtn %> </h1>
+		</div>
 	</div>
 <% end %>
