@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
   get "slideshows/editTimeOff", to: "slideshows#editTimeOff", as: :editTimeOff
   post "/editTimeOff", to: "slideshows#saveTimeOff", as: :saveTimeOff
+  post "slideshows/viewTimeOff/:id", to: "slideshows#delTimeOff", as: :delTimeOff
   resources :slideshows do 
     collection do 
       get :slides, defaults: { format: :turbo_stream }

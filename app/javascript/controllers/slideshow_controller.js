@@ -18,7 +18,7 @@ export default class extends Controller {
     clearTimeout(slideTimer) //stops timer with ID "slideTimer"
     //let currentSlide = this.data.get("slide") //get data from slideshow_controller about current slide. do it this way to manage state
     currentSlideShow = parseInt(currentSlideShow) + 1 //partseInt converts string to number
-    if (currentSlideShow > 6) {
+    if (currentSlideShow > 7) {
       currentSlideShow = 1
     }
     get(`/slideshows/slides/?nextbtn=${currentSlideShow}`, { responseKind: "turbo-stream"}) //loads next turbostream
@@ -36,7 +36,7 @@ export default class extends Controller {
     let currentSlide = this.data.get("slide") //get data from slideshow_controller about current slide. do it this way to manage state
     let path = this.data.get("path")
     currentSlide = parseInt(currentSlide) + 1 //partseInt converts string to number
-    if (currentSlide > 6) {
+    if (currentSlide > 7) {
       currentSlide = 1
     }
     get(`/slideshows/slides/?nextbtn=${currentSlide}`, { responseKind: "turbo-stream"}) //loads next turbostream
@@ -50,7 +50,7 @@ export default class extends Controller {
     let path = this.data.get("path")
     currentSlide = parseInt(currentSlide) - 1 //partseInt converts string to number
     if (currentSlide < 1) {
-      currentSlide = 6
+      currentSlide = 7
     }
     get(`/slideshows/slides/?nextbtn=${currentSlide}`, { responseKind: "turbo-stream"}) //loads next turbostream
 

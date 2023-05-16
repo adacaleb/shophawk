@@ -13,7 +13,7 @@
 			<% when 3 %>
 				<%= render "slideshows/hotJobs" %>
 			<% when 4 %>
-				<div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
+				<div class="card text-bg-dark mb-3 text-center" style=" height: 98vh" >
 			        <div class="card-header">
 			          <h1>New Jobs per Day</h1>
 			        </div>
@@ -24,18 +24,22 @@
 			        </div>
 		     	</div>
 			<% when 5 %>
-				<div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
+				<div class="card text-bg-dark mb-3 text-center" style=" height: 98vh" >
 			        <div class="card-header">
 			          <h1>Wise Words</h1>
 			        </div>
 			        <div class="card-body" >
 			          <h1>
+			          	<% if @slideshow.quote != nil %>
 			            <%= image_tag(@slideshow.quote, style:"width: 75vw; height: 85vh; object-fit: fill;") %>
+			            <% end %>
 			          </h1>
 			        </div>
 		     	</div>
 			<% when 6 %>
 				<%= render "slideshows/timeOff" %>
+			<% when 7 %>
+				<%= render "slideshows/timeOff2" %>
 			<% end %>
 			<!-- <%= link_to "Next Slide", slides_slideshows_path(:nextbtn => @nextbtn), class: "btn btn-secondary justify-content-end" %> -->
 			<button class="btn btn-primary" data-action="click->slideshow#previous">Previous</button>

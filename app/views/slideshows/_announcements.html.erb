@@ -1,61 +1,63 @@
-<div class="card text-bg-light mb-3 text-center" style=" height: 98vh" >
-			        <div class="card-header">
-			         	<h1>Announcements</h1>
-			        </div>
-			        <div class="card-body">
-				        <h1>
-				        	<%= simple_format(@slideshow.announcements) %>
-				        	<% if @slideshow.announcements.match(/\A[a-zA-Z0-9]*\z/).nil? %>
-					        	<% number = 1 + rand(23) %>
-					        	<% case number %>
-					        	<% when 1 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://y.yarn.co/516bad31-fd30-45ce-9491-f8d806e2ff55_text.gif">
-					        	<% when 2 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 30vw;" src="https://media.tenor.com/3_9OnwC6dXgAAAAM/pay-attention-mr-garrison.gif">
-					        	<% when 3 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media1.giphy.com/media/cZskL3prfU4hwZI4l9/giphy.gif?cid=6c09b9521b35c38727d1b8901ba0e942510a4f681ee48ef0&ep=v1_internal_gifs_gifId&rid=giphy.gif&ct=g">
-					        	<% when 4 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media2.giphy.com/media/3ohuPzQoWzOVzbOa3u/giphy.gif">
-					        	<% when 5 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://theorangutanlibrarian.files.wordpress.com/2016/12/pay-attention-to-me.gif">
-					        	<% when 6 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://24.media.tumblr.com/eeee7d67fd1c2df5d4744e9251444dc2/tumblr_mmy667zTaz1sp9fcho1_500.gif">
-					        	<% when 7 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 30vw;" src="https://media.tenor.com/AleRU5nZSasAAAAC/attention-notice-me.gif">
-					        	<% when 8 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://i.kym-cdn.com/photos/images/newsfeed/000/691/053/5fb.gif">					     
-					        	<% when 9 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://i.gifer.com/PlYj.gif">
-					        	<% when 10 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://thumbs.gfycat.com/GiantImperturbableGreatwhiteshark-size_restricted.gif">
-					        	<% when 11 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://cdn.vox-cdn.com/thumbor/0mqD9EvEmDetvwWyxp18WLvIk7o=/0x0:420x314/1400x788/filters:focal(136x115:202x181):format(gif)/cdn.vox-cdn.com/uploads/chorus_image/image/55279403/tenor.0.gif">
-					        	<% when 12 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://blog.hubspot.com/hs-fs/hubfs/Google%20Drive%20Integration/How%20to%20Find%20the%20Perfect%20GIF%2010%20Must-Try%20Websites-4.gif?width=500&name=How%20to%20Find%20the%20Perfect%20GIF%2010%20Must-Try%20Websites-4.gif">
-					        	<% when 13 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://assets.website-files.com/5d2b950d9ea87fc61f0c1f3e/5daa2f818bfff61e250fd7da_ezgif.com-resize.gif">
-					        	<% when 14 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 30vw;" src="https://media2.giphy.com/media/DhstvI3zZ598Nb1rFf/giphy.gif">
-					        	<% when 15 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media1.giphy.com/media/UAHZijO91QCl2/giphy.gif">
-					        	<% when 16 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 40vw;" src="https://media3.giphy.com/media/dXFKDUolyLLi8gq6Cl/giphy.gif">
-					        	<% when 17 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://i.pinimg.com/originals/80/70/31/8070316850672163529907aa6928cabd.gif">
-					        	<% when 18 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media3.giphy.com/media/rhgwg4qBu97ISgbfni/giphy.gif">
-					        	<% when 19 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 40vw;" src="https://thumbs.gfycat.com/DecimalShortColt-max-1mb.gif">
-					        	<% when 20 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media4.giphy.com/media/KIgWTd8F75jW/giphy.gif">
-					        	<% when 21 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 35vw;" src="https://laughingsquid.com/wp-content/uploads/caladventurecal.gif">
-					        	<% when 22 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media4.giphy.com/media/ku5wU0gDgdPQyeRCXQ/giphy.gif">
-					        	<% when 23 %>
-					        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media2.giphy.com/media/xT9IgG465kWUz2dvSo/giphy.gif">
-					        	<% end %>     
-					        <% end %>
-				        </h1>
-			        </div>
-		        </div>
+<div class="card text-bg-dark mb-3 text-center" style=" height: 98vh" >
+    <div class="card-header">
+     	<h1>Announcements</h1>
+    </div>
+    <div class="card-body">
+        <h1>
+        	<%= simple_format(@slideshow.announcements) %>
+        	<% if @slideshow.announcements != nil %>
+	        	<% if @slideshow.announcements.match(/\A[a-zA-Z0-9]*\z/).nil? %>
+		        	<% number = 1 + rand(23) %>
+		        	<% case number %>
+		        	<% when 1 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://y.yarn.co/516bad31-fd30-45ce-9491-f8d806e2ff55_text.gif">
+		        	<% when 2 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 30vw;" src="https://media.tenor.com/3_9OnwC6dXgAAAAM/pay-attention-mr-garrison.gif">
+		        	<% when 3 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media1.giphy.com/media/cZskL3prfU4hwZI4l9/giphy.gif?cid=6c09b9521b35c38727d1b8901ba0e942510a4f681ee48ef0&ep=v1_internal_gifs_gifId&rid=giphy.gif&ct=g">
+		        	<% when 4 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media2.giphy.com/media/3ohuPzQoWzOVzbOa3u/giphy.gif">
+		        	<% when 5 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://theorangutanlibrarian.files.wordpress.com/2016/12/pay-attention-to-me.gif">
+		        	<% when 6 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://24.media.tumblr.com/eeee7d67fd1c2df5d4744e9251444dc2/tumblr_mmy667zTaz1sp9fcho1_500.gif">
+		        	<% when 7 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 30vw;" src="https://media.tenor.com/AleRU5nZSasAAAAC/attention-notice-me.gif">
+		        	<% when 8 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://i.kym-cdn.com/photos/images/newsfeed/000/691/053/5fb.gif">					     
+		        	<% when 9 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://i.gifer.com/PlYj.gif">
+		        	<% when 10 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://thumbs.gfycat.com/GiantImperturbableGreatwhiteshark-size_restricted.gif">
+		        	<% when 11 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://cdn.vox-cdn.com/thumbor/0mqD9EvEmDetvwWyxp18WLvIk7o=/0x0:420x314/1400x788/filters:focal(136x115:202x181):format(gif)/cdn.vox-cdn.com/uploads/chorus_image/image/55279403/tenor.0.gif">
+		        	<% when 12 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://blog.hubspot.com/hs-fs/hubfs/Google%20Drive%20Integration/How%20to%20Find%20the%20Perfect%20GIF%2010%20Must-Try%20Websites-4.gif?width=500&name=How%20to%20Find%20the%20Perfect%20GIF%2010%20Must-Try%20Websites-4.gif">
+		        	<% when 13 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://assets.website-files.com/5d2b950d9ea87fc61f0c1f3e/5daa2f818bfff61e250fd7da_ezgif.com-resize.gif">
+		        	<% when 14 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 30vw;" src="https://media2.giphy.com/media/DhstvI3zZ598Nb1rFf/giphy.gif">
+		        	<% when 15 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media1.giphy.com/media/UAHZijO91QCl2/giphy.gif">
+		        	<% when 16 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 40vw;" src="https://media3.giphy.com/media/dXFKDUolyLLi8gq6Cl/giphy.gif">
+		        	<% when 17 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://i.pinimg.com/originals/80/70/31/8070316850672163529907aa6928cabd.gif">
+		        	<% when 18 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media3.giphy.com/media/rhgwg4qBu97ISgbfni/giphy.gif">
+		        	<% when 19 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 40vw;" src="https://thumbs.gfycat.com/DecimalShortColt-max-1mb.gif">
+		        	<% when 20 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media4.giphy.com/media/KIgWTd8F75jW/giphy.gif">
+		        	<% when 21 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 35vw;" src="https://laughingsquid.com/wp-content/uploads/caladventurecal.gif">
+		        	<% when 22 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media4.giphy.com/media/ku5wU0gDgdPQyeRCXQ/giphy.gif">
+		        	<% when 23 %>
+		        		<img style="display: block;-webkit-user-select: none;margin: auto;background-color: hsl(0, 0%, 90%); width: 50vw;" src="https://media2.giphy.com/media/xT9IgG465kWUz2dvSo/giphy.gif">
+		        	<% end %>     
+		        <% end %>
+		    <% end %>
+        </h1>
+    </div>
+</div>

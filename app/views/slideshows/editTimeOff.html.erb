@@ -63,23 +63,41 @@
 				</div>
 			</div>
 			</br>
-			</br>
-			</br>
-			</br>
-			</br>
-			</br>
-			</br>
-			</br>
-			</br>
-			</br>
-			</br>
-			</br>
-			</br>
-			</br>
-			</br>
 
+
+		<div class="text-center">
 		<%= form.submit "Save Changes", class:"btn btn-primary" %>
 		<% end %>
+	</div>
+	</div>
+</div>
 
+<div class="card text-bg-light text-center">
+	<div class="card-header">
+		<h1>All Time Off</h1>
+	</div>
+	<div class="card-body">
+		<table style="table-layout:fixed" class="table table-light align-middle table table-bordered text-center" >
+                <thead>
+                  <tr style="font-size: 26px">
+                    <th scope="col">Name</th>
+                    <th scope="col">Start</th>
+                    <th scope="col">End</th>
+                  </tr>
+                </thead>
+                <tbody style="font-size: X-large;">
+                	<% @off.each do |off| %>
+					<tr style="font-size: 26px">
+                  	
+					<td><%= off[:name] %> </td>
+					<td><%= off[:start] %> </td>
+					<td><%= off[:end] %> </td>
+					<td><%= button_to "Delete", delTimeOff_path(off[:number]), data: { confirm: "Are you sure?" }, method: :delTimeOff, class:"btn btn-danger" %></td> 
+					</tr>
+					<% end %>
+                </tbody>
+
+              </table>
+		
 	</div>
 </div>
