@@ -1,52 +1,45 @@
 <div class="card text-bg-dark mb-3" style=" height: 98vh" >
-	<div class="card-header text-center "><h1>Time Off This Week</h1></div>
+	<div class="card-header text-center ">
+    <h3>Time Off This Week</h3>
+    <h3><%= @weekStart %> to <%= @weekEnd %></h3>
+  </div>
+  <div class="card text-bg-dark text-center mb-3">
     <div class="card-body">
-      <div class="row">
-        <div class="">
-          <div class="card text-bg-light text-center mb-3">
-            <div class="card-header">
-              <h1><%= @weekStart %> to <%= @weekEnd %></h1>
-            </div>
-            <div class="card-body">
-              <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
-                <thead>
-                  <tr style="font-size: 26px">
-                    <th scope="col">Monday</th>
-                    <th scope="col">Tuesday</th>
-                    <th scope="col">Wednesday</th>
-                    <th scope="col">Thursday</th>
-                    <th scope="col">Friday</th>
-                  </tr>
-                </thead>
-                <tbody style="font-size: X-large;">
-                  <% @day = 0 %>
-                  <%= render "slideshows/timeOffRow" %>
-                  <% @day = 1 %>
-                  <%= render "slideshows/timeOffRow" %>
-                  <% @day = 2 %>
-                  <%= render "slideshows/timeOffRow" %>
-                  <% @day = 3 %>
-                  <%= render "slideshows/timeOffRow" %>
-                  <% @day = 4 %>
-                  <%= render "slideshows/timeOffRow" %>
-                  <% @day = 5 %>
-                  <%= render "slideshows/timeOffRow" %>
-                  <% @day = 6 %>
-                  <%= render "slideshows/timeOffRow" %>
-                  <% @day = 7 %>
-                  <%= render "slideshows/timeOffRow" %>
-                  <% @day = 8 %>
-                  <%= render "slideshows/timeOffRow" %>
-                  <% @day = 9 %>
-                  <%= render "slideshows/timeOffRow" %>
-                  <% @day = 10 %>
-                  <%= render "slideshows/timeOffRow" %>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
+        <thead>
+          <tr style="font-size: 20px">
+            <th scope="col">Monday</th>
+            <th scope="col">Tuesday</th>
+            <th scope="col">Wednesday</th>
+            <th scope="col">Thursday</th>
+            <th scope="col">Friday</th>
+          </tr>
+        </thead>
+        <tbody style="font-size: 20px;">
+          <% @day = 0 %>
+          <%= render "slideshows/timeOffRow" %>
+          <% @day = 1 %>
+          <%= render "slideshows/timeOffRow" %>
+          <% @day = 2 %>
+          <%= render "slideshows/timeOffRow" %>
+          <% @day = 3 %>
+          <%= render "slideshows/timeOffRow" %>
+          <% @day = 4 %>
+          <%= render "slideshows/timeOffRow" %>
+          <% @day = 5 %>
+          <%= render "slideshows/timeOffRow" %>
+          <% @day = 6 %>
+          <%= render "slideshows/timeOffRow" %>
+          <% @day = 7 %>
+          <%= render "slideshows/timeOffRow" %>
+          <% @day = 8 %>
+          <%= render "slideshows/timeOffRow" %>
+          <% @day = 9 %>
+          <%= render "slideshows/timeOffRow" %>
+          <% @day = 10 %>
+          <%= render "slideshows/timeOffRow" %>
+        </tbody>
+      </table>
     </div>
+  </div>        
 </div>

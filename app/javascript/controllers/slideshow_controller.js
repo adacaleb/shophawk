@@ -23,7 +23,7 @@ export default class extends Controller {
     }
     get(`/slideshows/slides/?nextbtn=${currentSlideShow}`, { responseKind: "turbo-stream"}) //loads next turbostream
     console.log(`${currentSlideShow}`)    
-    slideTimer = setTimeout(() => this.start(), 2000); //starts timer to progress to next slide
+    slideTimer = setTimeout(() => this.start(), 7000); //starts timer to progress to next slide
   }
 
   stop() {

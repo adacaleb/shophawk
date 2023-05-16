@@ -1,23 +1,23 @@
 <div class="card text-bg-dark mb-3" style=" height: 98vh" >
-	<div class="card-header text-center "><h1>Shop Hours</h1></div>
+	<div class="card-header text-center "><h2>Shop Hours</h2></div>
     <div class="card-body">
       <div class="row">
         <div class="col-6">
           <div class="card text-bg-light text-center mb-3">
             <div class="card-header">
-              <h1>This Week</h1>
-              <h1><%= @weekStart %> to <%= @weekEnd %></h1>
+              <h2>This Week</h2>
+              <h2><%= @weekStart %> to <%= @weekEnd %></h2>
             </div>
             <div class="card-body">
               <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
                 <thead>
-                  <tr style="font-size: 40px;">
+                  <tr style="font-size: 20px;">
                     <th scope="col">Day</th>
                     <th scope="col">Open</th>
                     <th scope="col">Close</th>
                   </tr>
                 </thead>
-                <tbody style="font-size: 40px;">
+                <tbody style="font-size: 20px;">
                   <tr>
                     <td>Monday</td>
                     <% if @slideshow.mondayO != "6" then background = "text-bg-danger" else background = "text-bg-default" end %>
@@ -69,19 +69,19 @@
         <div class="col-6">
           <div class="card text-bg-light text-center mb-3">
             <div class="card-header">
-              <h1>Next Week</h1>
-              <h1><%= @nextWeekStart %> to <%= @nextWeekEnd %></h1>
+              <h2>Next Week</h2>
+              <h2><%= @nextWeekStart %> to <%= @nextWeekEnd %></h2>
             </div>
             <div class="card-body">
               <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
                 <thead>
-                  <tr style="font-size: 40px;">
+                  <tr style="font-size: 20px;">
                     <th scope="col">Day</th>
                     <th scope="col">Open</th>
                     <th scope="col">Close</th>
                   </tr>
                 </thead>
-                <tbody style="font-size: 40px;">
+                <tbody style="font-size: 20px;">
                   <tr>
                     <td>Monday</td>
                     <% if @slideshow.nextMondayO != "6" then background = "text-bg-danger" else background = "text-bg-default" end %>

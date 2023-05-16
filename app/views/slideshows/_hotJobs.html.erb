@@ -1,11 +1,11 @@
 <div class="card text-bg-dark mb-3 text-center" style=" height: 98vh" >
     <div class="card-header">
-      <h1>Hot Jobs</h1>
+      <h3>Hot Jobs</h3>
     </div>
     <div class="card-body text-center" >
-		<table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
+		<table style="table-layout:fixed" class="table table-sm table-dark align-middle table table-bordered text-center" >
 			<thead>
-			<tr>
+			<tr style="font-size: 13px">
 			  <th width="60rem" scope="col">Dots</th>
 			  <th width="60rem" scope="col">Job</th>
 			  <th width="35rem" style="font-size: 12px" scope="col">Qty</th>
@@ -24,15 +24,15 @@
 					  	<% if op.dots == 1 then dots = "O" end %>
 					  	<% if op.dots == 2 then dots = "OO" end %>
 					  	<% if op.dots == 3 then dots = "OOO" end %>
-					  	<td style="font-size: 26px; color: red" ><%= dots %></td>
-						<td style="font-size: 20px"><%= op.Job %></td>
-						<td style="font-size: 20px"><%= op.Make_Quantity %></td>
-						<td style="font-size: 20px" class="text-wrap"><%= op.Material %></td>
-						<td style="font-size: 20px" class="text-wrap"><%= op.Part_Number %></td>
-						<td style="font-size: 20px" class="text-wrap"><%= op.Description %></td>
-						<td style="font-size: 20px"><%= op.Job_Sched_End %></td> <!-- ship date as last op on routing? -->
-						<td style="font-size: 20px" class="text-wrap"><%= op.Customer %></td> 
-						<td style="font-size: 20px" class="text-wrap"><%= op.currentOp %></td>
+					  	<td style="font-size: 18px; color: red" ><%= dots %></td>
+						<td style="font-size: 18px"><%= op.Job %></td>
+						<td style="font-size: 18px"><%= op.Make_Quantity %></td>
+						<td style="font-size: 18px" class="text-wrap"><%= op.Material %></td>
+						<td style="font-size: 18px" class="text-wrap"><%= op.Part_Number %></td>
+						<td style="font-size: 18px" class="text-wrap"><%= op.Description %></td>
+						<td style="font-size: 18px"><%= op.Job_Sched_End %></td> <!-- ship date as last op on routing? -->
+						<td style="font-size: 18px" class="text-wrap"><%= op.Customer %></td> 
+						<td style="font-size: 18px" class="text-wrap"><%= op.currentOp %></td>
 					  </tr>
 					<% end %>
 				<% end %>

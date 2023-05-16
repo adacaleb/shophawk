@@ -5,6 +5,11 @@
 
 
 		<div data-controller="slideshow" data-slideshow-slide="<%= @currentSlide %>" data-slideshow-path="<%= request.path %>">	
+			<button class="btn btn-primary" data-action="click->slideshow#previous">Previous</button>
+			<button class="btn btn-primary" data-action="click->slideshow#next">Next</button>
+			<button class="btn btn-primary" data-action="click->slideshow#start">Resume Slideshow</button>
+			<button class="btn btn-primary" data-action="click->slideshow#stop">Stop Slideshow</button>			
+			<h1 class="text-white"> Current <%= @currentSlide %> | Next Slide <%= @nextbtn %> </h1>
 			<% case @currentSlide %>
 			<% when 1 %>
 				<%= render "slideshows/shopHours" %>
@@ -19,7 +24,7 @@
 			        </div>
 			        <div class="card-body text-center" >
 			          <h1>
-			            <%= column_chart charts_total_jobs_path, label: "Value", height: "84vh" %>
+			            <%= column_chart charts_total_jobs_path, label: "Value", height: "75vh" %>
 			          </h1>
 			        </div>
 		     	</div>
@@ -31,7 +36,7 @@
 			        <div class="card-body" >
 			          <h1>
 			          	<% if @slideshow.quote != nil %>
-			            <%= image_tag(@slideshow.quote, style:"width: 75vw; height: 85vh; object-fit: fill;") %>
+			            <%= image_tag(@slideshow.quote, style:"width: 65vw; height: 75vh; object-fit: fill;") %>
 			            <% end %>
 			          </h1>
 			        </div>
@@ -42,11 +47,7 @@
 				<%= render "slideshows/timeOff2" %>
 			<% end %>
 			<!-- <%= link_to "Next Slide", slides_slideshows_path(:nextbtn => @nextbtn), class: "btn btn-secondary justify-content-end" %> -->
-			<button class="btn btn-primary" data-action="click->slideshow#previous">Previous</button>
-			<button class="btn btn-primary" data-action="click->slideshow#next">Next</button>
-			<button class="btn btn-primary" data-action="click->slideshow#start">Resume Slideshow</button>
-			<button class="btn btn-primary" data-action="click->slideshow#stop">Stop Slideshow</button>			
-			<h1 class="text-white"> Current <%= @currentSlide %> | Next Slide <%= @nextbtn %> </h1>
+			
 		</div>
 	</div>
 <% end %>

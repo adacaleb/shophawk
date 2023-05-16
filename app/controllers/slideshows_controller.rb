@@ -94,6 +94,9 @@ class SlideshowsController < ApplicationController
         if dayBetween == 0 #if only 1 day with time off
           week = calcWeek(start) #gets week day is in
           off = person.to_s + " " + startTime.to_s + "-" + endTime.to_s
+          if startTime.to_s == "07:00" && endTime.to_s == "03:00"
+            off = person.to_s + " - All Day"
+          end
           saveTimeOffDay(start, week, off) #saves name to whatever day in the next two weeks the date belongs too. 
         end
         if dayBetween > 0 #if multiple days off

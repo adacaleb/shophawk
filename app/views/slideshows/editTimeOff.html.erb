@@ -5,60 +5,60 @@
 
 		<%= form_with url: "/editTimeOff" do |form| %>
 		<div class="row justify-content-center">
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><h2>Employee</h2></div>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><h2>Start Time</h2></div>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><h2>End Time</h2></div>
 				</div>
 			</div>
 			<div class="row justify-content-center">
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><%= form.text_field :name %></div>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><%= form.datetime_local_field :startDate, value: @today %></div>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><%= form.datetime_local_field :endDate, value: @todayEnd %></div>
 				</div>
 			</div>
 			</br>
 			<div class="row justify-content-center">
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><%= form.text_field :name2 %></div>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><%= form.datetime_local_field :startDate2, value: @today %></div>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><%= form.datetime_local_field :endDate2, value: @todayEnd %></div>
 				</div>
 			</div>
 			</br>
 			<div class="row justify-content-center">
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><%= form.text_field :name3 %></div>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><%= form.datetime_local_field :startDate3, value: @today %></div>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><%= form.datetime_local_field :endDate3, value: @todayEnd %></div>
 				</div>
 			</div>
 			</br>
 			<div class="row justify-content-center">
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><%= form.text_field :name4 %></div>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><%= form.datetime_local_field :startDate4, value: @today %></div>
 				</div>
-				<div class="col-2">
+				<div class="col-3">
 				<div class="text-center"><%= form.datetime_local_field :endDate4, value: @todayEnd %></div>
 				</div>
 			</div>
