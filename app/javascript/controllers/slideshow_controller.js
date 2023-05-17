@@ -5,15 +5,15 @@ import { get } from "@rails/request.js" //needed for get operations from JS to R
 //let amount = 3000;
 //let slideloop = setInterval(() => this.next(), 3000);
 let currentSlideShow = 1 //Starting slide for slidetimer
-let slideTimer = setTimeout(() => this.start(), 2000); //Defines Timer ID for use in other functions
+let slideTimer //Defines Timer ID for use in other functions
 
 export default class extends Controller {
 
 
 
-  connect() {
-  }
-
+//  connect() {
+//  }
+//
   start() {
     clearTimeout(slideTimer) //stops timer with ID "slideTimer"
     //let currentSlide = this.data.get("slide") //get data from slideshow_controller about current slide. do it this way to manage state

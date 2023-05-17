@@ -5,9 +5,9 @@
   </div>
   <div class="card text-bg-dark text-center mb-3">
     <div class="card-body">
-      <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
+      <table style="table-layout:auto; white-space: nowrap; border-color: white" class="table table-dark align-middle table table-bordered text-center" >
         <thead>
-          <tr style="font-size: 20px">
+          <tr style="font-size: 2vw">
             <th scope="col">Monday</th>
             <th scope="col">Tuesday</th>
             <th scope="col">Wednesday</th>
@@ -15,7 +15,7 @@
             <th scope="col">Friday</th>
           </tr>
         </thead>
-        <tbody style="font-size: 20px;">
+        <tbody style="font-size: 2vw;">
           <% @day = 0 %>
           <%= render "slideshows/timeOffRow" %>
           <% @day = 1 %>
@@ -31,12 +31,6 @@
           <% @day = 6 %>
           <%= render "slideshows/timeOffRow" %>
           <% @day = 7 %>
-          <%= render "slideshows/timeOffRow" %>
-          <% @day = 8 %>
-          <%= render "slideshows/timeOffRow" %>
-          <% @day = 9 %>
-          <%= render "slideshows/timeOffRow" %>
-          <% @day = 10 %>
           <%= render "slideshows/timeOffRow" %>
         </tbody>
       </table>

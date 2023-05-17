@@ -1,10 +1,6 @@
  <%= turbo_stream.update "slides" do %>
  	
-		<div data-controller="slideshow" data-slideshow-slide="<%= @currentSlide %>" data-slideshow-path="<%= request.path %>">
-			
-
-
-		<div data-controller="slideshow" data-slideshow-slide="<%= @currentSlide %>" data-slideshow-path="<%= request.path %>">	
+		<div class="container-fluid px-0" data-controller="slideshow" data-slideshow-slide="<%= @currentSlide %>" data-slideshow-path="<%= request.path %>">	
 			<button class="btn btn-primary" data-action="click->slideshow#previous">Previous</button>
 			<button class="btn btn-primary" data-action="click->slideshow#next">Next</button>
 			<button class="btn btn-primary" data-action="click->slideshow#start">Resume Slideshow</button>

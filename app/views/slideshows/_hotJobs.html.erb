@@ -1,38 +1,34 @@
 <div class="card text-bg-dark mb-3 text-center" style=" height: 98vh" >
     <div class="card-header">
-      <h3>Hot Jobs</h3>
+      <div style="font-size: 3vw">Hot Jobs</div>
     </div>
     <div class="card-body text-center" >
 		<table style="table-layout:fixed" class="table table-sm table-dark align-middle table table-bordered text-center" >
 			<thead>
-			<tr style="font-size: 13px">
+			<tr style="font-size: 2vw; border-color: white">
 			  <th width="60rem" scope="col">Dots</th>
 			  <th width="60rem" scope="col">Job</th>
-			  <th width="35rem" style="font-size: 12px" scope="col">Qty</th>
-			  <th width="100rem" scope="col">Material</th>
-			  <th width="100rem" scope="col">Part number</th>
+			  <th width="35rem"  scope="col">Qty</th>
 			  <th width="140rem" scope="col">Description</th>
-			  <th width="70rem" scope="col">Ship Date</th> 
+			  <th width="70rem" style="font-size: 1.5vw"  scope="col">Ship Date</th> 
 			  <th width="80rem" scope="col">Customer</th> 
-			  <th width="70rem" style="font-size: 12px" scope="col">Current Location</th>
+			  <th width="70rem" style="font-size: 1.5vw" scope="col">Current Location</th>
 			</tr>
 			</thead>
-			<tbody>				
+			<tbody >				
 				<% @operations.each do |op| %>
 					<% if op.Sched_Start.to_s != "-NULL" && op.Job_Sched_End.to_s != "-NULL" %>
-					  <tr>
+					  <tr style="font-size: 2vw; border-color: white">
 					  	<% if op.dots == 1 then dots = "O" end %>
 					  	<% if op.dots == 2 then dots = "OO" end %>
 					  	<% if op.dots == 3 then dots = "OOO" end %>
-					  	<td style="font-size: 18px; color: red" ><%= dots %></td>
-						<td style="font-size: 18px"><%= op.Job %></td>
-						<td style="font-size: 18px"><%= op.Make_Quantity %></td>
-						<td style="font-size: 18px" class="text-wrap"><%= op.Material %></td>
-						<td style="font-size: 18px" class="text-wrap"><%= op.Part_Number %></td>
-						<td style="font-size: 18px" class="text-wrap"><%= op.Description %></td>
-						<td style="font-size: 18px"><%= op.Job_Sched_End %></td> <!-- ship date as last op on routing? -->
-						<td style="font-size: 18px" class="text-wrap"><%= op.Customer %></td> 
-						<td style="font-size: 18px" class="text-wrap"><%= op.currentOp %></td>
+					  	<td style="color: red" ><%= dots %></td>
+							<td><%= op.Job %></td>
+							<td><%= op.Make_Quantity %></td>
+							<td class="text-wrap"><%= op.Description %></td>
+							<td><%= op.Job_Sched_End %></td> <!-- ship date as last op on routing? -->
+							<td class="text-wrap"><%= op.Customer %></td> 
+							<td class="text-wrap"><%= op.currentOp %></td>
 					  </tr>
 					<% end %>
 				<% end %>
