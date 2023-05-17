@@ -12,7 +12,6 @@
           </ul>
         </div>
       <% end %>
-
       <div class="card text-bg-light mb-3" >
         <div class="card-header text-center "><h1>Edit Slideshow</h1></div>
         <div class="card-body">
@@ -144,6 +143,7 @@
           </div>
           <div>
             <%= form.submit "Save Changes", class:"btn btn-primary" %>
+            <%= link_to "Add Timeoff", editTimeOff_path, class:"btn btn-secondary" %>
           </div>
         <div style="font-size: X-large;">
           <div>
@@ -162,6 +162,8 @@
           </div>
           </br>
         </div>
+        <%= form.submit "Save Changes", class:"btn btn-primary" %>
+        <%= link_to "Add Timeoff", editTimeOff_path, class:"btn btn-secondary" %>
       <% end %>
       </div>
     </div>
