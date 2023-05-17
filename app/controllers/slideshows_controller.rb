@@ -126,6 +126,72 @@ class SlideshowsController < ApplicationController
     end
   end
 
+  def timeOff #this weeks timeoff page
+    @weekStart = Date.today.beginning_of_week(:monday) #using gem 'working_hours'
+    @weekEnd = @weekStart + 4.days
+    @weekStart = @weekStart.to_s
+    @weekEnd = @weekEnd.to_s
+    @weekStart = @weekStart[5..9]
+    @weekEnd = @weekEnd[5..9]
+    @mondaye = []
+    @tuesdaye = []
+    @wednesdaye = []
+    @thursdaye = []
+    @fridaye = []
+    @nextMondaye = []
+    @nextTuesdaye = []
+    @nextWednesdaye = []
+    @nextThursdaye = []
+    @nextFridaye = []
+    @weekStarte = Date.today.beginning_of_week(:monday) #using gem 'working_hours'
+    @nextWeekStarte = @weekStarte + 1.week
+    @twoWeekStarte = @weekStarte + 2.week
+    i = 0
+    CSV.foreach("app/assets/csv/timeOff.csv") do |row|
+      if i > 0 
+        start = row[1][0..9]
+        start = start.to_date
+        ending = row[2][0..9]
+        ending = ending.to_date
+        startTime = row[1][11..15]
+        endTime = row[2][11..15]
+        person = row[0]
+        dayBetween = start.working_days_until(ending)
+        if dayBetween == 0 #if only 1 day with time off
+          week = calcWeek(start) #gets week day is in
+          off = person.to_s + " " + startTime.to_s + "-" + endTime.to_s
+          if startTime.to_s == "07:00" && endTime.to_s == "03:00"
+            off = person.to_s + " - All Day"
+          end
+          saveTimeOffDay(start, week, off) #saves name to whatever day in the next two weeks the date belongs too. 
+        end
+        if dayBetween > 0 #if multiple days off
+          day = start
+          week = calcWeek(day)
+          off = person.to_s + " " + startTime.to_s + "-" + "03:00"
+          saveTimeOffDay(day, week, off)
+          i = 1
+          while i <= dayBetween do #loop through each day
+            day = day + 1.working.days
+            if day == ending
+              off = person.to_s + " " + "07:00" + "-" + endTime.to_s
+            end
+            if day < ending 
+              off = person.to_s + " " +  "07:00" + "-" + "03:00"
+            end
+            if startTime.to_s == "07:00" && endTime.to_s == "03:00"
+              off = person.to_s + " - All Day"
+            end
+            week = calcWeek(day)
+            saveTimeOffDay(day, week, off)
+            i += 1
+          end
+        end
+      end      
+      i += 1
+    end
+  end
+
   def saveTimeOffDay(day, week, off)
     day = day.strftime("%A") #saves dates of name of the day ex. Monday, Tuesday
         if week == 0 #if during this week
