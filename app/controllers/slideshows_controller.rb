@@ -306,10 +306,12 @@ class SlideshowsController < ApplicationController
     CSV.open( file, 'w', :write_headers=> true,
     :headers => ["name","start","end", "id"] ) do |writer|
       @emp.each do |emp|
+        emp[:name] = emp[:name].downcase
+        emp[:name] = emp[:name].titleize
         writer << [ emp[:name], emp[:startDate], emp[:endDate], emp[:id] ]
       end
     end
-    redirect_to "/slideshows/editTimeOff"
+    redirect_to "/slideshows/addTimeOff"
   end
 
   def delTimeOff

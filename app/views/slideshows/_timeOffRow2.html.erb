@@ -1,7 +1,22 @@
-<tr style="font-size: 2vw">
-    <td><%= @nextMondaye[@day] %></td>
-    <td><%= @nextTuesdaye[@day] %></td>
-    <td><%= @nextWednesdaye[@day] %></td>
-    <td><%= @nextThursdaye[@day] %></td>
-    <td><%= @nextFridaye[@day] %></td>
+<tr>
+        <% if @nextMondaye[@day].to_s.size <= 18 then @fontSize = "2vw" end %>
+        <% if @nextMondaye[@day].to_s.size > 18 then @fontSize = "1.75vw" end %>
+        <% if @nextMondaye[@day].to_s.size > 21 then @fontSize = "1.6vw" end %>
+    <td style="font-size: <%= @fontSize %>"><%= @nextMondaye[@day] %></td>
+        <% if @nextTuesdaye[@day].to_s.size <= 18 then @fontSize = "2vw" end %>
+        <% if @nextTuesdaye[@day].to_s.size > 18 then @fontSize = "1.75vw" end %>
+        <% if @nextTuesdaye[@day].to_s.size > 21 then @fontSize = "1.6vw" end %>
+    <td style="font-size: <%= @fontSize %>"><%= @nextTuesdaye[@day] %></td>
+        <% if @nextWednesdaye[@day].to_s.size <= 18 then @fontSize = "2vw" end %>
+        <% if @nextWednesdaye[@day].to_s.size > 18 then @fontSize = "1.75vw" end %>
+        <% if @nextWednesdaye[@day].to_s.size > 21 then @fontSize = "1.6vw" end %>
+    <td style="font-size: <%= @fontSize %>"><%= @nextWednesdaye[@day] %></td>
+        <% if @nextThursdaye[@day].to_s.size <= 18 then @fontSize = "2vw" end %>
+        <% if @nextThursdaye[@day].to_s.size > 18 then @fontSize = "1.75vw" end %>
+        <% if @nextThursdaye[@day].to_s.size > 21 then @fontSize = "1.6vw" end %>
+    <td style="font-size: <%= @fontSize %>"><%= @nextThursdaye[@day] %></td>
+        <% if @nextFridaye[@day].to_s.size <= 18 then @fontSize = "2vw" end %>    
+        <% if @nextFridaye[@day].to_s.size > 18 then @fontSize = "1.75vw" end %>
+        <% if @nextFridaye[@day].to_s.size > 21 then @fontSize = "1.6vw" end %>
+        <td style="font-size: <%= @fontSize %>"><%= @nextFridaye[@day] %></td>
 </tr>
