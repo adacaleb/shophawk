@@ -251,7 +251,7 @@ class SlideshowsController < ApplicationController
     @nextWeekEnd = @nextWeekEnd[5..9]
   end
 
-  def editTimeOff
+  def addTimeOff
     @today = Date.today.to_s + "T07:00"
     @todayEnd = Date.today.to_s + "T03:00"
 

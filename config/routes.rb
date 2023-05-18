@@ -20,8 +20,8 @@ Rails.application.routes.draw do
       end
   end
 
-  get "slideshows/editTimeOff", to: "slideshows#editTimeOff", as: :editTimeOff
-  post "/editTimeOff", to: "slideshows#saveTimeOff", as: :saveTimeOff
+  get "slideshows/addTimeOff", to: "slideshows#addTimeOff", as: :addTimeOff
+  post "/addTimeOff", to: "slideshows#saveTimeOff", as: :saveTimeOff
   post "slideshows/viewTimeOff/:id", to: "slideshows#delTimeOff", as: :delTimeOff
   get "slideshows/timeOff", to: "slideshows#timeOff", as: :timeOff
   resources :slideshows do 
