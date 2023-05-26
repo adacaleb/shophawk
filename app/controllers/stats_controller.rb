@@ -15,7 +15,9 @@ class StatsController < ApplicationController
 		i = 0
 		@openInv = []
 		@totalOpen = 0
-		CSV.foreach("app/assets/csv/Open_Invoice_Amounts.csv", headers: true, :col_sep => "`") do |row|
+		 #:quote_char => "|",
+		open("app/assets/csv/Open_Invoice_Amounts.csv").read.force_encoding('utf-8')
+		CSV.foreach("app/assets/csv/Open_Invoice_Amounts.csv", headers: true, invalid: :replace, replace: "", :col_sep => "`") do |row|
 			#puts row[0]
 			if i > 0
 				case row[3] #Terms paid from invoice date
