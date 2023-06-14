@@ -1,0 +1,52 @@
+<div class="card text-bg-dark"  style="border-radius: 40px, 40px">
+  <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
+    <thead>
+      <tr>
+        <th scope="col">Department</th>
+        <th scope="col">Week 1</th>
+        <th scope="col">Week 2</th>
+        <th scope="col">Week 3</th>
+        <th scope="col">Week 4</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @departmentstatus.each do |dep| %>
+        <tr>
+          <td style="btn-full"><h5> <%= link_to dep[:department], "/runlists/changedepartment?department=#{dep[:department]}", class: "text-white", style: "text-decoration:none" %></h5></td>
+          <td>
+            <% if dep[:weekOne] >= 100 then loadColor = "danger" elsif dep[:weekOne] < 100 && dep[:weekOne] > 90 then loadColor = "warning" else loadColor = "light" end %>
+            <div class="text-bg-<%= loadColor %>" style="border-radius: 20px">
+              <div class="text-center">
+                Load For Coming Week: <%= dep[:weekOne].round(0) %>%
+              </div>
+            </div>
+          </td>
+          <td>
+            <% if dep[:weekTwo] >= 100 then loadColor = "danger" elsif dep[:weekTwo] < 100 && dep[:weekTwo] > 90 then loadColor = "warning" else loadColor = "light" end %>
+            <div class="text-bg-<%= loadColor %>"  style="border-radius: 20px">
+              <div class="text-center">
+                Week 2 Load: <%= dep[:weekTwo].round(0) %>%
+              </div>
+            </div>
+          </td>
+          <td>
+            <% if dep[:weekThree] >= 100 then loadColor = "danger" elsif dep[:weekThree] < 100 && dep[:weekThree] > 90 then loadColor = "warning" else loadColor = "light" end %>
+            <div class="text-bg-<%= loadColor %>"  style="border-radius: 20px">
+              <div class="text-center">
+                Week 3 Load: <%= dep[:weekThree].round(0) %>%
+              </div>
+            </div>
+          </td>
+          <td>
+            <% if dep[:weekFour] >= 100 then loadColor = "danger" elsif dep[:weekFour] < 100 && dep[:weekFour] > 90 then loadColor = "warning" else loadColor = "light" end %>
+            <div class="text-bg-<%= loadColor %>"  style="border-radius: 20px">
+              <div class="text-center">
+                Week 4 Load: <%= dep[:weekFour].round(0) %>%
+              </div>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

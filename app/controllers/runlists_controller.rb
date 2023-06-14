@@ -10,13 +10,36 @@ class RunlistsController < ApplicationController
         estimatedTime = estimatedTime.to_f + op.EstTotalHrs.to_f
       end
     end
-    return estimatedTime.round(2)
+    return estimatedTime.round(2) 
   end
 
   # GET /runlists or /runlists.json
   def index
     @workCenters = Runlist.getWorkcenters
     @departments = Runlist.getDepartments
+  end
+
+  def totalworkload
+    @today = Date.today #.strftime('%m-%d-%Y')
+    @workCenters = Runlist.getWorkcenters
+    @department = Department.all
+    @department = @department.sort_by { |a| a.department }
+    @departmentstatus = []
+    @department.each do |dep|
+      if dep.capacity.present?
+        @workCenters = Runlist.getWorkcenters
+        #makes a list of all workcenters in the department that matches data sent from runlist.js
+        @department = Department.find_by(department: dep.department)
+        @departmentid = dep.id
+        @workCentersToShow = [] #initiate array
+        @department.workcenters.each do |a| #for the department, load the associated workCenters to the array
+          @workCentersToShow << a.workCenter
+        end
+        @operations = Runlist.loadOperations(@workCentersToShow, true, @department.started)
+        @oneWeekLoad, @twoWeekLoad, @threeWeekLoad, @fourWeekLoad = Runlist.calculateWeeklyLoad(@operations, dep)
+        @departmentstatus << { department: dep.department, weekOne: @oneWeekLoad, weekTwo: @twoWeekLoad, weekThree: @threeWeekLoad, weekFour: @fourWeekLoad }
+      end
+    end
   end
 
   def activerunlist #loads up selected Workcenter for Runlist
@@ -48,6 +71,7 @@ class RunlistsController < ApplicationController
   end
 
   def changedepartment
+    @departments = Runlist.getDepartments
     @today = Date.today #.strftime('%m-%d-%Y')
     @workCenters = Runlist.getWorkcenters
     #makes a list of all workcenters in the department that matches data sent from runlist.js

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+
   resources :stats do
     collection do 
       get :openinv, defaults: { format: :turbo_stream }
@@ -8,6 +9,7 @@ Rails.application.routes.draw do
   resources :assignments
   resources :departments
 
+  #get "runlists/totalworkload", to: "runlists#totalworkload", as: :totalworkload
   resources :runlists do
     collection do
       get :activerunlist, defaults: { format: :turbo_stream }
@@ -17,6 +19,7 @@ Rails.application.routes.draw do
       get :showAssignments, defaults: { format: :turbo_stream }
       get :newassignment, defaults: { format: :turbo_stream }
       get :closestreams, defaults: { format: :turbo_stream }
+      get :totalworkload, defaults: { format: :turbo_stream }
       end
   end
 
@@ -35,7 +38,7 @@ Rails.application.routes.draw do
   end 
 
 
-
+  
   get "runlists/:id/destroyassignment", to: "runlists#destroyassignment", as: :assignmentdestroy
   post "runlists/:id/createassignment", to: "runlists#createassignment", as: :createassignment, defaults: { format: :turbo_stream }
   get "millinginvs/:id/checkout", to: "millinginvs#checkout", as: :millingcheckout

@@ -1,15 +1,6 @@
-<%= turbo_stream.update "departmentselect" do %>
-  <select class="form-select" data-action="change->runlist#changedepartment"> <!-- data action is the js controller to run -->
-      <option selected><%= params[:department] %></option>
-      <% @departments.each do |w| %>
-        <option ><%= w %></option>
-      <% end %>
-  </select>
-<% end %>
-
 <%= turbo_stream.update "wcSelect" do %>
   <select class="form-select" data-action="change->runlist#changeWc"> <!-- data action is the js controller to run -->
-    <option selected>WorkCenter</option>
+    <option selected>WorkCenter </option>
     <% @workCenters.each do |w| %>
       <option ><%= w %></option>
     <% end %>
@@ -50,5 +41,5 @@
 
 
 <%= turbo_stream.update "activerunlistrender" do %>
-  <%= render "runlists/showrunlist" %>
+  <%= render "runlists/totalworkload" %>
 <% end %>
