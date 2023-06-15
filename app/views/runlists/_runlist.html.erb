@@ -6,6 +6,7 @@
 <%= form_with model: runlist do |form| %>
 	<td class="<%= cellColor %>"><%= runlist.Job %></td>
 	<td class="<%= cellColor %>"><%= runlist.Make_Quantity %></td>
+	<td class="<%= cellColor %>"><%= runlist.EstTotalHrs.to_f.round(1) %></td>	
 	<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Material %></td>
 	<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Part_Number %></td>
 	<td style="font-size: 14px" class="text-wrap <%= cellColor %>"><%= runlist.Description %></td>
