@@ -17,11 +17,7 @@ class RunlistsController < ApplicationController
   def index
     @workCenters = Runlist.getWorkcenters
     @departments = Runlist.getDepartments
-  end
-
-  def totalworkload
     @today = Date.today #.strftime('%m-%d-%Y')
-    @workCenters = Runlist.getWorkcenters
     @department = Department.all
     @department = @department.sort_by { |a| a.department }
     @departmentstatus = []
