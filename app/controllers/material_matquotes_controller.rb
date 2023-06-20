@@ -1,0 +1,2 @@
+class MaterialMatquotesController < ApplicationController
+end

@@ -1,0 +1,2 @@
+class MatquotesController < ApplicationController
+end

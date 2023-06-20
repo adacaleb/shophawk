@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  resources :material_matquotes
+  resources :matquotes
+  resources :materials do
+    collection do 
+      get :matsizes
+      get :matdata
+    end
+  end
   
 
   resources :stats do

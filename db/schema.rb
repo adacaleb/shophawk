@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_10_180656) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_15_164728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,6 +58,33 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_10_180656) do
     t.string "date"
     t.integer "millinginv_id"
     t.index ["turninginv_id"], name: "index_histories_on_turninginv_id"
+  end
+
+  create_table "material_matquotes", force: :cascade do |t|
+    t.bigint "material_id", null: false
+    t.bigint "matquote_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["material_id"], name: "index_material_matquotes_on_material_id"
+    t.index ["matquote_id"], name: "index_material_matquotes_on_matquote_id"
+  end
+
+  create_table "materials", force: :cascade do |t|
+    t.string "mat"
+    t.string "size"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "matquotes", force: :cascade do |t|
+    t.string "vendor"
+    t.float "price"
+    t.boolean "ordered"
+    t.boolean "sawcut"
+    t.float "additionalCost"
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "millinginvs", force: :cascade do |t|
@@ -214,4 +241,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_10_180656) do
   add_foreign_key "department_assignments", "departments"
   add_foreign_key "department_workcenters", "departments"
   add_foreign_key "department_workcenters", "workcenters"
+  add_foreign_key "material_matquotes", "materials"
+  add_foreign_key "material_matquotes", "matquotes"
 end

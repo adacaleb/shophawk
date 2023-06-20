@@ -1,0 +1,11 @@
+<div class="card text-bg-dark">
+<main class="container">
+  <%= link_to sanitize("&larr; Back to Materials"), material_path(@material) %>
+
+  <div class="header">
+    <h1>Edit material</h1>
+  </div>
+
+  <%= render "form", material: @material %>
+</main>
+</div>

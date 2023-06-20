@@ -1,0 +1,16 @@
+<%= form_with(model: material) do |form| %>
+
+  <div>
+    <%= form.label :Material, style: "display: block" %>
+    <%= form.text_field :mat %>
+  </div>
+
+  <div>
+    <%= form.label :Size, style: "display: block" %>
+    <%= form.text_field :size %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
