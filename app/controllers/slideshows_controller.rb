@@ -103,6 +103,9 @@ class SlideshowsController < ApplicationController
           day = start
           week = calcWeek(day)
           off = person.to_s + " " + startTime.to_s + "-" + "03:00"
+          if startTime.to_s == "07:00" && endTime.to_s == "03:00"
+            off = person.to_s + " - All Day"
+          end
           saveTimeOffDay(day, week, off)
           i = 1
           while i <= dayBetween do #loop through each day

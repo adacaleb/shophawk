@@ -72,7 +72,7 @@ class MaterialsController < ApplicationController
 	end
 
 	def material_params
-		puts params.inspect
+		#puts params.inspect
 		params.require(:material).permit(:id, :mat, :size)
 	end
 
