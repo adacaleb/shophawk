@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   
   resources :material_matquotes
   resources :matquotes
-  get "materials/newOrder", to: "materials#newOrder", as: :newOrder
+
   resources :materials do
     collection do 
       get :matsizes, defaults: { format: :turbo_stream }

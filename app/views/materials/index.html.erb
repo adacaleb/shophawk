@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col">
             <%= form.label :Material, style: "display: block" %>
-            <%= form.select :mat, @matNames, {prompt: "Select material"}, {class: 'form-select', data: { action: "change->material#matchange"} } %>
+            <%= form.select :mat, @matNames, {prompt: "Select material"}, {class: 'form-select', data: { material_target: "material", action: "change->material#matchange"} } %>
           </div>
           <div class="col">
             <%= form.label :Size, style: "display: block" %>

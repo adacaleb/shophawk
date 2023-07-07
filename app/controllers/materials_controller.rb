@@ -22,6 +22,7 @@ class MaterialsController < ApplicationController
 			@matSizes << mat.size
 		end
 		@matSizes.uniq!
+		@matSizes.sort!
 		@size = @matSizes[0] #grabs first size to render for turbo-stream load of material history
 
 		respond_to do |format|
@@ -29,23 +30,16 @@ class MaterialsController < ApplicationController
 		end
 	end
 
-	def matdata
-		@size = params[:size] #grabs first size to render for turbo-stream load of material history
+	def matdata #load all pricing history for the selected size and material
+		@size = params[:size]
+		@mat = params[:mat]
+		puts @mat
+		@matquotes = Material.matquotes.where(mat: paramsmat)
 		respond_to do |format|
 			format.turbo_stream
 		end
 	end
 
-	def newOrder
-		@material = Material.find_by(mat: "4140", size: "3" )
-		puts @material.mat
-		puts @material.size
-		
-		puts @material.matquote.first.price
-		#@material.matquote.create(price: 50)
-		redirect_to materials_url(@materials)
-		
-	end
 
 	def show
 	  @material = Material.find(params[:id])

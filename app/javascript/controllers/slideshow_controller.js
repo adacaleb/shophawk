@@ -59,9 +59,5 @@ export default class extends Controller {
   }
 
 
-
 }
 
-
-//  slideNumber = slideNumber + 1
-//  console.log(`${slideNumber}`)
