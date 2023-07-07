@@ -1,12 +1,16 @@
 Rails.application.routes.draw do
+
+  
   resources :material_matquotes
   resources :matquotes
+  get "materials/newOrder", to: "materials#newOrder", as: :newOrder
   resources :materials do
     collection do 
-      get :matsizes
-      get :matdata
+      get :matsizes, defaults: { format: :turbo_stream }
+      get :matdata, defaults: { format: :turbo_stream }
     end
   end
+
   
 
   resources :stats do
@@ -42,7 +46,6 @@ Rails.application.routes.draw do
   namespace :charts do 
     get "total_jobs"
   end 
-
 
   
   get "runlists/:id/destroyassignment", to: "runlists#destroyassignment", as: :assignmentdestroy

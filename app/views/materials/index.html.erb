@@ -12,6 +12,25 @@
             <%= form.select :size, @matSizes, {prompt: "Select Size"}, {class: 'form-select', data: { material_target: "sizeSelect", action: "change->material#sizechange"} } %>
           </div>
         </div>
+      </br>
+        <%= form.fields_for :matquotes do |matquote| %>
+        <%= matquote.label "Vendor" %>
+        <%= matquote.text_field :vendor %>
+        <%= matquote.label "Price" %>
+        <%= matquote.text_field :price %>
+        <%= matquote.label "Ordered" %>
+        <%= matquote.text_field :ordered %>
+        <%= matquote.label "sawcut" %>
+        <%= matquote.text_field :sawcut %>
+        <%= matquote.label "Additional Cost" %>
+        <%= matquote.text_field :additionalCost %>
+        <%= matquote.label "comment" %>
+        <%= matquote.text_field :comment %>
+        </br>
+        <% end %>
+
+        <%= form.submit %>
+
       <% end %>
     </div>
 
@@ -19,15 +38,13 @@
 
 
     <div id="matdata">
-      
+
     </div>
 
-    <% @materials.each do |material| %>
-      <%= render material %>
-    <% end %>
-  </div>
-
-  </br></br></br>
+    <div>
+        <%= link_to "New Order", "materials/newOrder", data: { turbolinks: false }, class:"btn btn-primary" %>
+    </div>
+      </br></br></br>
   <%= form_for(@material) do |form| %>
 
     <div>
@@ -45,3 +62,12 @@
     </div>
   <% end %>
 </div>
+
+</br>
+
+    <% @materials.each do |material| %>
+      <%= render material %>
+    <% end %>
+  </div>
+
+
