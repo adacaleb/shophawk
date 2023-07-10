@@ -2,6 +2,7 @@ class MaterialsController < ApplicationController
 	before_action :set_material, only: [ :show, :edit, :update, :destroy ]
 
 	def index
+
 		@materials = Material.all
 		@material = Material.new
 		@material.matquotes.build
@@ -15,16 +16,24 @@ class MaterialsController < ApplicationController
 	end
 
 	def matsizes
+		sizeFound = 0
+		@size = params[:size]
+		@mat = params[:mat]
 		@target = params[:target]
 		@materials = Material.where(mat: params[:mat])
 		@matSizes = []
-		@materials.each do |mat|
+		@materials.each do |mat| #saves all sizes found for materail to render in size select box
 			@matSizes << mat.size
+			if mat.size == @size
+				sizeFound = 1
+			end
 		end
 		@matSizes.uniq!
 		@matSizes.sort!
-		@size = @matSizes[0] #grabs first size to render for turbo-stream load of material history
-
+		if sizeFound == 0 #if no matching size when changing material type or 1st load of page, sets it to first found size.
+			@size = @matSizes[0].size
+		end
+		@matquotes = getquotes(@mat, @size)
 		respond_to do |format|
 			format.turbo_stream
 		end
@@ -33,11 +42,16 @@ class MaterialsController < ApplicationController
 	def matdata #load all pricing history for the selected size and material
 		@size = params[:size]
 		@mat = params[:mat]
-		puts @mat
-		@matquotes = Material.matquotes.where(mat: paramsmat)
+		@matquotes = getquotes(@mat, @size)
 		respond_to do |format|
 			format.turbo_stream
 		end
+	end
+
+	def getquotes(mat, size)
+		@material = Material.find_by(mat: mat, size: size)
+		@matquotes = @material.matquotes
+		return @matquotes
 	end
 
 

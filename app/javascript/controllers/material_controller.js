@@ -8,8 +8,9 @@ export default class extends Controller {
 		let mat = event.target.selectedOptions[0].value
 		console.log(mat)
 		let target = this.sizeSelectTarget.id
+		let size = this.sizeSelectTarget.value
 		//console.log(target)
-		get(`materials/matsizes?target=${target}&mat=${mat}`, { responseKind: "turbo-stream"})
+		get(`materials/matsizes?target=${target}&size=${size}&mat=${mat}`, { responseKind: "turbo-stream"})
 	}
 
 	sizechange(event) {

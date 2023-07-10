@@ -12,7 +12,7 @@
             <%= form.select :size, @matSizes, {prompt: "Select Size"}, {class: 'form-select', data: { material_target: "sizeSelect", action: "change->material#sizechange"} } %>
           </div>
         </div>
-      </br>
+        </br>
         <%= form.fields_for :matquotes do |matquote| %>
         <%= matquote.label "Vendor" %>
         <%= matquote.text_field :vendor %>
@@ -28,16 +28,14 @@
         <%= matquote.text_field :comment %>
         </br>
         <% end %>
-
         <%= form.submit %>
-
       <% end %>
     </div>
 
     </br>
 
 
-    <div id="matdata">
+    <div id="matdata"> <!-- Main turbo-stream div for displaying purchase history. Populates upon size selection -->
 
     </div>
 
@@ -65,9 +63,12 @@
 
 </br>
 
+  </div>
+
+<!-- 
     <% @materials.each do |material| %>
       <%= render material %>
     <% end %>
   </div>
-
+-->
 

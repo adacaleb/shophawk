@@ -1,7 +1,7 @@
 <%= turbo_stream.update @target do %>
-	<%= options_for_select @matSizes %>
+	<%= options_for_select @matSizes, @size %>
 <% end %>
 
 <%= turbo_stream.update "matdata" do %>
-	<h1>WE OUT HERE WITH <%= @size %> </h1>
+	<%= render "materials/mathistory" %>
 <% end %>
