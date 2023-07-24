@@ -1,0 +1,48 @@
+<div class="card text-bg-dark">
+	<div class="row">
+		<div class="col-10">
+			<h1>Material currently getting quoted</h1>
+		</div>
+		<div class="col">
+			<th><%= link_to "Archive All", "/materials?archive=true", class: "btn btn-outline-danger" %></th>
+		</div>
+	</div>
+	<div>
+  	<table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center">
+  		<thead>
+  			<tr>
+  				<th>Vendor</th>
+  				<th>Price</th>
+  				<th>Ordered</th>
+  				<th>Sawcut</th>
+  				<th>Additional Costs</th>
+  				<th>Comments</th>
+  				<th>Archive</th>
+  			</tr>
+  		</thead>
+  		<tbody>
+  			<% @materials.each do |mat| %>
+  			<% if mat.matquotes.count > 0 %>
+	  			<tr colspan="2" class="table-light">
+	  				<th><%= mat.mat %></th>
+	  				<th><%= mat.size %></th>
+	  			</tr>
+	  			<% end %>
+  			<% mat.matquotes.each do |history| %>
+  			<% if history.ordered == true then ordered = "checked" else sawcut = "" end %>
+  			<% if history.sawcut == "true" then sawcut = "checked" else sawcut = "" end %>
+  			<tr>
+			<th><%= history.vendor %></th>
+			<th><%= history.price %></th>
+			<th><input class="form-check-input" type="checkbox" value="" id="Ordered<%= history.id %>" <%= ordered %> ></th>
+			<th><input class="form-check-input" type="checkbox" value="" id="sawcut<%= history.id %>" <%= sawcut %> ></th>
+			<th><%= history.additionalCost %></th>
+			<th><%= history.comment %></th>
+			<th><%= link_to "Archive", "/materials/currentQuotes?archiveid=#{history.id}", class: "btn btn-outline-warning" %></th>
+			</tr>
+			<% end %>
+			<% end %>
+  		</tbody>
+  	</table>
+
+</div>

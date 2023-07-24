@@ -13,9 +13,43 @@ class MaterialsController < ApplicationController
 		end
 		@matNames.uniq!
 		@matSizes = [] #empty, will populate when a material is selected with JS controller + turbo-stream
+
+
+		
+		if params[:archive] == "true" #archives all open matquotes to the DB to no longer show up in current quotes list. 
+			@mats = Material.includes(:matquotes).where(matquotes: {archived: nil})
+			@mats.each do |mat|
+				mat.matquotes.each do |q|
+					q.archived = true
+					q.save
+				end
+			end
+		end
 	end
 
-	def matsizes
+	def currentQuotes
+		@materials = Material.includes(:matquotes).where(matquotes: {archived: nil})
+		
+		if params[:archiveid] #saves the clicked archive button to the DB to no longer show up in current quotes list. 
+			@material = Material.includes(:matquotes).where(matquotes: {id: params[:archiveid]})
+			@material.each do |mat|
+				mat.matquotes.each do |q|
+					q.archived = true
+					q.save
+				end
+			end
+		end
+
+#		puts @materials
+#		@materials.each do |m|
+#			m.matquotes.each do |q|
+#				puts q.vendor
+#				puts q.price
+#			end
+#		end
+	end
+
+	def matsizes #run from JS when a size is selected
 		sizeFound = 0
 		@size = params[:size]
 		@mat = params[:mat]
@@ -39,7 +73,7 @@ class MaterialsController < ApplicationController
 		end
 	end
 
-	def matdata #load all pricing history for the selected size and material
+	def matdata #Run from JS when a Material is selected
 		@size = params[:size]
 		@mat = params[:mat]
 		@matquotes = getquotes(@mat, @size)
@@ -64,11 +98,14 @@ class MaterialsController < ApplicationController
 	def edit
 	end
 
-	def create #Creates a new material/size or a new quote for a material/size depending on contents of params. 
+	def create #Creates a new material/size or a new quote for a material/size depending on contents of params.
 		@material = Material.find_by(mat: material_params[:mat], size: material_params[:size])
-		if @material #if a material is found, it doesn't create a new one.
+		if @material #if a material is found, it doesn't create a new one, but creates a matquote for that size found.
 			if material_params[:matquotes_attributes]['0'][:price] != "" #only builds object if there's a price entered
-				@material.matquotes.build(material_params[:matquotes_attributes]['0']) #Builds a new matquote entry for found material and size
+				@newMat = @material.matquotes.build(material_params[:matquotes_attributes]['0'])
+				if material_params[:matquotes_attributes]['0'][:ordered] == "1"
+					@newMat.archived = true #sets true if the material was ordered to not show up in active quotes page
+				end
 			end
 		else #makes a new material if none is found.
 			if material_params[:size] != "" #makes sure there's an entry before saving.
@@ -105,7 +142,7 @@ class MaterialsController < ApplicationController
 
 	def material_params
 		#puts params.inspect
-		params.require(:material).permit(:id, :mat, :size, matquotes_attributes: [:vendor, :price, :ordered, :sawcut, :additionalCost, :comment])
+		params.require(:material).permit(:id, :mat, :size, matquotes_attributes: [:vendor, :price, :ordered, :sawcut, :additionalCost, :comment, :archived])
 	end
 
 end

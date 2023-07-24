@@ -4,12 +4,14 @@ Rails.application.routes.draw do
   resources :material_matquotes
   resources :matquotes
 
+  get "materials/currentQuotes", to: "materials#currentQuotes", as: :currentQuotes
   resources :materials do
     collection do 
       get :matsizes, defaults: { format: :turbo_stream }
       get :matdata, defaults: { format: :turbo_stream }
     end
   end
+
 
   
 
