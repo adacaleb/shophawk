@@ -74,10 +74,19 @@ class MaterialsController < ApplicationController
 		end
 	end
 
-	def getquotes(mat, size)
+	def getquotes(mat, size) #sub ruitine
 		@material = Material.find_by(mat: mat, size: size)
 		@matquotes = @material.matquotes
 		return @matquotes
+	end
+
+	def orderedCheckBox #toggles "ordered" status for material quote
+
+		#Trying to call just the matquote by ID passed from the JS controller.
+
+		@matquotes = Matquotes.all
+		@matquote = Matquotes.find_by(id: params[:id])
+		puts @matquote.id
 	end
 
 
@@ -134,7 +143,7 @@ class MaterialsController < ApplicationController
 
 	def material_params
 		#puts params.inspect
-		params.require(:material).permit(:id, :mat, :size, matquotes_attributes: [:vendor, :price, :ordered, :sawcut, :additionalCost, :comment, :archived])
+		params.require(:material).permit(:id, :mat, :size, :matquotes, matquotes_attributes: [:vendor, :price, :ordered, :sawcut, :additionalCost, :comment, :archived])
 	end
 
 end

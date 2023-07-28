@@ -6,12 +6,8 @@ export default class extends Controller {
 static targets = ["sizeSelect", "material"]
 	
 	connect() {
-	    console.log("Hello, Frank", this.element)
+	    console.log("Hello, Caleb", this.element)
 	  }
-
-	 disconnect() {
-	 	console.log("disconnected")
-	 }
 
 	matchange(event) {
 		let mat = event.target.selectedOptions[0].value
@@ -33,6 +29,7 @@ static targets = ["sizeSelect", "material"]
 	orderedcheckbox(event) {
 		let id = event.currentTarget.id
 		console.log(id)
+		get(`/materials/orderedCheckBox?id=${id}`)
 
 	}
 

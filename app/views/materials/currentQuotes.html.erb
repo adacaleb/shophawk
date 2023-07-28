@@ -1,4 +1,4 @@
-<div class="card text-bg-dark">
+<div data-controller="material" class="card text-bg-dark">
 	<div class="row">
 		<div class="col-10">
 			<h1>Material currently getting quoted</h1>
@@ -35,17 +35,17 @@
 			<th><%= history.vendor %></th>
 			<th><%= history.price %></th>
 			
-			<div data-controller="material">
+			<div>
 				<th><input 
 					data-action="click->material#orderedcheckbox" 
 					class="form-check-input" 
 					type="checkbox" 
 					value="" 
-					id="Ordered<%= history.id %>" 
+					id="<%= history.id %>" 
 					<%= ordered %> ></th>
 
 
-				<th><input class="form-check-input" type="checkbox" value="" id="sawcut<%= history.id %>" <%= sawcut %> ></th>
+				<th><input class="form-check-input" type="checkbox" value="" id="<%= history.id %>" <%= sawcut %> ></th>
 			</div>
 			<th><%= history.additionalCost %></th>
 			<th><%= history.comment %></th>
