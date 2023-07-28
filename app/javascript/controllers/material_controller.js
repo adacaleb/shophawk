@@ -2,8 +2,17 @@ import { Controller } from "@hotwired/stimulus"
 import { get } from "@rails/request.js" //needed for get operations from JS to Rails
 
 export default class extends Controller {
-	static targets = ["sizeSelect", "material"]
+
+static targets = ["sizeSelect", "material"]
 	
+	connect() {
+	    console.log("Hello, Frank", this.element)
+	  }
+
+	 disconnect() {
+	 	console.log("disconnected")
+	 }
+
 	matchange(event) {
 		let mat = event.target.selectedOptions[0].value
 		console.log(mat)
@@ -18,9 +27,13 @@ export default class extends Controller {
 		let mat = this.materialTarget.value
 		console.log(mat)
 		console.log(size)
-
-
 		get(`materials/matdata?size=${size}&mat=${mat}`, { responseKind: "turbo-stream"})
+	}
+
+	orderedcheckbox(event) {
+		let id = event.currentTarget.id
+		console.log(id)
+
 	}
 
 }

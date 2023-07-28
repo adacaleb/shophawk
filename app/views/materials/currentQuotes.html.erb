@@ -25,7 +25,7 @@
   			<% if mat.matquotes.count > 0 %>
 	  			<tr colspan="2" class="table-light">
 	  				<th><%= mat.mat %></th>
-	  				<th><%= mat.size %></th>
+	  				<th><%= mat.size %>" Dia.</th>
 	  			</tr>
 	  			<% end %>
   			<% mat.matquotes.each do |history| %>
@@ -34,8 +34,19 @@
   			<tr>
 			<th><%= history.vendor %></th>
 			<th><%= history.price %></th>
-			<th><input class="form-check-input" type="checkbox" value="" id="Ordered<%= history.id %>" <%= ordered %> ></th>
-			<th><input class="form-check-input" type="checkbox" value="" id="sawcut<%= history.id %>" <%= sawcut %> ></th>
+			
+			<div data-controller="material">
+				<th><input 
+					data-action="click->material#orderedcheckbox" 
+					class="form-check-input" 
+					type="checkbox" 
+					value="" 
+					id="Ordered<%= history.id %>" 
+					<%= ordered %> ></th>
+
+
+				<th><input class="form-check-input" type="checkbox" value="" id="sawcut<%= history.id %>" <%= sawcut %> ></th>
+			</div>
 			<th><%= history.additionalCost %></th>
 			<th><%= history.comment %></th>
 			<th><%= link_to "Archive", "/materials/currentQuotes?archiveid=#{history.id}", class: "btn btn-outline-warning" %></th>

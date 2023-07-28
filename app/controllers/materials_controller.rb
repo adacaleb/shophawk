@@ -15,7 +15,7 @@ class MaterialsController < ApplicationController
 		@matSizes = [] #empty, will populate when a material is selected with JS controller + turbo-stream
 
 
-		
+		#If "archive == true in params when page loads, it archives all open matquotes"
 		if params[:archive] == "true" #archives all open matquotes to the DB to no longer show up in current quotes list. 
 			@mats = Material.includes(:matquotes).where(matquotes: {archived: nil})
 			@mats.each do |mat|
@@ -39,14 +39,6 @@ class MaterialsController < ApplicationController
 				end
 			end
 		end
-
-#		puts @materials
-#		@materials.each do |m|
-#			m.matquotes.each do |q|
-#				puts q.vendor
-#				puts q.price
-#			end
-#		end
 	end
 
 	def matsizes #run from JS when a size is selected
