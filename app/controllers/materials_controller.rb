@@ -1,4 +1,5 @@
 class MaterialsController < ApplicationController
+	require 'date'
 	before_action :set_material, only: [ :show, :edit, :update, :destroy ]
 
 	def index
@@ -59,7 +60,7 @@ class MaterialsController < ApplicationController
 		if sizeFound == 0 #if no matching size when changing material type or 1st load of page, sets it to first found size.
 			@size = @matSizes[0].size
 		end
-		@matquotes = getquotes(@mat, @size)
+		@matquotes, @averageCost = getquotes(@mat, @size)
 		respond_to do |format|
 			format.turbo_stream
 		end
@@ -68,27 +69,47 @@ class MaterialsController < ApplicationController
 	def matdata #Run from JS when a Material is selected
 		@size = params[:size]
 		@mat = params[:mat]
-		@matquotes = getquotes(@mat, @size)
+		@matquotes, @averageCost = getquotes(@mat, @size)
 		respond_to do |format|
 			format.turbo_stream
 		end
 	end
 
-	def getquotes(mat, size) #sub ruitine
+	def getquotes(mat, size) #sub routine that loads all ordered history for a material. 
+		d = DateTime.now    #=> #<DateTime: 2018-02-20T15:39:44+01:00 ...>
+		d << 4              #=> #<DateTime: 2017-10-20T15:39:44+01:00 ...>
+		d.prev_month(12)     #=> #<DateTime: 2017-10-20T15:39:44+01:00 ...>	
 		@material = Material.find_by(mat: mat, size: size)
-		@matquotes = @material.matquotes
-		return @matquotes
+		@matquotes = @material.matquotes.where(ordered: true)
+		i = 0
+		@averageCost = 0
+		@matquotes.each do |mat|
+			if mat.created_at < d #only calculates average for purchases made within last 12 months
+				i = i + 1
+				@averageCost = @averageCost + mat.price
+			end
+		end
+		if i > 0
+			@averageCost = @averageCost / i
+		end
+		return @matquotes, @averageCost
 	end
 
 	def orderedCheckBox #toggles "ordered" status for material quote
-
-		#Trying to call just the matquote by ID passed from the JS controller.
-
-		@matquotes = Matquotes.all
-		@matquote = Matquotes.find_by(id: params[:id])
-		puts @matquote.id
+		puts params[:id]
+		@matquote = Matquote.find_by(id: params[:id])
+		@matquote.ordered = !@matquote.ordered
+		@matquote.save
 	end
 
+	def sawcutCheckBox
+		puts params[:id]
+		@matquote = Matquote.find_by(id: params[:id])
+		puts @matquote.sawcut
+		@matquote.sawcut = !@matquote.sawcut
+		@matquote.save
+		puts @matquote.sawcut
+	end
 
 	def show
 	  @material = Material.find(params[:id])
@@ -103,9 +124,13 @@ class MaterialsController < ApplicationController
 		@material = Material.find_by(mat: material_params[:mat], size: material_params[:size])
 		if @material #if a material is found, it doesn't create a new one, but creates a matquote for that size found.
 			if material_params[:matquotes_attributes]['0'][:price] != "" #only builds object if there's a price entered
-				@newMat = @material.matquotes.build(material_params[:matquotes_attributes]['0'])
+				@newMat = @material.matquotes.build(material_params[:matquotes_attributes]['0']) #saves build as an object that can be changed before saving
 				if material_params[:matquotes_attributes]['0'][:ordered] == "1"
 					@newMat.archived = true #sets true if the material was ordered to not show up in active quotes page
+				end
+				if @newMat.length != nil
+					@newMat.length = @newMat.length.to_f / 12
+					@newMat.length = @newMat.length.round(2)
 				end
 			end
 		else #makes a new material if none is found.
@@ -115,7 +140,7 @@ class MaterialsController < ApplicationController
 		end
 		if @material
 			if @material.save
-				redirect_to materials_url(@materials)
+				#redirect_to materials_url(@materials)
 			end
 		end
 	end
@@ -132,8 +157,6 @@ class MaterialsController < ApplicationController
 		end
 	end
 
-	
-
 
 	private 
 
@@ -143,7 +166,7 @@ class MaterialsController < ApplicationController
 
 	def material_params
 		#puts params.inspect
-		params.require(:material).permit(:id, :mat, :size, :matquotes, matquotes_attributes: [:vendor, :price, :ordered, :sawcut, :additionalCost, :comment, :archived])
+		params.require(:material).permit(:id, :mat, :size, :matquotes, matquotes_attributes: [:vendor, :price, :length, :ordered, :sawcut, :additionalCost, :comment, :archived])
 	end
 
 end

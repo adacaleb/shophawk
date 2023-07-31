@@ -1,4 +1,20 @@
-<h1><%= @mat %> - <%= @size %>"</h1>
+<div class="text-center">
+	<div class="row">
+		<div class="col-4">
+			<h5>Material - Size</h5>
+		</div>
+		<div class="col">
+			<h4>Average cost for past 12 months</h4>
+	</div>
+	<div class="row">
+		<div class="col-4">
+			<h1><%= @mat %> - <%= @size %>"</h1>
+		</div>
+		<div class="col">
+			<h1><%= number_to_currency(@averageCost, :unit => "$") %></h1>
+		</div>
+	</div>
+</div>
 
   <div>
   	<table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center">
@@ -6,7 +22,6 @@
   			<tr>
   				<th>Vendor</th>
   				<th>Price</th>
-  				<th>Ordered</th>
   				<th>Sawcut</th>
   				<th>Additional Costs</th>
   				<th>Comments</th>
@@ -14,14 +29,13 @@
   		</thead>
   		<tbody>
   			<% @matquotes.each do |history| %>
-  			<tr>
-			<th><%= history.vendor %></th>
-			<th><%= history.price %></th>
-			<th><%= history.ordered %></th>
-			<th><%= history.sawcut %></th>
-			<th><%= history.additionalCost %></th>
-			<th><%= history.comment %></th>
-			</tr>
+					<tr>
+					<th><%= history.vendor %></th>
+					<th><%= history.price %></th>
+					<th><%= history.sawcut %></th>
+					<th><%= history.additionalCost %></th>
+					<th><%= history.comment %></th>
+					</tr>
 			<% end %>
   		</tbody>
   	</table>

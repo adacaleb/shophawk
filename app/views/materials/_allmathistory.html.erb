@@ -1,0 +1,30 @@
+<h1><%= @mat %> - <%= @size %>"</h1>
+
+  <div>
+  	<table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center">
+  		<thead>
+  			<tr>
+  				<th>Vendor</th>
+  				<th>Price</th>
+  				<th>Ordered</th>
+  				<th>Sawcut</th>
+  				<th>Additional Costs</th>
+  				<th>Comments</th>
+  			</tr>
+  		</thead>
+  		<tbody>
+  			<% @matquotes.each do |history| %>
+  			<tr>
+			<th><%= history.vendor %></th>
+			<th><%= history.price %></th>
+			<th><%= history.ordered %></th>
+			<th><%= history.sawcut %></th>
+			<th><%= history.additionalCost %></th>
+			<th><%= history.comment %></th>
+			</tr>
+			<% end %>
+  		</tbody>
+  	</table>
+
+    
+  </div>

@@ -31,9 +31,7 @@
         ">
         <div class="container-fluid">
             <br/>
-            <% if notice %>
               <%= render 'layouts/alerts' %>
-            <% end %>
             <%= yield %>                <!-- yields to the body of whatever page we are displaying.  can move this yeild anywhere in this file -->
         </div>
       </div>

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   get "materials/currentQuotes", to: "materials#currentQuotes", as: :currentQuotes
   get "materials/orderedCheckBox", to: "materials#orderedCheckBox", as: :orderedCheckBox
+  get "materials/sawcutCheckBox", to: "materials#sawcutCheckBox", as: :sawcutCheckBox
   resources :materials do
     collection do 
       get :matsizes, defaults: { format: :turbo_stream }
