@@ -28,6 +28,57 @@ class MaterialsController < ApplicationController
 		end
 	end
 
+	def newquote
+		@materials = Material.all
+		@material = Material.new
+		@material.matquotes.build
+
+		@matNames = []
+		@materials.each do |mat|
+			@matNames << mat.mat
+		end
+		@matNames.uniq!
+		@matSizes = [] #empty, will populate when a material is selected with JS controller + turbo-stream
+
+
+		#If "archive == true in params when page loads, it archives all open matquotes"
+		if params[:archive] == "true" #archives all open matquotes to the DB to no longer show up in current quotes list. 
+			@mats = Material.includes(:matquotes).where(matquotes: {archived: nil})
+			@mats.each do |mat|
+				mat.matquotes.each do |q|
+					q.archived = true
+					q.save
+				end
+			end
+		end
+
+
+		sizeFound = 0
+		@size = params[:size]
+		@mat = params[:mat]
+		@target = params[:target]
+		puts @size
+		puts @mat
+		puts @target
+		@materials = Material.where(mat: params[:mat])
+		@matSizes = []
+		@materials.each do |mat| #saves all sizes found for materail to render in size select box
+			@matSizes << mat.size
+			if mat.size == @size
+				sizeFound = 1
+			end
+		end
+		@matSizes.uniq!
+		@matSizes.sort!
+		if sizeFound == 0 #if no matching size when changing material type or 1st load of page, sets it to first found size.
+			@size = @matSizes[0].size
+		end
+		@matquotes, @averageCost, @sellCost = getquotes(@mat, @size)
+		respond_to do |format|
+			format.turbo_stream
+		end
+	end
+
 	def currentQuotes
 		@materials = Material.includes(:matquotes).where(matquotes: {archived: nil})
 		
@@ -60,7 +111,7 @@ class MaterialsController < ApplicationController
 		if sizeFound == 0 #if no matching size when changing material type or 1st load of page, sets it to first found size.
 			@size = @matSizes[0].size
 		end
-		@matquotes, @averageCost = getquotes(@mat, @size)
+		@matquotes, @averageCost, @sellCost = getquotes(@mat, @size)
 		respond_to do |format|
 			format.turbo_stream
 		end
@@ -69,7 +120,7 @@ class MaterialsController < ApplicationController
 	def matdata #Run from JS when a Material is selected
 		@size = params[:size]
 		@mat = params[:mat]
-		@matquotes, @averageCost = getquotes(@mat, @size)
+		@matquotes, @averageCost, @sellCost = getquotes(@mat, @size)
 		respond_to do |format|
 			format.turbo_stream
 		end
@@ -79,20 +130,27 @@ class MaterialsController < ApplicationController
 		d = DateTime.now    #=> #<DateTime: 2018-02-20T15:39:44+01:00 ...>
 		d << 4              #=> #<DateTime: 2017-10-20T15:39:44+01:00 ...>
 		d.prev_month(12)     #=> #<DateTime: 2017-10-20T15:39:44+01:00 ...>	
-		@material = Material.find_by(mat: mat, size: size)
-		@matquotes = @material.matquotes.where(ordered: true)
-		i = 0
-		@averageCost = 0
-		@matquotes.each do |mat|
-			if mat.created_at < d #only calculates average for purchases made within last 12 months
-				i = i + 1
-				@averageCost = @averageCost + mat.price
+		@materialb = Material.find_by(mat: mat, size: size)
+		if @materialb != nil
+			@matquotes = @materialb.matquotes.where(ordered: true)
+			i = 0
+			@averageCost = 0
+			@matquotes.each do |mat|
+				if mat.created_at < d #only calculates average for purchases made within last 12 months
+					i = i + 1
+					@averageCost = @averageCost + mat.price
+				end
 			end
+			if i > 0
+				@averageCost = @averageCost / i
+			end
+			@sellCost = ((@averageCost * 1.2) * 4.0).ceil() / 4.0 #rounds up to nearest quarter
+		else 
+			@matquotes = nil
+			@averageCost = 0
+			@sellCost = 0
 		end
-		if i > 0
-			@averageCost = @averageCost / i
-		end
-		return @matquotes, @averageCost
+		return @matquotes, @averageCost, @sellCost
 	end
 
 	def orderedCheckBox #toggles "ordered" status for material quote
@@ -128,6 +186,7 @@ class MaterialsController < ApplicationController
 				if material_params[:matquotes_attributes]['0'][:ordered] == "1"
 					@newMat.archived = true #sets true if the material was ordered to not show up in active quotes page
 				end
+				@newMat.vendor = @newMat.vendor.titleize
 				if @newMat.length != nil
 					@newMat.length = @newMat.length.to_f / 12
 					@newMat.length = @newMat.length.round(2)

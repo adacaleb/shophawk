@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     collection do 
       get :matsizes, defaults: { format: :turbo_stream }
       get :matdata, defaults: { format: :turbo_stream }
+      get :newquote, defaults: { format: :turbo_stream }
     end
   end
 

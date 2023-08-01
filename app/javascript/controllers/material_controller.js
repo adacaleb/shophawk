@@ -15,7 +15,7 @@ static targets = ["sizeSelect", "material", "quoteSubmit", "quoteSubmit1", "quot
 		let target = this.sizeSelectTarget.id
 		let size = this.sizeSelectTarget.value
 		//console.log(target)
-		get(`materials/matsizes?target=${target}&size=${size}&mat=${mat}`, { responseKind: "turbo-stream"})
+		get(`/materials/matsizes?target=${target}&size=${size}&mat=${mat}`, { responseKind: "turbo-stream"})
 	}
 
 	sizechange(event) {
@@ -23,7 +23,7 @@ static targets = ["sizeSelect", "material", "quoteSubmit", "quoteSubmit1", "quot
 		let mat = this.materialTarget.value
 		console.log(mat)
 		console.log(size)
-		get(`materials/matdata?size=${size}&mat=${mat}`, { responseKind: "turbo-stream"})
+		get(`/materials/matdata?size=${size}&mat=${mat}`, { responseKind: "turbo-stream"})
 	}
 
 	orderedcheckbox(event) {
@@ -39,16 +39,25 @@ static targets = ["sizeSelect", "material", "quoteSubmit", "quoteSubmit1", "quot
 		get(`/materials/sawcutCheckBox?id=${id}`)
 	}
 
-	quoteSubmit(event) {
+	quoteSubmit() {
 		//clears out the input boxes without having the refresh the page to submit another entry
 		console.log("submitted")
-		this.quoteSubmitTarget.value = '';
-		this.quoteSubmit1Target.value = '';
-		this.quoteSubmit2Target.value = '';
-		this.quoteSubmit3Target.checked = false;
-		this.quoteSubmit4Target.checked = false;
-		this.quoteSubmit5Target.value = '';
-		this.quoteSubmit6Target.value = '';
+		let size = this.sizeSelectTarget.value
+		let mat = this.materialTarget.value
+		let vendor = this.quoteSubmitTarget.value
+		let target = this.sizeSelectTarget.id
+		console.log(vendor)
+		console.log(mat)
+		console.log(size)
+
+		get(`/materials/newquote?mat=${mat}&size=${size}&target=${target}`, { responseKind: "turbo-stream"})
+//		this.quoteSubmitTarget.value = '';
+//		this.quoteSubmit1Target.value = '';
+//		this.quoteSubmit2Target.value = '';
+//		this.quoteSubmit3Target.checked = false;
+//		this.quoteSubmit4Target.checked = false;
+//		this.quoteSubmit5Target.value = '';
+//		this.quoteSubmit6Target.value = '';
 	}
 
 }

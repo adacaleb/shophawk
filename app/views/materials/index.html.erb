@@ -2,7 +2,7 @@
   <div class="card text-bg-dark">
     <div id="departments" class="text-white">
       
-      <div data-controller="material">
+      <div data-controller="material" id="newQuote">
         <%= form_with(model: @material) do |form| %>
           <div class="row">
             <div class="col">
@@ -25,38 +25,39 @@
 
           </br>
           <%= form.fields_for :matquotes do |matquote| %>
-          <div class="container text-center">
-            <div class="row align-items-center">
-              <div class="col-2">
-                <%= matquote.text_field :vendor, placeholder: "Vendor", class: "form-control", data: { material_target: 'quoteSubmit'} %>
+            <div class="container text-center">
+              <div class="row align-items-center">
+                <div class="col-2">
+                  <%= matquote.text_field :vendor, placeholder: "Vendor", class: "form-control", data: { material_target: 'quoteSubmit'} %>
+                </div>
+                <div class="col-1">
+                <%= matquote.text_field :price, placeholder: "Price", class: "form-control", data: { material_target: 'quoteSubmit1'} %>
+                </div>
+                <div class="col-1">
+                <%= matquote.text_field :length, placeholder: "inches", class: "form-control", data: { material_target: 'quoteSubmit2'} %>
+                </div>
+                <div class="col-1">
+                  <%= matquote.label "Ordered" %>
+                  <%= matquote.check_box :ordered, class: "form-check-input", data: { material_target: 'quoteSubmit3'} %>
+                </div>
+                <div class="col-1" >
+                  <%= matquote.label "Sawcut" %>
+                  <%= matquote.check_box :sawcut, class: "form-check-input", data: { material_target: 'quoteSubmit4'} %>
+                </div>
+                <div class="col-2">
+                  <%= matquote.text_field :additionalCost, placeholder: "Additional Cost", class: "form-control", data: { material_target: 'quoteSubmit5'} %>
+                </div>
+                <div class="col-2">
+                  <%= matquote.text_field :comment, placeholder: "Comment", class: "form-control", data: { material_target: 'quoteSubmit6'} %>
+                </div>
+                <div class="col-1">
+                  <%= form.submit "Save Pricing", class: "btn btn-primary", data: { action: "click->material#quoteSubmit"}  %>
+                </div>
+                  <%= matquote.hidden_field :archived, class: "form-control" %>
               </div>
-              <div class="col-1">
-              <%= matquote.text_field :price, placeholder: "Price", class: "form-control", data: { material_target: 'quoteSubmit1'} %>
-              </div>
-              <div class="col-1">
-              <%= matquote.text_field :length, placeholder: "inches", class: "form-control", data: { material_target: 'quoteSubmit2'} %>
-              </div>
-              <div class="col-1">
-                <%= matquote.label "Ordered" %>
-                <%= matquote.check_box :ordered, class: "form-check-input", data: { material_target: 'quoteSubmit3'} %>
-              </div>
-              <div class="col-1" >
-                <%= matquote.label "Sawcut" %>
-                <%= matquote.check_box :sawcut, class: "form-check-input", data: { material_target: 'quoteSubmit4'} %>
-              </div>
-              <div class="col-2">
-                <%= matquote.text_field :additionalCost, placeholder: "Additional Cost", class: "form-control", data: { material_target: 'quoteSubmit5'} %>
-              </div>
-              <div class="col-2">
-                <%= matquote.text_field :comment, placeholder: "Comment", class: "form-control", data: { material_target: 'quoteSubmit6'} %>
-              </div>
-              <div class="col-1">
-                <%= form.submit "Save Pricing", class: "btn btn-primary", data: { action: "click->material#quoteSubmit"}  %>
-              </div>
-                <%= matquote.hidden_field :archived, class: "form-control" %>
-            </div>
-          </div>
-          <% end %>          
+            <% end %>
+          </div>   
+
         <% end %>
       </div>
 
