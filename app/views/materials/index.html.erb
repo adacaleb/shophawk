@@ -3,15 +3,20 @@
     <div id="departments" class="text-white">
       
       <div data-controller="material" id="newQuote">
-        <%= form_with(model: @material) do |form| %>
-          <div class="row">
-            <div class="col">
-              <h4>Select Material and Size</h4>
-            </div>
-            <div class="col text-right">
-              <%= link_to "Current Quotes", "/materials/currentQuotes", class: "btn btn-outline-info" %>
-            </div>
+        <div class="row">
+          <div class="col-3">
+            <h4>Select Material and Size</h4>
           </div>
+          <div class="col-3">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#newMatModal">
+              New Material/Size
+            </button>
+          </div>
+          <div class="col-2 text-right">
+            <%= link_to "Current Quotes", "/materials/currentQuotes", class: "btn btn-outline-info" %>
+          </div>
+        </div>
+        <%= form_with(model: @material) do |form| %>
           <div class="row">
             <div class="col">
               <%= form.label :Material, style: "display: block" %>
@@ -57,7 +62,6 @@
               </div>
             <% end %>
           </div>   
-
         <% end %>
       </div>
 
@@ -69,32 +73,41 @@
       </div>
 
     </br></br></br>
-    <%= form_for(@material) do |form| %>
 
-      <div>
-        <%= form.label :Material, style: "display: block" %>
-        <%= form.text_field :mat %>
-      </div>
-
-      <div>
-        <%= form.label :Size, style: "display: block" %>
-        <%= form.text_field :size %>
-      </div>
-
-      <div>
-        <%= form.submit %>
-      </div>
-    <% end %>
   </div>
 
   </br>
 
   </div>
 </div>
-<!-- 
-    <% @materials.each do |material| %>
-      <%= render material %>
-    <% end %>
-  </div>
--->
 
+<div class="modal fade" id="newMatModal" tabindex="-1"  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background-color: steelblue;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">New Material/Size</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+    <%= form_for(@material) do |form| %>
+
+      <div>
+        <%= form.text_field :mat, class: "form-control", placeholder: "Material" %>
+      </div>
+    </br>
+      <div>
+        <%= form.text_field :size, class: "form-control", placeholder: "Size (inches)" %>
+      </div>
+    </br>
+      <div>
+        
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <%= form.submit "Save" , class: "btn btn-primary" %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>

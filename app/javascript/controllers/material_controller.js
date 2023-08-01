@@ -3,11 +3,11 @@ import { get } from "@rails/request.js" //needed for get operations from JS to R
 
 export default class extends Controller {
 
-static targets = ["sizeSelect", "material", "quoteSubmit", "quoteSubmit1", "quoteSubmit2", "quoteSubmit3", "quoteSubmit4", "quoteSubmit5", "quoteSubmit6", "quoteSubmit7"]
+static targets = ["sizeSelect", "material"]
 	
-	connect() {
-	    console.log("Hello, Caleb", this.element)
-	  }
+//	connect() {
+//	    console.log("Hello, Caleb", this.element)
+//	  }
 
 	matchange(event) {
 		let mat = event.target.selectedOptions[0].value
@@ -40,24 +40,11 @@ static targets = ["sizeSelect", "material", "quoteSubmit", "quoteSubmit1", "quot
 	}
 
 	quoteSubmit() {
-		//clears out the input boxes without having the refresh the page to submit another entry
-		console.log("submitted")
+		//sends needed info for turbo_stream to save and refresh page with empty quote fields
 		let size = this.sizeSelectTarget.value
 		let mat = this.materialTarget.value
-		let vendor = this.quoteSubmitTarget.value
 		let target = this.sizeSelectTarget.id
-		console.log(vendor)
-		console.log(mat)
-		console.log(size)
-
 		get(`/materials/newquote?mat=${mat}&size=${size}&target=${target}`, { responseKind: "turbo-stream"})
-//		this.quoteSubmitTarget.value = '';
-//		this.quoteSubmit1Target.value = '';
-//		this.quoteSubmit2Target.value = '';
-//		this.quoteSubmit3Target.checked = false;
-//		this.quoteSubmit4Target.checked = false;
-//		this.quoteSubmit5Target.value = '';
-//		this.quoteSubmit6Target.value = '';
 	}
 
 }
