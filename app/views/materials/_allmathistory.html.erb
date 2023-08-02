@@ -1,30 +1,51 @@
-<h1><%= @mat %> - <%= @size %>"</h1>
 
   <div>
+  	
   	<table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center">
   		<thead>
   			<tr>
-  				<th>Vendor</th>
-  				<th>Price</th>
-  				<th>Ordered</th>
-  				<th>Sawcut</th>
-  				<th>Additional Costs</th>
-  				<th>Comments</th>
+  				<th style="font-size:20px; width:8%">Vendor</th>
+  				<th style="font-size:20px; width:6%">Price</th>
+  				<th style="font-size:20px; width:8%">Length</th>
+  				<th style="font-size:20px; width:8%">Ordered</th>
+  				<th style="font-size:20px; width:8%">Sawcut</th>
+  				<th style="font-size:16px; width:8%">Added Costs</th>
+  				<th style="font-size:20px">Comments</th>
+  				<th style="font-size:20px; width:10%">Date</th>
+  				<th style="font-size:20px; width:8%">Delete</th>
   			</tr>
   		</thead>
   		<tbody>
-  			<% @matquotes.each do |history| %>
-  			<tr>
-			<th><%= history.vendor %></th>
-			<th><%= history.price %></th>
-			<th><%= history.ordered %></th>
-			<th><%= history.sawcut %></th>
-			<th><%= history.additionalCost %></th>
-			<th><%= history.comment %></th>
-			</tr>
-			<% end %>
+  			<% if @matquotes %>
+	  			<% @matquotes.each do |history| %>
+	  			
+						<tr>
+						<td style="font-size:20px;"><%= history.vendor %></td>
+						<td style="font-size:20px;"><%= number_to_currency(history.price, :unit => "$") %></td>
+						<td style="font-size:20px;"><%= history.length %></td>
+						<% if history.ordered == false %>
+							<td></td>
+						<% else %>
+							<th style="font-size:20px;">&#10004;</td>
+						<% end %>
+						<% if history.sawcut == false %>
+							<td></td>
+						<% else %>
+							<th style="font-size:20px;">&#10004;</td>
+						<% end %>
+						<td style="font-size:20px;"><%= number_to_currency(history.additionalCost, :unit => "$") %></td>
+						<td style="font-size:20px;"><%= history.comment %></td>
+						<% date = history.created_at.to_s[0..10] %>
+						<% year = date[0..3] %>
+						<% month = date[5..6] %>
+						<% day = date[8..9] %>
+						<% date = "#{month}-#{day}-#{year}" %>
+						<td style="font-size:20px;"><%= date %></td>
+						<td style="font-size:20px;"><%= button_to "Delete", history, method: :delete, class:"btn btn-outline-danger" %>
+						</tr>
+					<% end %>
+				<% end %>
   		</tbody>
   	</table>
-
     
   </div>

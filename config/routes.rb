@@ -9,8 +9,8 @@ Rails.application.routes.draw do
   get "materials/sawcutCheckBox", to: "materials#sawcutCheckBox", as: :sawcutCheckBox
   resources :materials do
     collection do 
-      get :matsizes, defaults: { format: :turbo_stream }
-      get :matdata, defaults: { format: :turbo_stream }
+      get :matchange, defaults: { format: :turbo_stream }
+      get :sizechange, defaults: { format: :turbo_stream }
       get :newquote, defaults: { format: :turbo_stream }
     end
   end

@@ -9,7 +9,8 @@ module Caleb
     return date
   end
 
-  def sortDateTime(date1) #input a date from the SQL export, reorganizes to MM-DD-YYYY at TIME format for easy viewing
+  def sortDateTime(date1) #input a date from the SQL export, reorganizes to MM-DD-YYYY at TIME format for easy viewing (input format: 2023-07-06T07:00)
+    puts date1
     year = date1[0..3]
     day = date1[8..9]
     month = date1[5..7]

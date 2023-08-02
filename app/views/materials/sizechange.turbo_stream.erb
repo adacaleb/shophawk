@@ -1,0 +1,8 @@
+<%= turbo_stream.update "matdata" do %>
+	<%= render "materials/mathistory" %>
+<% end %>
+
+<%= turbo_stream.update "editBtn" do %>
+	<label >&nbsp</label></br>
+	<%= link_to "Edit", edit_material_path(@materialQuote), class: "btn btn-outline-primary" %>
+<% end %>

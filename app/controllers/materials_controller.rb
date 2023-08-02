@@ -14,6 +14,8 @@ class MaterialsController < ApplicationController
 		end
 		@matNames.uniq!
 		@matSizes = [] #empty, will populate when a material is selected with JS controller + turbo-stream
+		@matSelect = {prompt: "Select Material"}
+		@sizeSelect = {prompt: "Select Size"}
 
 		#If "archive == true in params when page loads, it archives all open matquotes"
 		if params[:archive] == "true" #archives all open matquotes to the DB to no longer show up in current quotes list. 
@@ -52,12 +54,11 @@ class MaterialsController < ApplicationController
 		end
 
 		sizeFound = 0
-		@size = params[:size]
 		@mat = params[:mat]
+		@size = params[:size]
 		@target = params[:target]
-		puts @size
-		puts @mat
-		puts @target
+		@matSelect = {:selected => @mat}
+		@sizeSelect = {:selected => @size}
 		@materials = Material.where(mat: params[:mat])
 		@matSizes = []
 		@materials.each do |mat| #saves all sizes found for materail to render in size select box
@@ -71,7 +72,7 @@ class MaterialsController < ApplicationController
 		if sizeFound == 0 #if no matching size when changing material type or 1st load of page, sets it to first found size.
 			@size = @matSizes[0].size
 		end
-		@matquotes, @averageCost, @sellCost = getquotes(@mat, @size)
+		@matquotes, @averageCost, @sellCost, @ftUsed = getquotes(@mat, @size)
 		respond_to do |format|
 			format.turbo_stream
 		end
@@ -81,27 +82,34 @@ class MaterialsController < ApplicationController
 		d = DateTime.now    #=> #<DateTime: 2018-02-20T15:39:44+01:00 ...>
 		d << 4              #=> #<DateTime: 2017-10-20T15:39:44+01:00 ...>
 		d.prev_month(12)     #=> #<DateTime: 2017-10-20T15:39:44+01:00 ...>	
-		@materialb = Material.find_by(mat: mat, size: size)
-		if @materialb != nil
-			@matquotes = @materialb.matquotes.where(ordered: true)
+		@materialQuote = Material.find_by(mat: mat, size: size)
+		puts @materialQuote.size
+		puts @materialQuote.mat
+		if @materialQuote != nil
+			@matquotes = @materialQuote.matquotes.where(ordered: true)
 			i = 0
 			@averageCost = 0
+			@ftUsed = 0
 			@matquotes.each do |mat|
 				if mat.created_at < d #only calculates average for purchases made within last 12 months
 					i = i + 1
 					@averageCost = @averageCost + mat.price
+					@ftUsed = @ftUsed + mat.length.to_f
 				end
 			end
 			if i > 0
 				@averageCost = @averageCost / i
 			end
 			@sellCost = ((@averageCost * 1.2) * 4.0).ceil() / 4.0 #rounds up to nearest quarter
+
 		else 
 			@matquotes = nil
 			@averageCost = 0
 			@sellCost = 0
+			@ftUsed = 0
 		end
-		return @matquotes, @averageCost, @sellCost
+		@matquotes = @matquotes.reverse #puts most recent at top of tables
+		return @matquotes, @averageCost, @sellCost, @ftUsed
 	end
 
 	def currentQuotes #loads all quotes not archived
@@ -118,7 +126,7 @@ class MaterialsController < ApplicationController
 		end
 	end
 
-	def matsizes #Loads all ordered quotes from JS when a size is selected.
+	def matchange #Loads all ordered quotes from JS when a size is selected.
 		sizeFound = 0
 		@size = params[:size]
 		@mat = params[:mat]
@@ -134,15 +142,15 @@ class MaterialsController < ApplicationController
 		@matSizes.uniq!
 		@matSizes.sort!
 		if sizeFound == 0 #if no matching size when changing material type or 1st load of page, sets it to first found size.
-			@size = @matSizes[0].size
+				@size = @matSizes[0]
 		end
-		@matquotes, @averageCost, @sellCost = getquotes(@mat, @size)
+		@matquotes, @averageCost, @sellCost, @ftUsed = getquotes(@mat, @size)
 		respond_to do |format|
 			format.turbo_stream
 		end
 	end
 
-	def matdata #Run from JS when a Material is selected
+	def sizechange #Run from JS when a Material is selected
 		@size = params[:size]
 		@mat = params[:mat]
 		@matquotes, @averageCost, @sellCost = getquotes(@mat, @size)
@@ -174,6 +182,8 @@ class MaterialsController < ApplicationController
 	end
 
 	def edit
+		@matquotes = @material.matquotes.all
+		@matquotes = @matquotes.reverse
 	end
 
 	def create #Creates a new material/size or a new quote for a material/size depending on contents of params.

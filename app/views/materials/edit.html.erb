@@ -8,4 +8,10 @@
 
   <%= render "form", material: @material %>
 </main>
+<div class="text-center"><h3>All Quotes for this Material</h3> </div>
+<div>
+  <%= render "materials/allmathistory" %>
+</div>
+
+<%= button_to "Delete This size and All Quote History", @material, data: { confirm: "Are you sure?" }, method: :delete, class:"btn btn-outline-danger" %>
 </div>

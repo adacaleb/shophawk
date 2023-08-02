@@ -15,7 +15,7 @@ static targets = ["sizeSelect", "material"]
 		let target = this.sizeSelectTarget.id
 		let size = this.sizeSelectTarget.value
 		//console.log(target)
-		get(`/materials/matsizes?target=${target}&size=${size}&mat=${mat}`, { responseKind: "turbo-stream"})
+		get(`/materials/matchange?target=${target}&size=${size}&mat=${mat}`, { responseKind: "turbo-stream"})
 	}
 
 	sizechange(event) {
@@ -23,7 +23,7 @@ static targets = ["sizeSelect", "material"]
 		let mat = this.materialTarget.value
 		console.log(mat)
 		console.log(size)
-		get(`/materials/matdata?size=${size}&mat=${mat}`, { responseKind: "turbo-stream"})
+		get(`/materials/sizechange?size=${size}&mat=${mat}`, { responseKind: "turbo-stream"})
 	}
 
 	orderedcheckbox(event) {

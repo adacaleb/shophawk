@@ -4,15 +4,23 @@
 			<h5>Material - Size</h5>
 		</div>
 		<div class="col">
+			<h4>Ft Used</h4>
+		</div>
+
+		<div class="col">
 			<h4>Average cost for past 12 months</h4>
 		</div>
 		<div class="col">
 			<h4>Sell Price</h4>
 		</div>
+		
 	</div>
 	<div class="row">
 		<div class="col-4">
 			<h1><%= @mat %> - <%= @size %>"</h1>
+		</div>
+		<div class="col">
+			<h1><%= @ftUsed %></h1>
 		</div>
 		<div class="col">
 			<h1><%= number_to_currency(@averageCost, :unit => "$") %></h1>
@@ -20,6 +28,7 @@
 		<div class="col">
 			<h1><%= number_to_currency(@sellCost, :unit => "$") %></h1>
 		</div>
+		
 	</div>
 </div>
 
@@ -28,7 +37,9 @@
   		<thead>
   			<tr>
   				<th style="font-size:20px; width:10%">Vendor</th>
+  				<th style="font-size:20px; width:14%">Date</th>
   				<th style="font-size:20px; width:10%">Price</th>
+  				<th style="font-size:14px; width:10%">Length (ft)</th>
   				<th style="font-size:20px; width:10%">Sawcut</th>
   				<th style="font-size:14px; width:10%">Added Costs</th>
   				<th style="font-size:20px; width:60%">Comments</th>
@@ -40,7 +51,14 @@
 	  			
 						<tr>
 						<td style="font-size:20px;"><%= history.vendor %></td>
+						<% date = history.created_at.to_s[0..10] %>
+						<% year = date[0..3] %>
+						<% month = date[5..6] %>
+						<% day = date[8..9] %>
+						<% date = "#{month}-#{day}-#{year}" %>
+						<td style="font-size:20px;"><%= date %></td>
 						<td style="font-size:20px;"><%= number_to_currency(history.price, :unit => "$") %></td>
+						<td style="font-size:20px;"><%= history.length %></td>
 						<% if history.sawcut == false %>
 							<td></td>
 						<% else %>
