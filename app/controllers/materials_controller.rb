@@ -13,6 +13,7 @@ class MaterialsController < ApplicationController
 			@matNames << mat.mat
 		end
 		@matNames.uniq!
+		@matNames.sort!
 		@matSizes = [] #empty, will populate when a material is selected with JS controller + turbo-stream
 		@matSelect = {prompt: "Select Material"}
 		@sizeSelect = {prompt: "Select Size"}
@@ -39,6 +40,7 @@ class MaterialsController < ApplicationController
 			@matNames << mat.mat
 		end
 		@matNames.uniq!
+		@matNames.sort!
 		@matSizes = [] #empty, will populate when a material is selected with JS controller + turbo-stream
 
 
