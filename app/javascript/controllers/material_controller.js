@@ -20,8 +20,8 @@ static targets = ["sizeSelect", "material"]
 	}
 
 	sizechange(event) {
-		let size = event.target.selectedOptions[0].value.replace(/#/g, '%23')
-		let mat = this.materialTarget.value
+		let size = event.target.selectedOptions[0].value
+		let mat = this.materialTarget.value.replace(/#/g, '%23')
 		console.log(mat)
 		console.log(size)
 		get(`/materials/sizechange?size=${size}&mat=${mat}`, { responseKind: "turbo-stream"})
