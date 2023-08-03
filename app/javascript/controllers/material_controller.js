@@ -40,12 +40,12 @@ static targets = ["sizeSelect", "material"]
 		get(`/materials/sawcutCheckBox?id=${id}`)
 	}
 
-	quoteSubmit() {
-		//sends needed info for turbo_stream to save and refresh page with empty quote fields
-		let size = this.sizeSelectTarget.value
-		let mat = this.materialTarget.value.replace(/#/g, '%23')
-		let target = this.sizeSelectTarget.id
-		get(`/materials/newquote?mat=${mat}&size=${size}&target=${target}`, { responseKind: "turbo-stream"})
-	}
+//	quoteSubmit(event) {
+//		//sends needed info for turbo_stream to save and refresh page with empty quote fields
+//		let size = this.sizeSelectTarget.value
+//		let mat = this.materialTarget.value.replace(/#/g, '%23')
+//		let target = this.sizeSelectTarget.id
+//		//get(`/materials/newquote?mat=${mat}&size=${size}&target=${target}`, { responseKind: "turbo-stream"})
+//	}
 
 }

@@ -43,22 +43,10 @@ class MaterialsController < ApplicationController
 		@matNames.sort!
 		@matSizes = [] #empty, will populate when a material is selected with JS controller + turbo-stream
 
-
-		#If "archive == true in params when page loads, it archives all open matquotes"
-		if params[:archive] == "true" #archives all open matquotes to the DB to no longer show up in current quotes list. 
-			@mats = Material.includes(:matquotes).where(matquotes: {archived: nil})
-			@mats.each do |mat|
-				mat.matquotes.each do |q|
-					q.archived = true
-					q.save
-				end
-			end
-		end
-
 		sizeFound = 0
 		@mat = params[:mat]
 		@size = params[:size]
-		@target = params[:target]
+		#@target = params[:target]
 		@matSelect = {:selected => @mat}
 		@sizeSelect = {:selected => @size}
 		@materials = Material.where(mat: params[:mat])
@@ -201,6 +189,9 @@ class MaterialsController < ApplicationController
 				end
 			end
 			@material.save
+			mat = @material.mat
+			size = @material.size
+			redirect_to "/materials/newquote?mat=#{mat}&size=#{size}", { responseKind: "turbo-stream"}
 		else #makes a new material if none is found.
 			if material_params[:size] != "" #makes sure there's an entry before saving.
 				@material = Material.new(material_params)
