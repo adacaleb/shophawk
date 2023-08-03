@@ -189,7 +189,8 @@ class MaterialsController < ApplicationController
 				end
 			end
 			@material.save
-			mat = @material.mat
+			mat = @material.mat.gsub("#", "%23") #subsittute number sign for encoding of number sign to pass through GET request
+			puts mat
 			size = @material.size
 			redirect_to "/materials/newquote?mat=#{mat}&size=#{size}", { responseKind: "turbo-stream"}
 		else #makes a new material if none is found.
