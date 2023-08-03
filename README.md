@@ -11,4 +11,21 @@ Two seperate inventories.
 
 Milling Inventory
 - has adition option to show tools that are at a vendor for sharpening or repair. 
--updates balance and alerts on homepage to status as well.  
+-updates balance and alerts on homepage to status as well.
+
+Shop Runlist
+-Create departments
+-track all scheduled jobs 
+-add assignments
+-tracks current locations
+
+Slideshow
+-Displays general shop information for TV's around the shop
+
+Material
+-create materials and sizes
+-Input all quotes for raw material
+-track pricing and history of all ordered material
+
+Stats -hidden page
+-Track current checkbook status and late invoices
