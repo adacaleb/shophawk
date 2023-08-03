@@ -70,7 +70,7 @@ class MaterialsController < ApplicationController
 			end
 		end
 		@matSizes.uniq!
-		@matSizes.sort!
+		@matSizes = @matSizes.sort_by { |num| num.to_s.to_f }
 		if sizeFound == 0 #if no matching size when changing material type or 1st load of page, sets it to first found size.
 			@size = @matSizes[0].size
 		end
@@ -85,8 +85,6 @@ class MaterialsController < ApplicationController
 		d << 4              #=> #<DateTime: 2017-10-20T15:39:44+01:00 ...>
 		d.prev_month(12)     #=> #<DateTime: 2017-10-20T15:39:44+01:00 ...>	
 		@materialQuote = Material.find_by(mat: mat, size: size)
-		puts @materialQuote.size
-		puts @materialQuote.mat
 		if @materialQuote != nil
 			@matquotes = @materialQuote.matquotes.where(ordered: true)
 			i = 0
@@ -142,7 +140,7 @@ class MaterialsController < ApplicationController
 			end
 		end
 		@matSizes.uniq!
-		@matSizes.sort!
+		@matSizes = @matSizes.sort_by { |num| num.to_s.to_f }
 		if sizeFound == 0 #if no matching size when changing material type or 1st load of page, sets it to first found size.
 				@size = @matSizes[0]
 		end

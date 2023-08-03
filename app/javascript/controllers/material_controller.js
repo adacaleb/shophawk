@@ -10,16 +10,17 @@ static targets = ["sizeSelect", "material"]
 //	  }
 
 	matchange(event) {
-		let mat = event.target.selectedOptions[0].value
+		let mat = event.target.selectedOptions[0].value.replace(/#/g, '%23') //replace function replaces "#" symbol with the %23 encoding of it to pass through a GET request.
 		console.log(mat)
 		let target = this.sizeSelectTarget.id
 		let size = this.sizeSelectTarget.value
+
 		//console.log(target)
 		get(`/materials/matchange?target=${target}&size=${size}&mat=${mat}`, { responseKind: "turbo-stream"})
 	}
 
 	sizechange(event) {
-		let size = event.target.selectedOptions[0].value
+		let size = event.target.selectedOptions[0].value.replace(/#/g, '%23')
 		let mat = this.materialTarget.value
 		console.log(mat)
 		console.log(size)
@@ -42,7 +43,7 @@ static targets = ["sizeSelect", "material"]
 	quoteSubmit() {
 		//sends needed info for turbo_stream to save and refresh page with empty quote fields
 		let size = this.sizeSelectTarget.value
-		let mat = this.materialTarget.value
+		let mat = this.materialTarget.value.replace(/#/g, '%23')
 		let target = this.sizeSelectTarget.id
 		get(`/materials/newquote?mat=${mat}&size=${size}&target=${target}`, { responseKind: "turbo-stream"})
 	}
