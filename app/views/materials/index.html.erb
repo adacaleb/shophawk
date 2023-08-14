@@ -26,11 +26,16 @@
         <%= form_for(@material) do |form| %>
 
         <div>
-          <%= form.text_field :mat, class: "form-control", placeholder: "Material", autofocus: true %>
+          <%= form.text_field :mat, class: "form-control", placeholder: "Material" %>
         </div>
       </br>
       <div>
         <%= form.text_field :size, class: "form-control", placeholder: "Size (inches)" %>
+      </div>
+      </br>
+      <div class="col">
+        <%= form.label "Material Type", style: "display: block" %>
+        <%= form.select :materialType, options_for_select([["Select One", ""], "Steel", "Stainless", "Aluminum", "Brass/Bronze", "Nylon", "Peek"]), {}, class: "form-select" %>
       </div>
     </br>
     <div>

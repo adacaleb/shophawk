@@ -62,7 +62,7 @@ class MaterialsController < ApplicationController
 		if sizeFound == 0 #if no matching size when changing material type or 1st load of page, sets it to first found size.
 			@size = @matSizes[0].size
 		end
-		@matquotes, @averageCost, @sellCost, @ftUsed = getquotes(@mat, @size)
+		@matquotes, @averageCost, @sellCost, @ftUsed, @cost_per_inch = getquotes(@mat, @size)
 		respond_to do |format|
 			format.turbo_stream
 		end
@@ -74,6 +74,9 @@ class MaterialsController < ApplicationController
 		d.prev_month(12)     #=> #<DateTime: 2017-10-20T15:39:44+01:00 ...>	
 		@materialQuote = Material.find_by(mat: mat, size: size)
 		if @materialQuote != nil
+			@materialType = @materialQuote.materialType
+			puts @materialType
+
 			@matquotes = @materialQuote.matquotes.where(ordered: true)
 			i = 0
 			@weightedAverage = 0
@@ -94,12 +97,41 @@ class MaterialsController < ApplicationController
 			@sellCost = ((@weightedAverage * 1.2) * 4.0).ceil() / 4.0 #rounds up to nearest quarter
 		else 
 			@matquotes = nil
+			@materialType = "Steel/Iron"
 			@weightedAverage = 0
 			@sellCost = 0
 			@ftUsed = 0
 		end
+		@ftUsed = @ftUsed.round(2)
 		@matquotes = @matquotes.reverse #puts most recent at top of tables
-		return @matquotes, @weightedAverage, @sellCost, @ftUsed
+		specific_weight = metal_specific_weight(@materialType)
+		weight_per_inch = weight_per_inch(size, specific_weight)
+		@cost_per_inch = (weight_per_inch.to_f * @sellCost).round(2)
+		return @matquotes, @weightedAverage, @sellCost, @ftUsed, @cost_per_inch
+	end
+
+	def weight_per_inch(size, specific_weight)
+  		(size.to_f**2 * specific_weight) / 4.0
+	end
+
+	def metal_specific_weight(metal)
+		puts metal
+		case metal.downcase
+		when "steel/iron"
+			   0.283
+		 when "aluminum"
+			0.098
+		when "brass/bronze"
+			0.307
+		when "stainless"
+			0.289
+		when "nylon"
+			0.045
+		when "peek"
+			0.052
+		else
+			raise "Metal not found in the database."
+		end
 	end
 
 	def weightedAverage(prices, lengths, count)
@@ -249,7 +281,7 @@ class MaterialsController < ApplicationController
 
 	def material_params
 		#puts params.inspect
-		params.require(:material).permit(:id, :mat, :size, :matquotes, matquotes_attributes: [:vendor, :price, :length, :ordered, :sawcut, :additionalCost, :comment, :archived])
+		params.require(:material).permit(:id, :mat, :size, :materialType, :matquotes, matquotes_attributes: [:vendor, :price, :length, :ordered, :sawcut, :additionalCost, :comment, :archived])
 	end
 
 end

@@ -23,7 +23,7 @@
 			<h2><%= number_to_currency(@averageCost, :unit => "$") %></h2>
 		</div>
 		<div class="col-2">
-			<h2><%=  %></h2>
+			<h2><%=  %><%= number_to_currency(@cost_per_inch) %></h2>
 		</div>
 		<div class="col-2">
 			<h2><%= number_to_currency(@sellCost, :unit => "$") %></h2>

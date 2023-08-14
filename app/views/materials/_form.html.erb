@@ -8,9 +8,14 @@
     <%= form.label :Size, style: "display: block" %>
     <%= form.text_field :size, class: "form-control" %>
   </div>
+  <div class="col">
+    <%= form.label "Material Type", style: "display: block" %>
+    <%= form.select :materialType, options_for_select([["Select One", ""], "Steel/Iron", "Stainless", "Aluminum", "Brass/Bronze", "Nylon", "Peek"]), {}, class: "form-select" %>
+  </div>
   <div class="col-1">
     <label >&nbsp</label></br>
     <%= form.submit "Save Changes", class: "btn btn-primary" %>
   </div>
 </div>
 <% end %>
+
