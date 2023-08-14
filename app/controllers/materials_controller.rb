@@ -76,28 +76,53 @@ class MaterialsController < ApplicationController
 		if @materialQuote != nil
 			@matquotes = @materialQuote.matquotes.where(ordered: true)
 			i = 0
-			@averageCost = 0
+			@weightedAverage = 0
 			@ftUsed = 0
+			@prices = []
+			@lengths = []
 			@matquotes.each do |mat|
 				if mat.created_at < d #only calculates average for purchases made within last 12 months
 					i = i + 1
-					@averageCost = @averageCost + mat.price
+					#@averageCost = @averageCost + mat.price
 					@ftUsed = @ftUsed + mat.length.to_f
+
+					@prices << mat.price.to_f
+					@lengths << mat.length.to_f
 				end
 			end
-			if i > 0
-				@averageCost = @averageCost / i
-			end
-			@sellCost = ((@averageCost * 1.2) * 4.0).ceil() / 4.0 #rounds up to nearest quarter
-
+			@weightedAverage = weightedAverage(@prices, @lengths, i)
+			@sellCost = ((@weightedAverage * 1.2) * 4.0).ceil() / 4.0 #rounds up to nearest quarter
 		else 
 			@matquotes = nil
-			@averageCost = 0
+			@weightedAverage = 0
 			@sellCost = 0
 			@ftUsed = 0
 		end
 		@matquotes = @matquotes.reverse #puts most recent at top of tables
-		return @matquotes, @averageCost, @sellCost, @ftUsed
+		return @matquotes, @weightedAverage, @sellCost, @ftUsed
+	end
+
+	def weightedAverage(prices, lengths, count)
+		i = 0
+		weights = []
+		while i < count
+			weights << prices[i].to_f * lengths[i].to_f
+			i = i + 1
+		end
+		weightSum = 0
+		weights.each do |a|
+			weightSum = weightSum + a
+		end
+		totalLength = 0
+		lengths.each do |a|
+			totalLength = totalLength + a
+		end
+		if totalLength != 0 #prevents errors if nothing to calculate
+			average = weightSum / totalLength
+		else 
+			average = 0
+		end
+		return average
 	end
 
 	def currentQuotes #loads all quotes not archived
