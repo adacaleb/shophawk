@@ -106,19 +106,20 @@ class MaterialsController < ApplicationController
 		@matquotes = @matquotes.reverse #puts most recent at top of tables
 		specific_weight = metal_specific_weight(@materialType)
 		weight_per_inch = weight_per_inch(size, specific_weight)
+		puts weight_per_inch
 		@cost_per_inch = (weight_per_inch.to_f * @sellCost).round(2)
 		return @matquotes, @weightedAverage, @sellCost, @ftUsed, @cost_per_inch
 	end
 
 	def weight_per_inch(size, specific_weight)
-  		(size.to_f**2 * specific_weight) / 4.0
+  		((size.to_f**2 * 3.14159) * specific_weight) / 4.0
 	end
 
 	def metal_specific_weight(metal)
 		puts metal
 		case metal.downcase
 		when "steel/iron"
-			   0.283
+			0.283
 		 when "aluminum"
 			0.098
 		when "brass/bronze"
@@ -129,8 +130,6 @@ class MaterialsController < ApplicationController
 			0.045
 		when "peek"
 			0.052
-		else
-			raise "Metal not found in the database."
 		end
 	end
 
