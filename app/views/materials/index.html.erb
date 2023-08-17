@@ -2,7 +2,38 @@
   <div class="card text-bg-dark">
     <div id="departments" class="text-white">
       <div data-controller="material" id="newQuote">
-        <%= render "/materials/quoteSubmission" %>
+          <div class="row">
+            <div class="col-3">
+              <h4>Select Material and Size</h4>
+            </div>
+            <div class="col-7">
+              <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#newMatModal">
+                New Material/Size
+              </button>
+            </div>
+            <div class="col-2 text-right">
+              <%= link_to "Current Quotes", "/materials/currentQuotes", class: "btn btn-outline-info" %>
+            </div>
+          </div>
+          <%= form_with(model: @material) do |form| %>
+            <div class="row">
+              <div class="col">
+                <%= form.label :Material, style: "display: block" %>
+                <%= form.select :mat, @matNames, @matSelect, {class: 'form-select', data: { material_target: "material", action: "change->material#matchange"} } %>
+              </div>
+              <div class="col">
+                <%= form.label :Size, style: "display: block" %>
+                <%= form.select :size, @matSizes, @sizeSelect, {class: 'form-select', data: { material_target: "sizeSelect", action: "change->material#sizechange"} } %>
+              </div>
+              <div class="col-1">
+                <div id="editBtn">
+
+                </div>
+              </div>
+            </div>
+
+            </br>
+            <% end %>
       </div>
     <br></br>
     <div id="matdata"> <!-- Main turbo-stream div for displaying purchase history. Populates upon size selection -->

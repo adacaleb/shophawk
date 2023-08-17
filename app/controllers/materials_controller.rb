@@ -106,7 +106,6 @@ class MaterialsController < ApplicationController
 		@matquotes = @matquotes.reverse #puts most recent at top of tables
 		specific_weight = metal_specific_weight(@materialType)
 		weight_per_inch = weight_per_inch(size, specific_weight)
-		puts weight_per_inch
 		@cost_per_inch = (weight_per_inch.to_f * @sellCost).round(2)
 		return @matquotes, @weightedAverage, @sellCost, @ftUsed, @cost_per_inch
 	end
@@ -116,7 +115,6 @@ class MaterialsController < ApplicationController
 	end
 
 	def metal_specific_weight(metal)
-		puts metal
 		case metal.downcase
 		when "steel/iron"
 			0.283
@@ -157,11 +155,36 @@ class MaterialsController < ApplicationController
 	end
 
 	def currentQuotes #loads all quotes not archived
-		@materials = Material.includes(:matquotes).where(matquotes: {archived: nil})
+		@qmaterials = Material.includes(:matquotes).where(matquotes: {archived: nil})
 		
 		if params[:archiveid] #saves the clicked archive button to the DB to no longer show up in current quotes list. 
 			@material = Material.includes(:matquotes).where(matquotes: {id: params[:archiveid]})
-			@material.each do |mat|
+			@qmaterial.each do |mat|
+				mat.matquotes.each do |q|
+					q.archived = true
+					q.save
+				end
+			end
+		end
+
+		@materials = Material.all
+		@material = Material.new
+		@material.matquotes.build
+
+		@matNames = []
+		@materials.each do |mat|
+			@matNames << mat.mat
+		end
+		@matNames.uniq!
+		@matNames.sort!
+		@matSizes = [] #empty, will populate when a material is selected with JS controller + turbo-stream
+		@matSelect = {prompt: "Select Material"}
+		@sizeSelect = {prompt: "Select Size"}
+
+		#If "archive == true in params when page loads, it archives all open matquotes"
+		if params[:archive] == "true" #archives all open matquotes to the DB to no longer show up in current quotes list. 
+			@mats = Material.includes(:matquotes).where(matquotes: {archived: nil})
+			@mats.each do |mat|
 				mat.matquotes.each do |q|
 					q.archived = true
 					q.save
@@ -228,6 +251,7 @@ class MaterialsController < ApplicationController
 	def edit
 		@matquotes = @material.matquotes.all
 		@matquotes = @matquotes.reverse
+		@materialType = @material.materialType
 	end
 
 	def create #Creates a new material/size or a new quote for a material/size depending on contents of params.

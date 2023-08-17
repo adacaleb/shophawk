@@ -1,4 +1,7 @@
-<div data-controller="material" class="card text-bg-dark">
+<div data-controller="material" class="card text-bg-dark" data-material-suggestions='<%= @matNames %>'>
+	<%= render "/materials/quoteSubmission" %>
+</br>
+
 	<div class="row">
 		<div class="col-8">
 			<h1>Material currently getting quoted</h1>
@@ -26,7 +29,7 @@
   			</tr>
   		</thead>
   		<tbody>
-  			<% @materials.each do |mat| %>
+  			<% @qmaterials.each do |mat| %>
   			<% if mat.matquotes.count > 0 %>
 	  			<tr colspan="2" class="table-light">
 	  				<th><%= mat.mat %></th>
@@ -62,4 +65,45 @@
   		</tbody>
   	</table>
 
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="newMatModal" tabindex="-1"  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered text-white">
+    <div class="modal-content" style="background-color: #034604;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">New Material/Size</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= form_for(@material) do |form| %>
+
+        <div>
+          <%= form.text_field :mat, class: "form-control", placeholder: "Material" %>
+        </div>
+      </br>
+      <div>
+        <%= form.text_field :size, class: "form-control", placeholder: "Size (inches)" %>
+      </div>
+      </br>
+      <div class="col">
+        <%= form.label "Material Type", style: "display: block" %>
+        <%= form.select :materialType, options_for_select([["Select One", ""], "Steel/Iron", "Stainless", "Aluminum", "Brass/Bronze", "Nylon", "Peek"]), {}, class: "form-select" %>
+      </div>
+    </br>
+    <div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <%= form.submit "Save" , class: "btn btn-primary" %>
+  </div>
+  <% end %>
+</div>
+</div>
 </div>

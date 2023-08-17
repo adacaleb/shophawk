@@ -10,7 +10,7 @@
   </div>
   <div class="col">
     <%= form.label "Material Type", style: "display: block" %>
-    <%= form.select :materialType, options_for_select([["Select One", ""], "Steel/Iron", "Stainless", "Aluminum", "Brass/Bronze", "Nylon", "Peek"]), {}, class: "form-select" %>
+    <%= form.select :materialType, options_for_select(["Steel/Iron", "Stainless", "Aluminum", "Brass/Bronze", "Nylon", "Peek"], @materialType), {}, class: "form-select" %>
   </div>
   <div class="col-1">
     <label >&nbsp</label></br>
