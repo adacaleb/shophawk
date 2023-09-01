@@ -10,3 +10,8 @@
   <label >&nbsp</label></br>
   <%= link_to "Edit", edit_material_path(@materialQuote), class: "btn btn-outline-primary" %>
 <% end %>
+
+<%= turbo_stream.update "quoting" do %>
+  <label >&nbsp</label></br>
+  <%= render "/materials/quoting" %>
+<% end %>

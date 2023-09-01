@@ -25,6 +25,7 @@ gem 'date', '~> 0.0.1'
 gem 'chartkick'
 gem 'groupdate' #allows group_by_day functionality
 gem 'working_hours'
+gem 'solargraph', group: :development
 
 # Use Sass to process CSS
 # gem "sassc-rails"

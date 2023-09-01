@@ -31,13 +31,19 @@ static targets = ["sizeSelect", "material"]
 		let id = event.currentTarget.id
 		console.log(id)
 		get(`/materials/orderedCheckBox?id=${id}`)
-
 	}
 
 	sawcutcheckbox(event) {
 		let id = event.currentTarget.id
 		console.log(id)
 		get(`/materials/sawcutCheckBox?id=${id}`)
+	}
+
+	needOrder(event) {
+		let mat = this.materialTarget.value
+		let size = this.sizeSelectTarget.value
+		console.log(`${mat} and ${size}`)
+		get(`/materials/assignNeedOrder?mat=${mat}&size=${size}`, { responseKind: "turbo-stream"})
 	}
 
 //	quoteSubmit(event) {

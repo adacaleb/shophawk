@@ -3,7 +3,6 @@ class MaterialsController < ApplicationController
 	before_action :set_material, only: [ :show, :edit, :update, :destroy ]
 
 	def index
-
 		@materials = Material.all
 		@material = Material.new
 		@material.matquotes.build
@@ -66,6 +65,7 @@ class MaterialsController < ApplicationController
 		respond_to do |format|
 			format.turbo_stream
 		end
+		currentQuotes
 	end
 
 	def getquotes(mat, size) #sub routine that loads all ordered history for a material. 
@@ -157,7 +157,8 @@ class MaterialsController < ApplicationController
 	end
 
 	def currentQuotes #loads all quotes not archived
-		@materials = Material.includes(:matquotes).where(matquotes: {archived: nil})
+		index
+		@toOrder = Material.where(needOrder: true) #General material needed to be ordered
 		
 		if params[:archiveid] #saves the clicked archive button to the DB to no longer show up in current quotes list. 
 			@material = Material.includes(:matquotes).where(matquotes: {id: params[:archiveid]})
@@ -167,6 +168,30 @@ class MaterialsController < ApplicationController
 					q.save
 				end
 			end
+		end
+		
+		if params[:archiveMatId]
+			puts "here"
+			@material = Material.includes(:matquotes).where(id: params[:archiveMatId], matquotes: {archived: nil})
+			puts @material
+			if @material
+				puts "found mat"
+				@material.each do |mat|
+					mat.matquotes.each do |q|
+						q.archived = true
+						q.save
+					end
+					#mat.needOrder = false
+					#mat.save
+				end
+			end
+			puts "there"
+			#id = params[:archiveMatId]
+			@material = Material.find_by(id: params[:archiveMatId])
+			puts @material
+			@material.needOrder = false
+			@material.save
+			
 		end
 	end
 
@@ -219,6 +244,17 @@ class MaterialsController < ApplicationController
 		puts @matquote.sawcut
 	end
 
+	def assignNeedOrder
+		mat = params[:mat]
+		size = params[:size]
+		@materialQuote = Material.find_by(mat: mat, size: size)
+		if @materialQuote.needOrder != true
+			@materialQuote.needOrder = true
+			@materialQuote.save
+		end
+		redirect_to "/materials/newquote?mat=#{mat}&size=#{size}", { responseKind: "turbo-stream"}
+	end
+
 	def show
 	  @material = Material.find(params[:id])
 	  #render json: @material, include: [:material_matquotes, :quotes]
@@ -233,9 +269,10 @@ class MaterialsController < ApplicationController
 	def create #Creates a new material/size or a new quote for a material/size depending on contents of params.
 		@material = Material.find_by(mat: material_params[:mat], size: material_params[:size])
 		if @material #if a material is found, it doesn't create a new one, but creates a matquote for that size found.
-			if material_params[:matquotes_attributes]['0'][:price] != "" #only builds object if there's a price entered
-				@newMat = @material.matquotes.build(material_params[:matquotes_attributes]['0']) #saves build as an object that can be changed before saving
-				if material_params[:matquotes_attributes]['0'][:ordered] == "1"
+			@material.needOrder = true
+			if material_params[:matquotes][:price] != "" #only builds object if there's a price entered
+				@newMat = @material.matquotes.build(material_params[:matquotes]) #saves build as an object that can be changed before saving
+				if material_params[:matquotes][:ordered] == "1"
 					@newMat.archived = true #sets true if the material was ordered to not show up in active quotes page
 				end
 				@newMat.vendor = @newMat.vendor.titleize
@@ -252,6 +289,7 @@ class MaterialsController < ApplicationController
 		else #makes a new material if none is found.
 			if material_params[:size] != "" #makes sure there's an entry before saving.
 				@material = Material.new(material_params)
+				@material.needOrder = true
 				if @material.save
 					redirect_to materials_url(@materials)
 				end
@@ -280,7 +318,7 @@ class MaterialsController < ApplicationController
 
 	def material_params
 		#puts params.inspect
-		params.require(:material).permit(:id, :mat, :size, :materialType, :matquotes, matquotes_attributes: [:vendor, :price, :length, :ordered, :sawcut, :additionalCost, :comment, :archived])
+		params.require(:material).permit(:id, :mat, :size, :materialType, :needOrder, :qtyNeeded, matquotes: [:vendor, :price, :length, :ordered, :sawcut, :additionalCost, :comment, :archived])
 	end
 
 end
