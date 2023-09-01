@@ -16,7 +16,7 @@ class MaterialsController < ApplicationController
 		@matSizes = [] #empty, will populate when a material is selected with JS controller + turbo-stream
 		@matSelect = {prompt: "Select Material"}
 		@sizeSelect = {prompt: "Select Size"}
-
+		
 		#If "archive == true in params when page loads, it archives all open matquotes"
 		if params[:archive] == "true" #archives all open matquotes to the DB to no longer show up in current quotes list. 
 			@mats = Material.includes(:matquotes).where(matquotes: {archived: nil})
@@ -29,25 +29,69 @@ class MaterialsController < ApplicationController
 		end
 	end
 
-	def newquote #turbo_stream function for when submitting a new quote order
-		@materials = Material.all
-		@material = Material.new
-		@material.matquotes.build
-
-		@matNames = []
-		@materials.each do |mat|
-			@matNames << mat.mat
-		end
-		@matNames.uniq!
-		@matNames.sort!
-		@matSizes = [] #empty, will populate when a material is selected with JS controller + turbo-stream
-
+	def currentQuotes #loads all quotes not archived
+		index		
+		@toOrder = Material.where(needOrder: true) #General material needed to be ordered
 		sizeFound = 0
-		@mat = params[:mat]
+		if params[:size]
+			@mat = params[:mat]
+			@size = params[:size]
+			@matSelect = {:selected => @mat}
+			@sizeSelect = {:selected => @size}
+			@materials = Material.where(mat: params[:mat])
+			@matSizes = []
+			@materials.each do |mat| #saves all sizes found for materail to render in size select box
+				@matSizes << mat.size
+				if mat.size == @size
+					sizeFound = 1
+				end
+			end
+			@matSizes.uniq!
+			@matSizes = @matSizes.sort_by { |num| num.to_s.to_f }
+			if sizeFound == 0 #if no matching size when changing material type or 1st load of page, sets it to first found size.
+				@size = @matSizes[0].size
+			end
+			@matquotes, @averageCost, @sellCost, @ftUsed, @cost_per_inch = getquotes(@mat, @size)
+			respond_to do |format|
+				format.turbo_stream
+			end
+		else
+			@matSelect = {prompt: "Select Material"}
+			@sizeSelect = {prompt: "Select Size"}
+		end		
+		if params[:archiveid] #saves the clicked archive button to the DB to no longer show up in current quotes list. 
+			@material = Material.includes(:matquotes).where(matquotes: {id: params[:archiveid]})
+			@material.each do |mat|
+				mat.matquotes.each do |q|
+					q.archived = true
+					q.save
+				end
+			end
+		end		
+		if params[:archiveMatId]
+			puts "here"
+			@material = Material.includes(:matquotes).where(id: params[:archiveMatId], matquotes: {archived: nil})
+			puts @material
+			if @material
+				puts "found mat"
+				@material.each do |mat|
+					mat.matquotes.each do |q|
+						q.archived = true
+						q.save
+					end
+				end
+			end
+			@material = Material.find_by(id: params[:archiveMatId])
+			@material.needOrder = false
+			@material.save
+		end
+	end
+
+	def matchange #Loads all ordered quotes from JS when a size is selected.
+		sizeFound = 0
 		@size = params[:size]
-		#@target = params[:target]
-		@matSelect = {:selected => @mat}
-		@sizeSelect = {:selected => @size}
+		@mat = params[:mat]
+		@target = params[:target]
 		@materials = Material.where(mat: params[:mat])
 		@matSizes = []
 		@materials.each do |mat| #saves all sizes found for materail to render in size select box
@@ -59,13 +103,21 @@ class MaterialsController < ApplicationController
 		@matSizes.uniq!
 		@matSizes = @matSizes.sort_by { |num| num.to_s.to_f }
 		if sizeFound == 0 #if no matching size when changing material type or 1st load of page, sets it to first found size.
-			@size = @matSizes[0].size
+				@size = @matSizes[0]
 		end
-		@matquotes, @averageCost, @sellCost, @ftUsed, @cost_per_inch = getquotes(@mat, @size)
+		@matquotes, @averageCost, @sellCost, @ftUsed = getquotes(@mat, @size)
 		respond_to do |format|
 			format.turbo_stream
 		end
-		currentQuotes
+	end
+
+	def sizechange #Run from JS when a Material is selected
+		@size = params[:size]
+		@mat = params[:mat]
+		@matquotes, @averageCost, @sellCost = getquotes(@mat, @size)
+		respond_to do |format|
+			format.turbo_stream
+		end
 	end
 
 	def getquotes(mat, size) #sub routine that loads all ordered history for a material. 
@@ -156,78 +208,6 @@ class MaterialsController < ApplicationController
 		return average
 	end
 
-	def currentQuotes #loads all quotes not archived
-		index
-		@toOrder = Material.where(needOrder: true) #General material needed to be ordered
-		
-		if params[:archiveid] #saves the clicked archive button to the DB to no longer show up in current quotes list. 
-			@material = Material.includes(:matquotes).where(matquotes: {id: params[:archiveid]})
-			@material.each do |mat|
-				mat.matquotes.each do |q|
-					q.archived = true
-					q.save
-				end
-			end
-		end
-		
-		if params[:archiveMatId]
-			puts "here"
-			@material = Material.includes(:matquotes).where(id: params[:archiveMatId], matquotes: {archived: nil})
-			puts @material
-			if @material
-				puts "found mat"
-				@material.each do |mat|
-					mat.matquotes.each do |q|
-						q.archived = true
-						q.save
-					end
-					#mat.needOrder = false
-					#mat.save
-				end
-			end
-			puts "there"
-			#id = params[:archiveMatId]
-			@material = Material.find_by(id: params[:archiveMatId])
-			puts @material
-			@material.needOrder = false
-			@material.save
-			
-		end
-	end
-
-	def matchange #Loads all ordered quotes from JS when a size is selected.
-		sizeFound = 0
-		@size = params[:size]
-		@mat = params[:mat]
-		@target = params[:target]
-		@materials = Material.where(mat: params[:mat])
-		@matSizes = []
-		@materials.each do |mat| #saves all sizes found for materail to render in size select box
-			@matSizes << mat.size
-			if mat.size == @size
-				sizeFound = 1
-			end
-		end
-		@matSizes.uniq!
-		@matSizes = @matSizes.sort_by { |num| num.to_s.to_f }
-		if sizeFound == 0 #if no matching size when changing material type or 1st load of page, sets it to first found size.
-				@size = @matSizes[0]
-		end
-		@matquotes, @averageCost, @sellCost, @ftUsed = getquotes(@mat, @size)
-		respond_to do |format|
-			format.turbo_stream
-		end
-	end
-
-	def sizechange #Run from JS when a Material is selected
-		@size = params[:size]
-		@mat = params[:mat]
-		@matquotes, @averageCost, @sellCost = getquotes(@mat, @size)
-		respond_to do |format|
-			format.turbo_stream
-		end
-	end
-
 	def orderedCheckBox #toggles "ordered" status for material quote
 		puts params[:id]
 		@matquote = Matquote.find_by(id: params[:id])
@@ -252,7 +232,7 @@ class MaterialsController < ApplicationController
 			@materialQuote.needOrder = true
 			@materialQuote.save
 		end
-		redirect_to "/materials/newquote?mat=#{mat}&size=#{size}", { responseKind: "turbo-stream"}
+		redirect_to "/materials/currentQuotes?mat=#{mat}&size=#{size}", { responseKind: "turbo-stream"}
 	end
 
 	def show
@@ -285,7 +265,7 @@ class MaterialsController < ApplicationController
 			mat = @material.mat.gsub("#", "%23") #subsittute number sign for encoding of number sign to pass through GET request
 			puts mat
 			size = @material.size
-			redirect_to "/materials/newquote?mat=#{mat}&size=#{size}", { responseKind: "turbo-stream"}
+			redirect_to "/materials/currentQuotes?mat=#{mat}&size=#{size}", { responseKind: "turbo-stream"}
 		else #makes a new material if none is found.
 			if material_params[:size] != "" #makes sure there's an entry before saving.
 				@material = Material.new(material_params)

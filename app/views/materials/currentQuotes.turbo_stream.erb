@@ -1,0 +1,21 @@
+<%= turbo_stream.update "newQuote" do %>
+  <%= render "/materials/quoteSubmission" %>
+<% end %>
+
+<%= turbo_stream.update "matdata" do %>
+  <%= render "materials/mathistory" %>
+<% end %>
+
+<%= turbo_stream.update "editBtn" do %>
+  <label >&nbsp</label></br>
+  <%= link_to "Edit", edit_material_path(@materialQuote), class: "btn btn-outline-primary" %>
+<% end %>
+
+<%= turbo_stream.update "quoting" do %>
+  <%= render "/materials/quoting" %>
+<% end %>
+
+<%= turbo_stream.update "needToOrder" do %>	
+	<label >&nbsp</label></br>
+	<button class="btn btn-primary" data-action="click->material#needOrder">Need To Order</button>
+<% end %>

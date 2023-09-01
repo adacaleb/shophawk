@@ -1,61 +1,68 @@
-  <div class="row">
-    <div class="col-5">
-      <h4>Select Material and Size</h4>
-    </div>
-    <div class="col">
-      <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#newMatModal">
-        New Material/Size
-      </button>
-    </div>
-  </div>
-  <%= form_with(model: Material) do |form| %>
+  <div class="card text-bg-dark margin-3">
+  </br>
     <div class="row">
-      <div class="col-2">
-        <%= form.label :Material, style: "display: block" %>
-        <%= form.select :mat, @matNames, @matSelect, {class: 'form-select', data: { material_target: "material", action: "change->material#matchange"}, autofocus: true } %>
+      <div class="col-10">
+        <h4>Select Material and Size</h4>
       </div>
       <div class="col-2">
-        <%= form.label :Size, style: "display: block" %>
-        <%= form.select :size, @matSizes, @sizeSelect, {class: 'form-select', data: { material_target: "sizeSelect", action: "change->material#sizechange"} } %>
+        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#newMatModal">
+          New Material/Size
+        </button>
       </div>
-      <div class="col-2" id="needToOrder">
-      </div>
-      <div class="col-1" id="editBtn">
-       </div>
     </div>
-
-    </br>
-    <%= form.fields_for :matquotes do |matquote| %>
-      <div class="container text-center">
-        <div class="row align-items-center">
-          <div class="col-2">
-            <%= matquote.text_field :vendor, autofocus: true, placeholder: "Vendor", class: "form-control", data: { material_target: 'quoteSubmit'} %>
-          </div>
-          <div class="col-1">
-          <%= matquote.text_field :price, placeholder: "Price", class: "form-control", data: { material_target: 'quoteSubmit1'} %>
-          </div>
-          <div class="col-1">
-          <%= matquote.text_field :length, placeholder: "inches", class: "form-control", data: { material_target: 'quoteSubmit2'} %>
-          </div>
-          <div class="col-1">
-            <%= matquote.label "Ordered" %>
-            <%= matquote.check_box :ordered, class: "form-check-input", data: { material_target: 'quoteSubmit3'} %>
-          </div>
-          <div class="col-1" >
-            <%= matquote.label "Sawcut" %>
-            <%= matquote.check_box :sawcut, class: "form-check-input", data: { material_target: 'quoteSubmit4'} %>
-          </div>
-          <div class="col-2">
-            <%= matquote.text_field :additionalCost, placeholder: "Additional Cost", class: "form-control", data: { material_target: 'quoteSubmit5'} %>
-          </div>
-          <div class="col-2">
-            <%= matquote.text_field :comment, placeholder: "Comment", class: "form-control", data: { material_target: 'quoteSubmit6'} %>
-          </div>
-          <div class="col-1">
-            <%= form.submit "Save Pricing", class: "btn btn-primary"  %>
-          </div>
-            <%= matquote.hidden_field :archived, class: "form-control" %>
+    <%= form_with(model: Material) do |form| %>
+      <div class="row">
+      <div class="col-4">
+      </div>
+        <div class="col-2">
+          <%= form.label :Material, style: "display: block" %>
+          <%= form.select :mat, @matNames, @matSelect, {class: 'form-select', data: { material_target: "material", action: "change->material#matchange"}, autofocus: true } %>
+        </div>
+        <div class="col-2">
+          <%= form.label :Size, style: "display: block" %>
+          <%= form.select :size, @matSizes, @sizeSelect, {class: 'form-select', data: { material_target: "sizeSelect", action: "change->material#sizechange"} } %>
+        </div>
+        <div class="col-1" id="needToOrder">
+        </div>
+        <div class="col-1" id="editBtn">
         </div>
       </div>
+
+      </br>
+      <%= form.fields_for :matquotes do |matquote| %>
+        <div class="container text-center">
+          <div class="row align-items-center">
+            <div class="col-2"><h5>Quick Add:</h5></div> 
+            <div class="col-1">
+              <%= matquote.text_field :vendor, autofocus: true, placeholder: "Vendor", class: "form-control", data: { material_target: 'quoteSubmit'} %>
+            </div>
+            <div class="col-1">
+            <%= matquote.text_field :price, placeholder: "Price", class: "form-control", data: { material_target: 'quoteSubmit1'} %>
+            </div>
+            <div class="col-1">
+            <%= matquote.text_field :length, placeholder: "inches", class: "form-control", data: { material_target: 'quoteSubmit2'} %>
+            </div>
+            <div class="col-1">
+              <%= matquote.label "Ordered" %>
+              <%= matquote.check_box :ordered, class: "form-check-input", data: { material_target: 'quoteSubmit3'} %>
+            </div>
+            <div class="col-1" >
+              <%= matquote.label "Sawcut" %>
+              <%= matquote.check_box :sawcut, class: "form-check-input", data: { material_target: 'quoteSubmit4'} %>
+            </div>
+            <div class="col-2">
+              <%= matquote.text_field :additionalCost, placeholder: "Additional Cost", class: "form-control", data: { material_target: 'quoteSubmit5'} %>
+            </div>
+            <div class="col-2">
+              <%= matquote.text_field :comment, placeholder: "Comment", class: "form-control", data: { material_target: 'quoteSubmit6'} %>
+            </div>
+            <div class="col-1">
+              <%= form.submit "Save Pricing", class: "btn btn-primary"  %>
+            </div>
+              <%= matquote.hidden_field :archived, class: "form-control" %>
+          </div>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
+    </br>
+  </div>

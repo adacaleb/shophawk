@@ -14,14 +14,8 @@
 	</thead>
 	<tbody>
 		<% @toOrder.each do |mat| %>
-				<tr colspan="2" class="table-light">
-  				<th><%= mat.mat %></th>
-  				<th><%= mat.size %>" Dia.</th>
-  				<th colspan="5"></th>
-  				<th colspan="2"><%= link_to "Archive These Quotes", "/materials/currentQuotes?archiveMatId=#{mat.id}", class: "btn btn-warning" %></th>
-  			</tr>
   			<tr>
-  				<td colspan="9">
+  				<td colspan="9" class="table-light">
   					<%= render partial: "/materials/quoteEntry", locals: { mat: mat } %>
   				</td>
   				<% mat.matquotes.each do |history| %>

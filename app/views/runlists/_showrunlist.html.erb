@@ -119,7 +119,7 @@
     </div>
 <!-- add number of dots to top of runlist. copy table into same spot and run as a seperate table if there are dotted jobs -->
 
-    <table style="table-layout:fixed" class="table table-dark align-middle table table-bordered text-center" >
+    <table style="table-layout:fixed" class="table table-dark align-middle table-bordered text-center" >
       <thead>
         <tr>
           <th width="60rem" scope="col">Job</th>
@@ -148,7 +148,7 @@
           <% if @previousStartDate != startDate %> <!-- don't render another header if the date is same as previous -->
             <% hours = dailyHoursCalc(date, @operations) %>
             <% if startDate.before? @today %>
-              <tr >                
+              <tr>                
                 <th colspan="2" class="table-light" style="font-size: 14px"><%= op.Sched_Start %></th>
                 <th colspan="2" class="table-light" style="font-size: 14px">~<%= hours %> Hours</th>
               </tr>

@@ -7,12 +7,10 @@
   </div>
   </br>
   <div class="card text-bg-dark">
+  </br>
     <div class="row">
-      <div class="col-8">
+      <div class="col-10">
         <h1>Material currently getting quoted</h1>
-      </div>
-      <div class="col-2">
-        <th><%= link_to "Back to Materials", "/materials", class: "btn btn-primary" %></th>
       </div>
       <div class="col-2">
         <th><%= link_to "Archive and Save All", "/materials?archive=true", class: "btn btn-outline-warning" %></th>
@@ -21,9 +19,6 @@
     <div id="quoting">
         <%= render "/materials/quoting" %>
     </div>
-
-
-
   </div>
 </div>
 
