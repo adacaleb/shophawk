@@ -18,7 +18,8 @@ class MaterialsController < ApplicationController
 		@sizeSelect = {prompt: "Select Size"}
 		
 		#If "archive == true in params when page loads, it archives all open matquotes"
-		if params[:archive] == "true" #archives all open matquotes to the DB to no longer show up in current quotes list. 
+		if params[:archive] == true #archives all open matquotes to the DB to no longer show up in current quotes list. 
+			puts "in archive"
 			@mats = Material.includes(:matquotes).where(matquotes: {archived: nil})
 			@mats.each do |mat|
 				mat.matquotes.each do |q|
@@ -26,13 +27,31 @@ class MaterialsController < ApplicationController
 					q.save
 				end
 			end
+			@mats = Material.where(needOrder: true)
+			@mats.each do |mat|
+				mat.needOrder = false
+				mat.save
+			end
 		end
 	end
 
 	def currentQuotes #loads all quotes not archived
-		index		
+		index
+		puts "1"
 		@toOrder = Material.where(needOrder: true) #General material needed to be ordered
 		sizeFound = 0
+		lenghtUsed = 0
+		@orderedAmount = []
+		@toOrder.sort
+		@toOrder.each do |mat| #calc total ft used last year for each material needed to be ordered
+			@matqs = mat.matquotes.where(archived: true)
+			@matqs.each do |q|
+				lenghtUsed = lenghtUsed + q.length
+			end
+			@orderedAmount << lenghtUsed
+		end
+		puts "2"
+
 		if params[:size]
 			@mat = params[:mat]
 			@size = params[:size]
@@ -58,7 +77,8 @@ class MaterialsController < ApplicationController
 		else
 			@matSelect = {prompt: "Select Material"}
 			@sizeSelect = {prompt: "Select Size"}
-		end		
+		end
+		puts "3"
 		if params[:archiveid] #saves the clicked archive button to the DB to no longer show up in current quotes list. 
 			@material = Material.includes(:matquotes).where(matquotes: {id: params[:archiveid]})
 			@material.each do |mat|
@@ -67,13 +87,12 @@ class MaterialsController < ApplicationController
 					q.save
 				end
 			end
-		end		
+		end
+		puts "4" #working, now need to get turboframe to update properly when finished
 		if params[:archiveMatId]
-			puts "here"
 			@material = Material.includes(:matquotes).where(id: params[:archiveMatId], matquotes: {archived: nil})
-			puts @material
 			if @material
-				puts "found mat"
+				puts "5"
 				@material.each do |mat|
 					mat.matquotes.each do |q|
 						q.archived = true
@@ -81,11 +100,15 @@ class MaterialsController < ApplicationController
 					end
 				end
 			end
+			puts "6"
 			@material = Material.find_by(id: params[:archiveMatId])
 			@material.needOrder = false
 			@material.save
+			redirect_to "/materials/currentQuotes", { responseKind: "turbo-stream"}
 		end
 	end
+		
+
 
 	def matchange #Loads all ordered quotes from JS when a size is selected.
 		sizeFound = 0
@@ -114,7 +137,7 @@ class MaterialsController < ApplicationController
 	def sizechange #Run from JS when a Material is selected
 		@size = params[:size]
 		@mat = params[:mat]
-		@matquotes, @averageCost, @sellCost = getquotes(@mat, @size)
+		@matquotes, @averageCost, @sellCost, @ftUsed = getquotes(@mat, @size)
 		respond_to do |format|
 			format.turbo_stream
 		end
@@ -254,6 +277,18 @@ class MaterialsController < ApplicationController
 				@newMat = @material.matquotes.build(material_params[:matquotes]) #saves build as an object that can be changed before saving
 				if material_params[:matquotes][:ordered] == "1"
 					@newMat.archived = true #sets true if the material was ordered to not show up in active quotes page
+				end
+				case @newMat.vendor.to_s.downcase #shortcuts for material vendors
+				when "a"
+					@newMat.vendor = "Alro"
+				when "c"
+					@newMat.vendor = "Castle"
+				when "f"
+					@newMat.vendor = "Farmers"
+				when "e"
+					@newMat.vendor = "Emj"
+				when "d"
+					@newMat.vendor = "Durabar"
 				end
 				@newMat.vendor = @newMat.vendor.titleize
 				if @newMat.length != nil

@@ -1,25 +1,27 @@
 <div data-controller="material">
-  <div  class="card text-bg-dark">
-    
-    <div data-controller="material" id="newQuote">
+  <div class="text-bg-dark">
+    <div id="newQuote">
         <%= render "/materials/quoteSubmission" %>
     </div>
   </div>
-  </br>
-  <div class="card text-bg-dark">
-  </br>
-    <div class="row">
-      <div class="col-10">
-        <h1>Material currently getting quoted</h1>
+  </br>    
+  <div>
+    <div class="card text-bg-dark">
+      </br>
+      <div class="row">
+        <div class="col-10">
+          <h1>Material currently getting quoted</h1>
+        </div>
+        <div class="col-2">
+          <th><%= link_to "Archive and Save All", "/materials?archive=true", class: "btn btn-outline-warning" %></th>
+        </div>		
       </div>
-      <div class="col-2">
-        <th><%= link_to "Archive and Save All", "/materials?archive=true", class: "btn btn-outline-warning" %></th>
-      </div>		
-    </div>
-    <div id="quoting">
-        <%= render "/materials/quoting" %>
+      <div id="quoting">
+      <%= render "/materials/quoting" %>
+      </div>
     </div>
   </div>
+
 </div>
 
 
