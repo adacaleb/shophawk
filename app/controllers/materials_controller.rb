@@ -18,7 +18,7 @@ class MaterialsController < ApplicationController
 		@sizeSelect = {prompt: "Select Size"}
 		
 		#If "archive == true in params when page loads, it archives all open matquotes"
-		if params[:archive] == true #archives all open matquotes to the DB to no longer show up in current quotes list. 
+		if params[:archive] == "true" #archives all open matquotes to the DB to no longer show up in current quotes list. 
 			puts "in archive"
 			@mats = Material.includes(:matquotes).where(matquotes: {archived: nil})
 			@mats.each do |mat|
@@ -37,7 +37,6 @@ class MaterialsController < ApplicationController
 
 	def currentQuotes #loads all quotes not archived
 		index
-		puts "1"
 		@toOrder = Material.where(needOrder: true) #General material needed to be ordered
 		sizeFound = 0
 		lenghtUsed = 0
@@ -50,7 +49,6 @@ class MaterialsController < ApplicationController
 			end
 			@orderedAmount << lenghtUsed
 		end
-		puts "2"
 
 		if params[:size]
 			@mat = params[:mat]
@@ -78,7 +76,6 @@ class MaterialsController < ApplicationController
 			@matSelect = {prompt: "Select Material"}
 			@sizeSelect = {prompt: "Select Size"}
 		end
-		puts "3"
 		if params[:archiveid] #saves the clicked archive button to the DB to no longer show up in current quotes list. 
 			@material = Material.includes(:matquotes).where(matquotes: {id: params[:archiveid]})
 			@material.each do |mat|
@@ -92,7 +89,6 @@ class MaterialsController < ApplicationController
 		if params[:archiveMatId]
 			@material = Material.includes(:matquotes).where(id: params[:archiveMatId], matquotes: {archived: nil})
 			if @material
-				puts "5"
 				@material.each do |mat|
 					mat.matquotes.each do |q|
 						q.archived = true
@@ -100,7 +96,6 @@ class MaterialsController < ApplicationController
 					end
 				end
 			end
-			puts "6"
 			@material = Material.find_by(id: params[:archiveMatId])
 			@material.needOrder = false
 			@material.save
