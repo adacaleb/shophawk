@@ -85,7 +85,6 @@ class MaterialsController < ApplicationController
 				end
 			end
 		end
-		puts "4" #working, now need to get turboframe to update properly when finished
 		if params[:archiveMatId]
 			@material = Material.includes(:matquotes).where(id: params[:archiveMatId], matquotes: {archived: nil})
 			if @material
@@ -301,7 +300,7 @@ class MaterialsController < ApplicationController
 				@material = Material.new(material_params)
 				@material.needOrder = true
 				if @material.save
-					redirect_to materials_url(@materials)
+					redirect_to "/materials/currentQuotes?mat=#{mat}&size=#{size}", { responseKind: "turbo-stream"}
 				end
 			end
 		end
@@ -310,12 +309,12 @@ class MaterialsController < ApplicationController
 	def update
 		@material = Material.find(params[:id])
 		@material.update(material_params)
-		redirect_to materials_url(@materials)
+			redirect_to "/materials"
 	end
 
 	def destroy
 		if @material.destroy
-			redirect_to materials_url(@materials)
+			redirect_to "/materials"
 		end
 	end
 

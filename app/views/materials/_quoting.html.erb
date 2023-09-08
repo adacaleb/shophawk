@@ -25,7 +25,7 @@
 							<th><%= history.length %>'</th>
 							<th><input 
 								data-action="click->material#orderedcheckbox" 
-								class="btn-check" 
+								class="form-check-input" 
 								type="checkbox" 
 								value="" 
 								id="<%= history.id %>"  <%= ordered %> > Ordered</th>
@@ -38,7 +38,7 @@
 							<th><%= history.additionalCost %></th>
 							<th><%= history.comment %></th>							
 							
-							<th><%= button_to "Delete", history, data: { confirm: "Are you sure?" }, method: :delete, class:"btn btn-outline-danger" %></th>
+							<th><%= button_to "Delete", history, method: :delete, class:"btn btn-outline-danger" %></th>
 							<th><%= link_to "Archive", "/materials/currentQuotes?archiveid=#{history.id}", class: "btn btn-outline-warning" %></th>
 						</tr>
 					<% end %>			

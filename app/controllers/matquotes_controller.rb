@@ -12,7 +12,7 @@ class MatquotesController < ApplicationController
 			end
 		else
 			if @matquote.destroy
-				redirect_to "/materials/currentQuotes"
+				redirect_to "/materails/#{@matId}/edit"
 			end
 		end
 	end
