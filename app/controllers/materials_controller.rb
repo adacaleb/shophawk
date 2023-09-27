@@ -300,6 +300,10 @@ class MaterialsController < ApplicationController
 				@material = Material.new(material_params)
 				@material.needOrder = true
 				if @material.save
+					if mat = ""
+						mat = "4140"
+						size = 2
+					end
 					redirect_to "/materials/currentQuotes?mat=#{mat}&size=#{size}", { responseKind: "turbo-stream"}
 				end
 			end
